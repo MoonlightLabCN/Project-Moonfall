@@ -1,0 +1,145 @@
+<Page
+    x:Class="MoonWeChat.Views.MomentsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:MoonWeChat.Controls"
+    xmlns:models="using:MoonWeChat.Models"
+    xmlns:converters="using:MoonWeChat.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ListBackgroundBrush}">
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter" />
+    </Page.Resources>
+
+    <!--
+        发现 → 朋友圈。10240 扁平 Metro：直角、显式 Margin。
+        示例数据本地可看；实机走 /FriendCircle/GetList。
+    -->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{ThemeResource ChromeBackgroundBrush}"
+                BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,0,0,1">
+            <Grid Height="48" Padding="16,0">
+                <TextBlock Text="朋友圈" FontSize="20" FontWeight="SemiBold"
+                           VerticalAlignment="Center"
+                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                    <Button Style="{StaticResource IconButtonStyle}" Click="OnRefreshClick" ToolTipService.ToolTip="刷新">
+                        <FontIcon Glyph="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- 发布条 -->
+        <Border Grid.Row="1" Background="{ThemeResource CardBackgroundBrush}"
+                BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,0,0,1" Padding="12,10">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="DraftBox"
+                         PlaceholderText="这一刻的想法…"
+                         Text="{x:Bind ViewModel.Draft, Mode=TwoWay}"
+                         TextChanged="OnDraftChanged"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         MaxHeight="72"
+                         BorderThickness="0"
+                         Background="{ThemeResource InputBoxBackgroundBrush}"
+                         Padding="10,8" />
+                <Button Grid.Column="1" Content="发表" Margin="8,0,0,0"
+                        Style="{StaticResource SendButtonStyle}"
+                        VerticalAlignment="Bottom"
+                        Click="OnPublishClick" />
+            </Grid>
+        </Border>
+
+        <ListView Grid.Row="2"
+                  x:Name="MomentsList"
+                  ItemsSource="{x:Bind ViewModel.Posts}"
+                  SelectionMode="None"
+                  ItemContainerStyle="{StaticResource FlatListViewItemStyle}"
+                  Padding="0,4,0,8">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:MomentPost">
+                    <Border BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,0,0,1"
+                            Padding="14,12" Background="{ThemeResource ListBackgroundBrush}">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <controls:AvatarView Grid.Column="0"
+                                                  DisplayName="{x:Bind AuthorName}"
+                                                  AccentColorHex="{x:Bind AuthorAccent}"
+                                                  ImageUrl="{x:Bind AuthorAvatarUrl}"
+                                                  Size="44" />
+
+                            <StackPanel Grid.Column="1" Margin="10,0,0,0">
+                                <TextBlock Text="{x:Bind AuthorName}" FontSize="15" FontWeight="SemiBold"
+                                           Foreground="{ThemeResource AccentBrush}" />
+                                <TextBlock Text="{x:Bind Content}" FontSize="14" TextWrapping="Wrap"
+                                           Margin="0,4,0,0"
+                                           Foreground="{ThemeResource PrimaryTextBrush}" />
+
+                                <TextBlock Text="{x:Bind Location}" FontSize="12" Margin="0,6,0,0"
+                                           Foreground="{ThemeResource SecondaryTextBrush}"
+                                           Visibility="{x:Bind HasLocation, Converter={StaticResource BoolToVisibilityConverter}}" />
+
+                                <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                                    <TextBlock Text="{x:Bind TimeText}" FontSize="11"
+                                               VerticalAlignment="Center"
+                                               Foreground="{ThemeResource SecondaryTextBrush}" />
+                                    <Button Content="赞" Margin="16,0,0,0" Padding="10,4"
+                                            Tag="{x:Bind}"
+                                            Click="OnLikeClick"
+                                            FontSize="12" />
+                                    <Button Content="评论" Margin="8,0,0,0" Padding="10,4"
+                                            Tag="{x:Bind}"
+                                            Click="OnCommentClick"
+                                            FontSize="12" />
+                                </StackPanel>
+
+                                <Border Background="{ThemeResource ChromeBackgroundBrush}"
+                                        Padding="8,6" Margin="0,8,0,0"
+                                        Visibility="{x:Bind HasLikes, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <TextBlock FontSize="12" TextWrapping="Wrap"
+                                               Foreground="{ThemeResource AccentBrush}">
+                                        <Run Text="♡ " /><Run Text="{x:Bind LikesText}" />
+                                    </TextBlock>
+                                </Border>
+
+                                <ItemsControl ItemsSource="{x:Bind Comments}" Margin="0,6,0,0"
+                                              Visibility="{x:Bind HasComments, Converter={StaticResource BoolToVisibilityConverter}}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate x:DataType="models:MomentComment">
+                                            <TextBlock Text="{x:Bind DisplayText}" FontSize="12" TextWrapping="Wrap"
+                                                       Margin="0,2,0,0"
+                                                       Foreground="{ThemeResource PrimaryTextBrush}" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <controls:BottomTabBar Grid.Row="3" x:Name="TabBar" TabSelected="OnTabSelected" />
+    </Grid>
+</Page>

@@ -1,0 +1,730 @@
+WeChatPadPro 蹇€熷叆闂ㄥ唴娴?- WeChatPadProMAX
+WeChatPadProMAX
+github
+鍦ㄧ嚎璁哄潧
+https://nextflowagent.com
+github
+鍦ㄧ嚎璁哄潧
+https://nextflowagent.com
+澶嶅埗椤甸潰
+WeChatPadPro 蹇€熷叆闂ㄥ唴娴?/span>
+WeChatPadProMAX 蹇呰璇存槑
+# Webhook 鎺ユ敹娑堟伅 鈥滃搷搴斾綋鈥?鏍煎紡瑙勮寖 路 v1
+# Webhook 绛惧悕涓庨厤缃鏄?路 v1
+Mac 鐧诲綍鎺ュ彛浣跨敤鎸囧崡
+瑙嗛涓嬭浇绀轰緥
+Admin
+寤舵湡鎺堟潈鐮乤
+POST
+鍒犻櫎鎺堟潈鐮?/span>
+POST
+鐢熸垚鎺堟潈鐮?/span>
+POST
+Login
+62鐧婚檰(璐﹀彿鎴栧瘑鐮?
+POST
+62鐧婚檰(璐﹀彿鎴栧瘑鐮?, 骞剁敵璇蜂娇鐢ㄤ簩缁寸爜楠岃瘉
+POST
+62鐧婚檰(璐﹀彿鎴栧瘑鐮?, 閲嶅彂楠岃瘉鐮?/span>
+POST
+62鐧婚檰(璐﹀彿鎴栧瘑鐮?, 骞剁敵璇蜂娇鐢⊿MS楠岃瘉
+POST
+62鐧婚檰(璐﹀彿鎴栧瘑鐮?, 浜岀淮鐮侀獙璇佹牎楠?/span>
+POST
+A16鐧婚檰(璐﹀彿鎴栧瘑鐮? - android == 8.0.50
+POST
+A16鐧婚檰(璐﹀彿鎴栧瘑鐮? - android == 鏂扮増浜戝嚱鏁?/span>
+POST
+寮€鍚嚜鍔ㄥ績璺? 鑷姩浜屾鐧诲綍
+POST
+鍞ら啋鐧婚檰(鍙檺鎵爜鐧诲綍)
+POST
+妫€娴婱ac浜岀淮鐮?/span>
+POST
+妫€娴嬩簩缁寸爜
+POST
+鏂拌澶囨壂鐮佺櫥褰?/span>
+POST
+鏂拌澶囨壂鐮佺‘璁ょ櫥褰?/span>
+POST
+鑾峰彇62鏁版嵁
+POST
+鑾峰彇A16鏁版嵁
+POST
+鑾峰彇鐧婚檰缂撳瓨淇℃伅
+POST
+鑾峰彇浜岀淮鐮?iPad 8.0.62 涓撶敤)
+POST
+鑾峰彇浜岀淮鐮?iPad)
+POST
+鑾峰彇浜岀淮鐮?iPad锛屾捣澶?
+POST
+鑾峰彇浜岀淮鐮?Mac)
+POST
+鑾峰彇浜岀淮鐮?Mac锛屾捣澶?
+POST
+鑾峰彇浜岀淮鐮?瀹夊崜Pad-ppmt涓撶敤)
+POST
+鑾峰彇浜岀淮鐮?瀹夊崜Pad-缁曡繃楠岃瘉鐮?
+POST
+鑾峰彇浜岀淮鐮?Car)
+POST
+鑾峰彇浜岀淮鐮?Windows)
+POST
+鑾峰彇浜岀淮鐮?WinUnified-缁熶竴PC鐗?
+POST
+鑾峰彇浜岀淮鐮?WindowsUwp-缁曡繃楠岃瘉鐮?
+POST
+鑾峰彇浜岀淮鐮?iPad-缁曡繃楠岃瘉鐮?
+POST
+鑾峰彇浜岀淮鐮?iPad-缁曡繃楠岃瘉鐮侊紝娴峰)
+POST
+蹇冭烦鍖?/span>
+POST
+鑾峰彇蹇冭烦鏃ュ織
+GET
+闀胯繛鎺ュ績璺冲寘璺冲寘
+POST
+閫€鍑虹櫥褰?/span>
+POST
+鍒濆鍖?/span>
+POST
+浜屾鐧婚檰
+POST
+鎻愪氦鐧诲綍楠岃瘉鐮?/span>
+POST
+Customized
+鎵归噺寮€灏忕▼搴?/a>
+Favor
+鍒犻櫎鏀惰棌
+鑾峰彇鎼滆棌淇℃伅
+璇诲彇鏀惰棌鍐呭
+鍚屾鏀惰棌
+Finder
+璇勮
+璇勮
+鑾峰彇Finder绉佷俊浼氳瘽ID
+鐩存挱璇︽儏
+鎼滅储鍒楄〃
+鍙戦€佺淇℃枃瀛?/a>
+涓婚鍒楄〃
+鍏虫敞
+鏌ョ湅鎸囧畾鍐呭
+璇勮鍒楄〃/璇︽儏锛堟敮鎸丷ootCommentId缈婚〉锛?/a>
+鎺ㄨ崘
+鐐硅禐
+鐢ㄦ埛鎼滅储
+鏌ョ湅鎸囧畾浜洪椤?/a>
+鐢ㄦ埛涓績
+Friend
+娣诲姞/绉婚櫎榛戝悕鍗?/a>
+鍒犻櫎濂藉弸
+鑾峰彇閫氳褰曞ソ鍙嬭鎯?/a>
+鑾峰彇閫氳褰曞ソ鍙?/a>
+鏌ヨ濂藉弸鐘舵€?/a>
+鑾峰彇鎵嬫満閫氳褰?/a>
+闄勮繎浜?/a>
+閫氳繃濂藉弸璇锋眰
+鎼滅储鑱旂郴浜?/a>
+娣诲姞鑱旂郴浜?鍙戦€佸ソ鍙嬭姹?
+璁剧疆濂藉弸澶囨敞
+涓婁紶閫氳褰?/a>
+FriendCircle
+鏈嬪弸鍦堢偣璧?璇勮
+鑾峰彇璇勮鍐呭
+鑾峰彇鐗瑰畾浜烘湅鍙嬪湀
+鑾峰彇鐗瑰畾ID璇︽儏鍐呭
+鏈嬪弸鍦堥椤靛垪琛?/a>
+鍙戝竷鏈嬪弸鍦?/a>
+鏌ヨ姝ｅ湪 璇勮杞彂鐨処D
+鏈嬪弸鍦堟搷浣?/a>
+鏈嬪弸鍦堟潈闄愯缃?/a>
+鍚姩璇勮妫€鏌ヤ换鍔″苟杞彂璇勮
+鏈嬪弸鍦堜笅杞紺DN瑙嗛
+Group
+澧炲姞缇ゆ垚鍛?40浜轰互鍐?
+鍚屾剰杩涘叆缇よ亰
+鍒涘缓缇よ亰
+鍒犻櫎缇ゆ垚鍛?/a>
+鍒涘缓缇よ亰
+鑾峰彇缇よ鎯?涓嶅甫鍏憡鍐呭)
+鑾峰彇缇や俊鎭?甯﹀叕鍛婂唴瀹?
+鑾峰彇缇ゆ垚鍛樿鎯?/a>
+鑾峰彇缇や簩缁寸爜
+鑾峰彇缇ゅ垪琛?/a>
+閭€璇风兢鎴愬憳(40浜轰互涓?
+淇濆瓨鍒伴€氳褰?/a>
+缇ょ鐞嗘搷浣?娣诲姞銆佸垹闄ゃ€佽浆璁?
+閫€鍑虹兢鑱?/a>
+鎵爜杩涚兢
+鎵爜杩涚兢(浼佷笟)
+缇ゆ媿涓€鎷嶅姛鑳?/a>
+杞缇?/a>
+璁剧疆缇ゅ叕鍛?/a>
+璁剧疆缇ゅ悕绉?/a>
+璁剧疆缇ゅ娉?浠呰嚜宸卞彲瑙?
+璁剧疆缇よ亰閭€璇峰紑鍏?/a>
+Label
+娣诲姞鏍囩
+鍒犻櫎鏍囩
+鑾峰彇鏍囩鍒楄〃
+鏇存柊鏍囩鍒楄〃
+淇敼鏍囩
+Msg
+寮曠敤鏂囨湰娑堟伅
+鎾ゅ洖娑堟伅
+缇ゅ彂娑堟伅
+鍙戦€佹枃浠?杞彂,骞堕潪涓婁紶)
+鍙戦€丆dn鍥剧墖(杞彂鍥剧墖)
+鍙戦€丆dn瑙嗛(杞彂瑙嗛)
+鍙戦€丒moji
+鍙戦€佹枃鏈秷鎭?/a>
+鍙戦€佽棰?/a>
+鍙戦€佽闊?/a>
+鍙戦€佸皬绋嬪簭娑堟伅
+鍒嗕韩鍚嶇墖
+鍙戦€佸垎浜摼鎺ユ秷鎭?/a>
+鍒嗕韩浣嶇疆
+鍙戦€佸垎浜棰戞秷鎭?/a>
+鍚姩鑷姩鍚屾
+鍚屾娑堟伅
+鍙戦€佸浘鐗?/a>
+OfficialAccounts
+鎺堟潈鍏紬鍙风櫥褰?/a>
+鍏虫敞
+闃呰鏂囩珷,杩斿洖 鍒嗕韩銆佺湅涓€鐪嬨€侀槄璇绘暟鎹?/a>
+鐐硅禐鏂囩珷,杩斿洖 鍒嗕韩銆佺湅涓€鐪嬨€侀槄璇绘暟鎹?/a>
+鑾峰彇鍏紬鍙峰巻鍙叉秷鎭?/a>
+鑾峰彇鍏紬鍙峰巻鍙叉秷鎭疕TML
+JSAPIPreVerify
+MpGetA8Key(鑾峰彇鏂囩珷key鍜寀in)
+OauthAuthorize
+浜岀淮鐮佹巿鏉冭姹?/a>
+浜岀淮鐮佹巿鏉冪‘璁?/a>
+鍙栨秷鍏虫敞
+QWContact
+QWApplyAddContact
+QWAddContact
+SearchQWContact
+SayHello
+妯″紡1-鎵爜
+妯″紡3-v3\v4鎵撴嫑鍛?/a>
+TenPay
+鑷畾涔夌粡钀ヤ釜浜烘敹娆惧崟
+鑾峰彇鍔犲瘑淇℃伅
+鎶㈢孩鍖?甯﹀弬鏁?
+鎷嗗紑绾㈠寘
+鏌ョ湅绾㈠寘
+鎵撳紑绾㈠寘涓嶇敤key
+鑷畾涔夊晢瀹舵敹娆惧崟
+Tools
+CDN涓嬭浇楂樻竻鍥剧墖
+鏂囦欢涓嬭浇
+楂樻竻鍥剧墖涓嬭浇
+瑙嗛涓嬭浇
+璇煶涓嬭浇
+鐢熸垚鏀粯浜岀淮鐮?/a>
+GetA8Key
+鑾峰彇浣欓浠ュ強閾惰鍗′俊鎭?/a>
+GetBoundHardDevices
+鑾峰彇CDN鏈嶅姟鍣╠ns淇℃伅
+OauthSdkApp
+OauthSdkApp
+绗笁鏂笰PP鎺堟潈
+鏂囦欢涓婁紶
+淇敼寰俊姝ユ暟
+User
+缁戝畾QQ
+缁戝畾閭
+鎹㈢粦鎵嬫満鍙?/a>
+妫€娴嬪井淇＄櫥褰曠幆澧?/a>
+鍒犻櫎鐧诲綍璁惧
+鑾峰彇鎵€鏈夊湪绾縲xid锛堥渶绠＄悊鍛?key锛?/a>
+鍙栦釜浜轰俊鎭?/a>
+鑾峰彇鍦ㄧ嚎淇℃伅
+鍙栦釜浜轰簩缁寸爜
+鐧诲綍璁惧绠＄悊
+闅愮璁剧疆
+ReportMotion
+鍙戦€佹墜鏈洪獙璇佺爜
+璁剧疆寰俊鍙?/a>
+淇敼瀵嗙爜
+淇敼涓汉淇℃伅
+淇敼澶村儚
+楠岃瘉瀵嗙爜
+Webhook
+鑾峰彇涓氬姟鍥炶皟URL锛堟寜鎺堟潈鐮侊級
+璁剧疆涓氬姟鍥炶皟URL锛堟寜鎺堟潈鐮侊級
+鑾峰彇 Webhook 閰嶇疆锛堟寜鎺堟潈鐮侊級
+鍒犻櫎 Webhook 閰嶇疆锛堟寜鎺堟潈鐮侊級
+璁剧疆 Webhook 閰嶇疆锛堟寜鎺堟潈鐮侊級
+娴嬭瘯鍙戦€?Webhook 娑堟伅锛堟寜鎺堟潈鐮侊級
+Wxapp
+AddAvatar
+灏忕▼搴忕粦瀹氬鍔犳墜鏈哄彿
+灏忕▼搴忎簯鍑芥暟
+灏忕▼搴忓垹闄ゆ墜鏈哄彿
+DellAvatar
+鏌ヨ娓告垙淇＄敤绉垎
+GetAllMobile
+GetRandomAvatar
+寰俊浜戦棯浠樻敮浠?/a>
+GetUserOpenId
+鑾峰彇灏忕▼搴忚褰?/a>
+灏忕▼搴忚幏鍙栧皬绋嬪簭鏀粯sessionid
+鎺堟潈灏忕▼搴?瀹氬埗)
+灏忕▼搴忔搷浣?/a>
+UploadAvatarImg
+灏忕▼搴忚幏鍙朒ostSign
+鏂板灏忕▼搴忚褰?/a>
+鎺ㄩ€佸皬绋嬪簭鏀粯
+鑾峰彇浠樺皬绋嬪簭娆句簩缁寸爜
+鎵爜鎺堟潈鐧诲綍app鎴栫綉椤?/a>
+WebSocket
+鏁版嵁妯″瀷
+Schemas
+DelayAuthKeyModel
+false
+false
+DeleteAuthKeyModel
+GenAuthKeyModel
+AndroidDeviceInfo
+WXCTDUniftyAuthParmDoc
+DelParamDoc
+GetFavItemParamDoc
+SyncParamDoc
+CommentParamDoc
+DecryptParamDoc
+DefaultParamDoc
+FinderGetTopicListParamDoc
+FinderJoinLiveParamDoc
+FinderGetMsgSessionIdParamDoc
+FinderLiveDetailParamDoc
+FinderSendTextParamDoc
+GetCommentDetailParamDoc
+LikeParamDoc
+TargetUserPageParamDoc
+BlacklistParamDoc
+DefaultParamDoc
+FriendRelationParamDoc
+GetContractDetailparameterDoc
+GetContractListparameterDoc
+LbsFindParamDoc
+PassVerifyParamDoc
+SearchParamDoc
+SendRequestParamDoc
+SetRemarksParamDoc
+UploadParamDoc
+CdnSnsImageUploadParamDoc
+CommentParamDoc
+DownloadMediaModelDoc
+GetCommnetParamDoc
+GetDetailparameterDoc
+GetIdDetailParamDoc
+GetListParamDoc
+MessagearameterDoc
+MmSnsSyncParamDoc
+OperationParamDoc
+PrivacySettingsParamDoc
+RequestParamsDoc
+SnsPostItemDoc
+SnsUploadParamDoc
+SnsUploadVideoParamDoc
+AddChatRoomParamDoc
+ConsentToJoinParamDoc
+CreateChatRoomParamDoc
+FacingCreateChatRoomParamDoc
+GetChatRoomParamDoc
+MoveContractListParamDoc
+OperateChatRoomAdminParamDoc
+OperateChatRoomInfoParamDoc
+QuitGroupParamDoc
+ScanIntoGroupParamDoc
+AddParamDoc
+DeleteParamDoc
+UpdateListParamDoc
+SendPatParamDoc
+UpdateNameParamDoc
+SetChatroomAccessVerifyParamDoc
+A16LoginParam
+TransferGroupOwnerParamDoc
+Data62LoginReq
+Data62SMSAgainReq
+Data62SMSVerifyReq
+ExtDeviceLoginConfirmParam
+GetQRReq
+VerificationcodeParam
+DefaultParamDoc
+QuoteDoc
+RevokeMsgParamDoc
+SendAppMsgParamDoc
+SendEmojiParamDoc
+SendGroupMassMsgTextParamDoc
+SendImageMsgParamDoc
+SendNewMsgParamDoc
+SendVideoMsgParamDoc
+SendVoiceMessageParamDoc
+ShareCardParamDoc
+ShareLocationParamDoc
+ShareVideoMsgParamDoc
+SyncParam2Doc
+SyncParamDoc
+DefaultParamDoc
+GetkeyParamDoc
+ReadParamDoc
+AddWxAppRecordParam
+QWAddContactParam
+QWApplyAddContactParam
+AuthMpLoginParam
+Model1Param
+DefaultParam
+Model2Param
+GetMpHistoryMsgParam
+SendRequestParam1
+GetkeyParam
+GeMaSkdPayQCodeParam
+QRConnectParam
+HongBaoParam
+ReadParam
+HongBaoTailParam
+OpenwxhbParam
+QrydetailwxhbParam
+ReceivewxhbParam
+SjSkdPayQCodeParam
+UnionpayData
+CdnDownloadImageParamDoc
+DownloadAppAttachParamDoc
+DownloadParamDoc
+DownloadVoiceParamDoc
+GetA8KeyParamDoc
+HelperVerificationParamDoc
+OauthSdkAppParamDoc
+SetProxyParamDoc
+SetStepParamDoc
+ThirdAppGrantParamDoc
+UploadParamDoc
+BindMobileParam
+BindQQParam
+DelSafetyInfoParam
+EmailParam
+GetQRCodeParam
+NewSetPasswdParam
+NewVerifyPasswdParam
+PrivacySettingsParam
+ReportMotionParam
+SendVerifyMobileParam
+SetAlisaParam
+UpdateProfileParam
+UploadHeadImageParam
+AddAvatarImgParam
+AddAvatarParam
+AddWxAppRecordParam
+CheckVerifyCodeData
+CloudCallParam
+DefaultParam
+DelMobileData
+DellAvatarParam
+AddAvatarImgParamDoc
+GETCreditScoreParam
+AddAvatarParamDoc
+GetUserOpenIdParam
+AddWxAppRecordParamDoc
+GetWxAppRecordParam
+CheckVerifyCodeDataDoc
+GetpullPayParam
+CloudCallParamDoc
+JSOperateWxParam
+OauthListParam
+DefaultParamDoc
+QrcodeAuthLoginParam
+DelMobileDataDoc
+SessionidQRParam
+DellAvatarParamDoc
+EmptyObject
+ProxyInfo
+GetUserOpenIdParamDoc
+ResponseResult
+GetWxAppRecordParamDoc
+interface
+GetpullPayParamDoc
+WebhookConfig
+JSOperateWxParamDoc
+OauthListParamDoc
+QrcodeAuthLoginParamDoc
+SessionidQRParamDoc
+UnionpayDataDoc
+BusinessConfig
+ResponseResult2
+WebhookTestRequest
+WeChatPadPro 蹇€熷叆闂ㄥ唴娴?/h1>
+澶嶅埗椤甸潰
+浣跨敤鍓嶅姟蹇呭厛鍏嬮殕褰撳墠鎺ュ彛鎴栬€呭鍑烘媺鍒版渶涓嬮潰
+#
+#
+WeChatPadPro 鍚庡彴涓庢帴鍙ｄ娇鐢ㄨ鏄?a class="anchor" aria-hidden="true" tabindex="-1" href="#wechatpadpro-鍚庡彴涓庢帴鍙ｄ娇鐢ㄨ鏄?>
+#
+閫傜敤鍦烘櫙锛氬湪
+adminmax.knowhub.cloud
+鍚庡彴鑾峰彇瀵嗛挜锛屽畬鎴?WeChatPadPro 鏈嶅姟绔厤缃紝骞堕€氳繃鎺ュ彛瀹屾垚鎵爜鐧诲綍涓庡垵濮嬪寲銆?/section>
+鐩綍
+#
+鍓嶇疆鏉′欢
+涓€銆佸悗鍙扮櫥褰曚笌鐢熸垚 TokenKey
+浜屻€佹湇鍔＄閰嶇疆锛坈onf/app.conf锛?/a>
+涓夈€佸惎鍔ㄩ」鐩?/a>
+鍥涖€佺櫥褰曚笌鍒濆鍖栫殑瀹屾暣鎺ュ彛娴佺▼
+1锛夌敓鎴愯澶?Token锛?Admin/GenAuthKey锛?/a>
+2锛夎幏鍙栫櫥褰曚簩缁寸爜锛?Login/GetQRMac锛?/a>
+3锛夎疆璇㈡壂鐮佺姸鎬侊紙/Login/CheckMacQR锛?/a>
+4锛夊垵濮嬪寲锛?Login/Newinit锛?/a>
+浜斻€佸揩閫熻嚜妫€锛坈URL 绀轰緥锛?/a>
+鍏€佸父瑙侀棶棰樹笌鎺掓煡
+涓冦€佸畨鍏ㄥ缓璁?/a>
+鍓嶇疆鏉′欢
+#
+鍙互璁块棶鍚庡彴绔欑偣锛?code data-last="true" data-source-line="31" data-source-end-line="31">https://adminmax.knowhub.cloud/
+宸插叿澶?Redis 鏈嶅姟锛堢ず渚嬶細
+172.0.0.0:6379
+锛屽瘑鐮?
+123456
+锛?/section>
+鍏峰 WeChatPadPro 椤圭洰鐨勬簮鐮佷笌杩愯鐜
+璇存槑
+锛氬悗鍙伴粯璁や粎鏀寔
+Telegram 鐧诲綍
+鎴?
+GitHub 鐧诲綍
+涓ょ鏂瑰紡锛?strong data-source-line="35" data-source-end-line="35">涓嶆敮鎸佹敞鍐?/strong>銆?/section>
+涓€銆佸悗鍙扮櫥褰曚笌鐢熸垚 TokenKey
+#
+1
+.
+鎵撳紑鍚庡彴棣栭〉锛?code data-source-line="41" data-source-end-line="41">https://adminmax.knowhub.cloud/
+锛岄€氳繃
+Telegram
+鎴?
+GitHub
+瀹屾垚鐧诲綍銆?/section>
+2
+.
+鐧诲綍鎴愬姛鍚庤繘鍏?
+Token 绠＄悊
+椤甸潰锛?br>
+https://adminmax.knowhub.cloud/user/access-tokens
+3
+.
+鐐瑰嚮
+鐢熸垚 Token
+锛堟垨鍚岀瓑鎸夐挳锛夛紝寰楀埌涓€涓?
+TokenKey
+銆?/section>
+4
+.
+澶嶅埗璇?TokenKey锛屽悗缁細鍦ㄦ湇鍔＄閰嶇疆涓庢帴鍙ｈ皟鐢ㄦ椂浣跨敤銆?/section>
+#
+濂楅璇存槑
+#
+鍚庡彴鎻愪緵涓嶅悓鐨勫椁愬彲閫夛細
+鍏嶈垂鐗堬紙7 澶╋級
+锛? 鍏?鏈堬紝Key 涓婇檺
+1
+銆?/section>
+涓撲笟鐗堬紙鏈堜粯锛?/strong>锛?69 鍏?鏈堬紝Key 涓婇檺
+20
+銆?/section>
+鍟嗕笟鐗堬紙鏈堜粯锛?/strong>锛?99 鍏?鏈堬紝Key 涓婇檺
+50
+銆?/section>
+浼佷笟鐗堬紙鏈堜粯锛?/strong>锛?99 鍏?鏈堬紝Key
+涓嶉檺锛團UP锛?/strong>銆?/section>
+鐧诲綍鍚庡彴鍚庯紝鍦ㄣ€愬椁愯喘涔般€戦〉闈㈠彲浠ユ煡鐪嬪苟鍗囩骇濂楅锛屼笉鍚岀増鏈搴斾笉鍚岀殑 Key 涓婇檺銆?/section>
+浜屻€佹湇鍔＄閰嶇疆锛坈onf/app.conf锛?a class="anchor" aria-hidden="true" tabindex="-1" href="#浜屾湇鍔＄閰嶇疆confappconf">
+#
+鍦ㄩ」鐩殑
+conf/app.conf
+涓畬鎴愪互涓嬮厤缃紙绀轰緥锛夛細
+鎻愮ず
+锛氳嫢浣跨敤 Docker 鎴?K8s锛岃浠ョ幆澧冨彉閲忔垨鎸傝浇鏂囦欢鐨勬柟寮忔敞鍏ュ悓绛夐厤缃€?/section>
+涓夈€佸惎鍔ㄩ」鐩紙Linux 浜岃繘鍒讹級
+#
+浣犲綋鍓嶄娇鐢ㄧ殑鏄?
+浜岃繘鍒跺惎鍔細
+linux-amd64/wechatpadpromax08
+銆傚缓璁噰鐢ㄥ涓嬬洰褰曠粨鏋勪笌涓ょ鍚姩鏂瑰紡锛堜复鏃?
+nohup
+鎴栨寔涔呭寲
+systemd
+锛夈€?/section>
+鐩綍缁撴瀯绀轰緥
+#
+/opt/wechatpadpro/
+鈹溾攢 linux-amd64/
+鈹? 鈹斺攢 wechatpadpromax08        # 鍙墽琛屾枃浠讹紙Linux amd64锛?
+鈹溾攢 conf/
+鈹? 鈹斺攢 app.conf                 # 鍓嶆枃宸查厤缃ソ token_key_for_validate 涓?Redis
+鈹斺攢 logs/
+鈹斺攢 app.out                  # 杩愯鏃ュ織
+涓€娆℃€ч儴缃?a class="anchor" aria-hidden="true" tabindex="-1" href="#涓€娆℃€ч儴缃?>
+#
+绔彛鏀鹃€?/strong>锛氶粯璁ょず渚嬬鍙ｄ负
+8080
+锛堣
+app.conf
+鐨?
+httpport
+锛夈€傝嫢鏈夐槻鐏锛屾斁閫氬叆绔?8080/TCP銆?/section>
+Ubuntu锛圲FW锛夛細
+sudo ufw allow 8080/tcp
+CentOS/RHEL锛坒irewalld锛夛細
+sudo firewall-cmd --add-port=8080/tcp --permanent && sudo firewall-cmd --reload
+SELinux
+锛堝鍚敤锛夎纭繚鏀鹃€氬簲鐢ㄧ洃鍚鍙ｏ紝鎴栧弬鐓ф湰鏈哄畨鍏ㄧ瓥鐣ヨ繘琛屾斁琛屻€?/section>
+浣跨敤 systemd 鎸佷箙鍖栬繍琛岋紙鎺ㄨ崘锛?a class="anchor" aria-hidden="true" tabindex="-1" href="#浣跨敤-systemd-鎸佷箙鍖栬繍琛屾帹鑽?>
+#
+鍔犺浇骞跺惎鍔細
+鑻ヤ綘灏?
+app.conf
+鏀惧湪鍏朵粬璺緞锛岃纭繚浜岃繘鍒惰兘璇诲彇鍒帮紙閫氬父涓哄伐浣滅洰褰曚笅鐨?
+conf/app.conf
+锛夈€備笉鍚屾瀯寤哄彲鑳芥敮鎸?
+-c/--config
+绛夊弬鏁帮紝濡傚瓨鍦ㄥ彲鎸夐渶杩藉姞鍒?
+ExecStart
+銆?/section>
+鍥涖€佺櫥褰曚笌鍒濆鍖栫殑瀹屾暣鎺ュ彛娴佺▼
+#
+涓嬭堪鎺ュ彛璺緞浠ラ」鐩害瀹氫负鍑嗭紱瀛楁鍛藉悕/璇锋眰鏂瑰紡浠ュ疄闄呭疄鐜版垨 swagger 瀹氫箟涓哄噯銆傜ず渚嬩粎鐢ㄤ簬鐞嗚В娴佺▼銆?/section>
+#
+浣滅敤
+锛氫娇鐢?
+token_key_for_validate
+杩涜閴存潈锛屾崲鍙栧綋鍓嶈澶囩殑
+Device Token
+锛屽悗缁墍鏈夌櫥褰曠浉鍏虫帴鍙ｅ潎闇€鎼哄甫銆?/section>
+Endpoint
+锛?code data-last="true" data-source-line="180" data-source-end-line="180">/Admin/GenAuthKey
+閴存潈
+锛氬湪 Header 涓惡甯﹀悗鍙扮敓鎴愮殑
+token_key_for_validate
+杩斿洖
+锛?code data-source-line="182" data-source-end-line="182">device_token
+锛堟垨绛変环瀛楁锛夈€佹湁鏁堟湡绛?/section>
+鑻ヨ鎺ュ彛闇€瑕侀澶栧弬鏁帮紙渚嬪璁惧鍚嶃€佽澶?ID锛夛紝璇锋寜瀹為檯瀹炵幇浼犲叆銆?/section>
+2锛夎幏鍙栫櫥褰曚簩缁寸爜锛?Login/GetQRMac锛?a class="anchor" aria-hidden="true" tabindex="-1" href="#2鑾峰彇鐧诲綍浜岀淮鐮乴ogingetqrmac">
+#
+浣滅敤
+锛氫负褰撳墠璁惧涓嬪彂涓€娆℃€х殑浜岀淮鐮佷俊鎭紝鐢ㄤ簬寰俊鎵爜鐧诲綍銆?/section>
+Endpoint
+锛?code data-last="true" data-source-line="190" data-source-end-line="190">/Login/GetQRMac
+閴存潈
+锛欻eader 鎼哄甫
+device_token
+杩斿洖
+锛?code data-source-line="192" data-source-end-line="192">uuid
+锛堟湰娆℃壂鐮佷細璇濇爣璇嗭級銆?code data-source-line="192" data-source-end-line="192">qr
+锛堜簩缁寸爜鍐呭锛涘彲鑳芥槸 URL 鎴?base64 鍥剧墖锛夌瓑
+灏嗚繑鍥炵殑浜岀淮鐮佹覆鏌撴垨鐩存帴灞曠ず缁欑敤鎴疯繘琛屾壂鐮併€?/section>
+3锛夎疆璇㈡壂鐮佺姸鎬侊紙/Login/CheckMacQR锛?a class="anchor" aria-hidden="true" tabindex="-1" href="#3杞鎵爜鐘舵€乴ogincheckmacqr">
+#
+浣滅敤
+锛氫娇鐢ㄤ笂涓€姝ョ殑
+uuid
+杞鏌ヨ鎵爜鐘舵€侊紝鐩村埌鐢ㄦ埛纭鐧诲綍鎴栬秴鏃躲€?/section>
+Endpoint
+锛?code data-last="true" data-source-line="200" data-source-end-line="200">/Login/CheckMacQR
+璇锋眰鍙傛暟
+锛?code data-last="true" data-source-line="201" data-source-end-line="201">uuid=&lt;浠庤幏鍙栦簩缁寸爜杩斿洖鐨?uuid&gt;
+寤鸿杞棰戠巼
+锛?~3 绉掍竴娆★紝娉ㄦ剰瓒呮椂涓庨€€閬?/section>
+锛堜互瀹為檯涓哄噯锛?/section>
+褰撹繑鍥炶〃绀?
+鐧诲綍鎴愬姛
+鐨勭姸鎬佸悗锛岃繘鍏ヤ笅涓€姝ュ垵濮嬪寲銆?/section>
+4锛夊垵濮嬪寲锛?Login/Newinit锛?a class="anchor" aria-hidden="true" tabindex="-1" href="#4鍒濆鍖杔oginnewinit">
+#
+浣滅敤
+锛氬畬鎴愪細璇濆垵濮嬪寲锛岃繑鍥炰笌浣犺处鍙风粦瀹氱殑寰俊渚у叧閿俊鎭€?/section>
+Endpoint
+锛?code data-last="true" data-source-line="211" data-source-end-line="211">/Login/Newinit
+閴存潈
+锛氭惡甯?
+device_token
+锛堟垨椤圭洰瑕佹眰鐨勫瘑閽ワ級
+杩斿洖
+锛氬寘鍚綘鐨勫井淇＄浉鍏冲搷搴旓紙濡傛樀绉般€乁IN銆佸ご鍍忕瓑瀛楁锛屼互瀹為檯涓哄噯锛?/section>
+鑻ヨ兘鎷垮埌涓庝綘璐﹀彿鐩稿叧鐨勫井淇″搷搴旓紝鍗宠〃绀哄叏閾捐矾鐧诲綍鎴愬姛銆?/section>
+浜斻€佸揩閫熻嚜妫€锛坈URL 绀轰緥锛?a class="anchor" aria-hidden="true" tabindex="-1" href="#浜斿揩閫熻嚜妫€curl-绀轰緥">
+#
+涓嬪垪浠呬负绀轰緥锛屽瓧娈靛悕/澶翠俊鎭鎸夊疄闄呭疄鐜版垨 swagger 瀹氫箟璋冩暣銆?/section>
+鍏€佸父瑙侀棶棰樹笌鎺掓煡
+#
+1
+.
+鍚庡彴鍙兘鐧诲綍銆佷笉鍙敞鍐岋紵
+杩欐槸棰勬湡琛屼负銆傜洰鍓嶄粎鏀寔
+Telegram
+/
+GitHub
+鐧诲綍銆?/section>
+2
+.
+璋冪敤 /Admin/GenAuthKey 澶辫触
+锛?/section>
+纭
+token_key_for_validate
+涓庡悗鍙扮敓鎴愮殑 TokenKey 涓€鑷达紱
+妫€鏌ユ槸鍚︽斁鍦ㄦ纭殑 Header锛堜緥濡?
+Authorization
+鎴栭」鐩嚜瀹氫箟澶达級銆?/section>
+3
+.
+浜岀淮鐮佹棤娉曞睍绀?/strong>锛?/section>
+鑻ヨ繑鍥炵殑鏄?base64锛岃纭繚鍓嶇鎸?
+data:image/png;base64,
+鍓嶇紑娓叉煋锛?/section>
+鑻ヨ繑鍥炵殑鏄?URL锛岀洿鎺ヤ互鍥剧墖/閾炬帴鏂瑰紡灞曠ず銆?/section>
+4
+.
+杞鏃犵粨鏋滄垨瓒呮椂
+锛?/section>
+纭
+uuid
+鏈繃鏈燂紱
+閫傚綋闄嶄綆杞棰戠巼锛?~3s锛夛紝骞跺疄鐜拌秴鏃朵笌閲嶈瘯锛?/section>
+妫€鏌ユ湇鍔″櫒鏃堕挓鏄惁姝ｇ‘锛堟椂鍖?鏃堕棿涓嶅悓姝ヤ細瀵艰嚧绛惧悕鎴栬繃鏈熷垽鏂紓甯革級銆?/section>
+5
+.
+Redis 杩炴帴寮傚父
+锛?/section>
+redislink
+涓?
+redispass
+鏄惁姝ｇ‘锛?/section>
+缃戠粶绛栫暐锛堝 Docker 缃戠粶銆並8s Service銆佷簯闃茬伀澧欙級鏄惁鏀鹃€?6379 绔彛銆?/section>
+6
+.
+鍒濆鍖栨垚鍔熶絾鍚庣画鎺ュ彛澶辫触
+锛?/section>
+妫€鏌ユ槸鍚﹀湪 Header 涓寔缁惡甯?
+device_token
+锛?/section>
+鍏虫敞 Token 鏄惁杩囨湡锛屽繀瑕佹椂閲嶆柊鐢熸垚銆?/section>
+涓冦€佸畨鍏ㄥ缓璁?a class="anchor" aria-hidden="true" tabindex="-1" href="#涓冨畨鍏ㄥ缓璁?>
+#
+濡ュ杽淇濈 TokenKey 涓?Device Token
+锛屽彧鍦ㄦ湇鍔＄淇濆瓨涓庝娇鐢紱
+涓轰笉鍚岀幆澧冿紙寮€鍙?娴嬭瘯/鐢熶骇锛夊垎鍒敓鎴?Token锛屽苟闄愬埗鏈€灏忔潈闄愪笌鏈夋晥鏈燂紱
+瀵圭櫥褰曚笌鍏抽敭鎿嶄綔寮€鍚璁℃棩蹇楋紝鏂逛究瀹氫綅闂锛?/section>
+瀵瑰叕缃戞毚闇茬殑鎺ュ彛鍋氬ソ閫熺巼闄愬埗涓?IP 璁块棶鎺у埗锛?/section>
+Redis 寤鸿璁剧疆寮哄彛浠や笌浠呭唴缃戣闂紝蹇呰鏃跺惎鐢?TLS銆?/section>
+濡傛灉浣犻渶瑕佸皢鏈枃妗ｅ鍑轰负鐙珛鐨?
+.md
+鏂囦欢鎴栬ˉ鍏?swagger 涓殑瀛楁绾ц鏄庯紝鍙湪瀵硅瘽閲屽憡璇夋垜锛屾垜浼氳拷鍔犳帴鍙ｅ弬鏁拌〃涓庤繑鍥炲瓧娈佃〃銆?/section>
+淇敼浜?!-- -->
+2026-06-03 16:11:26
+涓嬩竴椤?/div>
+WeChatPadProMAX 蹇呰璇存槑
+LLMs.txt
+鍏嬮殕
+瀵煎嚭
+Built with

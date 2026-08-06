@@ -1,0 +1,64 @@
+<UserControl
+    x:Class="MoonWeChat.Controls.BottomTabBar"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <!--
+        微信自己的四个底部标签（微信 / 通讯录 / 发现 / 我），复用在每个顶层页面的底部，
+        而不是做一个包住所有页面的“持久壳” Frame —— 对这个体量的示例来说更简单可靠。
+        每个宿主页面各自订阅 TabSelected 事件，自己决定怎么导航。
+    -->
+    <Border Background="{ThemeResource ChromeBackgroundBrush}"
+            BorderBrush="{ThemeResource DividerBrush}"
+            BorderThickness="0,1,0,0">
+        <Grid Height="56">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <!--
+                注意：IsChecked 是 bool?（Nullable<Boolean>），实测这套运行时的 XAML 解析器
+                直接在标记里写 IsChecked="True" 会在运行时崩溃（XamlParseException:
+                Failed to assign to property 'ToggleButton.IsChecked'），改成在代码里赋值
+                （见 BottomTabBar.xaml.cs 构造函数）。
+            -->
+            <ToggleButton x:Name="ChatTab" Grid.Column="0" Style="{StaticResource BottomTabToggleStyle}"
+                          Checked="OnTabChecked" Tag="0">
+                <StackPanel>
+                    <FontIcon Glyph="&#xE8BD;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" />
+                    <TextBlock Text="微信" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center" />
+                </StackPanel>
+            </ToggleButton>
+
+            <ToggleButton x:Name="ContactsTab" Grid.Column="1" Style="{StaticResource BottomTabToggleStyle}"
+                          Checked="OnTabChecked" Tag="1">
+                <StackPanel>
+                    <FontIcon Glyph="&#xE716;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" />
+                    <TextBlock Text="通讯录" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center" />
+                </StackPanel>
+            </ToggleButton>
+
+            <ToggleButton x:Name="DiscoverTab" Grid.Column="2" Style="{StaticResource BottomTabToggleStyle}"
+                          Checked="OnTabChecked" Tag="2">
+                <StackPanel>
+                    <FontIcon Glyph="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" />
+                    <TextBlock Text="发现" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center" />
+                </StackPanel>
+            </ToggleButton>
+
+            <ToggleButton x:Name="MeTab" Grid.Column="3" Style="{StaticResource BottomTabToggleStyle}"
+                          Checked="OnTabChecked" Tag="3">
+                <StackPanel>
+                    <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" />
+                    <TextBlock Text="我" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center" />
+                </StackPanel>
+            </ToggleButton>
+        </Grid>
+    </Border>
+</UserControl>

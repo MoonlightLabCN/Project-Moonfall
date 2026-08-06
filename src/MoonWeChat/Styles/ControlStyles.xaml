@@ -1,0 +1,99 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        目标是 Windows 10 版本 1511(November Update, 10586) 那个年代的“扁平 Metro”观感：
+        直角、无圆角、无亚克力背景模糊、无 Reveal 高光——这些都是 2017 年 Creators Update(15063)
+        之后 Fluent Design 才有的东西，10586 时代根本没有。
+        所以这个文件里能不重写 ControlTemplate 就不重写：原生 Button/ListViewItem 自带的
+        PointerOver/Pressed 视觉状态（那种浅灰色高亮）本身就是那个年代的标准反馈方式，
+        直接用 Setter 调 Background/Padding 就够了，没必要自己画一遍。
+        只有 BottomTabToggleStyle（图标在上、文字在下、选中变色）这种原生控件压根没有对应
+        默认长相的，才自己写 ControlTemplate。
+    -->
+
+    <!-- 顶部/底部工具栏里的透明图标按钮：Normal 透明，PointerOver/Pressed 由系统默认模板给出浅色反馈 -->
+    <Style x:Key="IconButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="8" />
+        <Setter Property="Foreground" Value="{ThemeResource PrimaryTextBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+
+    <!-- 聊天输入框：扁平、无边框，不设圆角 -->
+    <Style x:Key="ChatInputTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="{ThemeResource InputBoxBackgroundBrush}" />
+        <Setter Property="Foreground" Value="{ThemeResource PrimaryTextBrush}" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="Padding" Value="12,8" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="MaxHeight" Value="96" />
+    </Style>
+
+    <!-- 会话列表 / 通讯录 / 消息列表通用的行容器：去掉默认内边距，其余全部用原生 ListViewItem 的视觉状态 -->
+    <Style x:Key="FlatListViewItemStyle" TargetType="ListViewItem">
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="MinHeight" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+    </Style>
+
+    <!-- 输入栏的绿色“发送”按钮：直角色块，原生按下反馈 -->
+    <Style x:Key="SendButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{ThemeResource AccentBrush}" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Padding" Value="14,7" />
+        <Setter Property="BorderThickness" Value="0" />
+    </Style>
+
+    <!-- “+” 更多面板里的九宫格按钮：透明背景，原生按下反馈 -->
+    <Style x:Key="MorePanelButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="Padding" Value="0" />
+    </Style>
+
+    <!--
+        底部 Tab（微信 / 通讯录 / 发现 / 我）：图标 + 文字上下排列，选中态用微信绿。
+        原生 ToggleButton 默认长得像开关/复选框，这个“图标+文字，选中变色”的样式没有对应的
+        原生外观，所以这一个必须自己写模板；模板本身仍然是直角矩形，没有圆角/亚克力这些。
+    -->
+    <Style x:Key="BottomTabToggleStyle" TargetType="ToggleButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Foreground" Value="{ThemeResource SecondaryTextBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Border Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CheckStates">
+                                <VisualState x:Name="Unchecked" />
+                                <VisualState x:Name="Checked">
+                                    <VisualState.Setters>
+                                        <Setter Target="Presenter.Foreground" Value="{ThemeResource AccentBrush}" />
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter x:Name="Presenter"
+                                          Content="{TemplateBinding Content}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center" />
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

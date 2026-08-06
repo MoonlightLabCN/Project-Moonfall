@@ -1,0 +1,108 @@
+<Page
+    x:Class="MoonWeChat.Views.ConnectPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ListBackgroundBrush}">
+
+    <!--
+        远程连接向导：WP 上唯一必做的配置入口。
+        只关心「服务器在哪 + Token 是什么」，不涉及本机部署 WeChatPadPro。
+    -->
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0" Background="{ThemeResource ChromeBackgroundBrush}"
+                BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,0,0,1">
+            <Grid Height="48" Padding="4,0,12,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0" Style="{StaticResource IconButtonStyle}" Click="OnBackClick">
+                    <FontIcon Glyph="&#xE72B;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+                </Button>
+                <TextBlock Grid.Column="1" Text="连接远程服务器" FontSize="18" FontWeight="SemiBold"
+                           VerticalAlignment="Center" Margin="8,0,0,0"
+                           Foreground="{ThemeResource PrimaryTextBrush}" />
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Padding="16,16,16,28" MaxWidth="520">
+
+                <TextBlock TextWrapping="Wrap" FontSize="13" Margin="0,0,0,14"
+                           Foreground="{ThemeResource SecondaryTextBrush}"
+                           Text="在电脑或云上部署 WeChatPadPro 后，把可被手机访问的地址填在这里（局域网 IP、内网穿透域名均可）。手机不运行后端。" />
+
+                <!-- 步骤 1：地址 -->
+                <TextBlock Text="1. 服务器地址" FontSize="14" FontWeight="SemiBold"
+                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                <TextBlock Text="完整 URL，或 host:端口" FontSize="12" Margin="0,6,0,0"
+                           Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBox x:Name="ServerBox" Margin="0,4,0,4"
+                         PlaceholderText="例如 192.168.1.10:1239 或 https://wx.example.com"
+                         TextChanged="OnServerChanged" />
+                <TextBlock x:Name="NormalizedUrlText" FontSize="12" Margin="0,0,0,12"
+                           Foreground="{ThemeResource SecondaryTextBrush}"
+                           Text="规范化后：—" />
+
+                <!-- 步骤 2：Token -->
+                <TextBlock Text="2. Token（业务鉴权码）" FontSize="14" FontWeight="SemiBold"
+                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                <TextBlock TextWrapping="Wrap" FontSize="12" Margin="0,6,0,0"
+                           Foreground="{ThemeResource SecondaryTextBrush}"
+                           Text="在服务器 Swagger 调用 POST /Admin/GenAuthKey 生成；或用下方 AdminKey 让本 App 代为生成。" />
+                <TextBox x:Name="TokenBox" Margin="0,4,0,12"
+                         PlaceholderText="粘贴 TokenKey"
+                         TextChanged="OnTokenChanged" />
+
+                <!-- 可选：AdminKey 生成 -->
+                <TextBlock Text="可选 · 用 AdminKey 生成 Token" FontSize="13" FontWeight="SemiBold"
+                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                <TextBlock Text="AdminKey（服务启动日志）" FontSize="12" Margin="0,4,0,0"
+                           Foreground="{ThemeResource SecondaryTextBrush}" />
+                <PasswordBox x:Name="AdminKeyBox" Margin="0,4,0,6" />
+                <Button Content="生成 Token 并填入" Margin="0,0,0,16"
+                        HorizontalAlignment="Stretch" Padding="12,8"
+                        Click="OnGenTokenClick" />
+
+                <!-- 可选代理 -->
+                <TextBlock Text="可选 · 代理（云服务器登录时）" FontSize="13" FontWeight="SemiBold"
+                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                <TextBox x:Name="ProxyBox" Margin="0,4,0,16"
+                         PlaceholderText="http://user:pass@host:port"
+                         TextChanged="OnProxyChanged" />
+
+                <!-- 状态 -->
+                <Border Background="{ThemeResource ChromeBackgroundBrush}" Padding="12" Margin="0,0,0,12"
+                        BorderBrush="{ThemeResource DividerBrush}" BorderThickness="1">
+                    <TextBlock x:Name="StatusText" Text="填好地址和 Token 后，先点「测试连接」。"
+                               TextWrapping="Wrap" FontSize="13"
+                               Foreground="{ThemeResource PrimaryTextBrush}" />
+                </Border>
+
+                <Button x:Name="TestButton" Content="测试连接"
+                        HorizontalAlignment="Stretch" Margin="0,0,0,8" Padding="12,10"
+                        Click="OnTestClick" />
+                <Button x:Name="SaveButton" Content="保存并去扫码登录"
+                        HorizontalAlignment="Stretch" Margin="0,0,0,8"
+                        Style="{StaticResource SendButtonStyle}"
+                        Click="OnSaveAndLoginClick" />
+                <Button Content="保存并稍后登录（先看示例 UI）"
+                        HorizontalAlignment="Stretch" Padding="12,10"
+                        Click="OnSaveOnlyClick" />
+
+                <TextBlock Margin="0,18,0,0" TextWrapping="Wrap" FontSize="12"
+                           Foreground="{ThemeResource SecondaryTextBrush}"
+                           Text="接口对齐 WeChatPadProMAX 文档（wx.knowhub.cloud）：/Admin/GenAuthKey、/Login/GetQRMac、/Login/CheckMacQR、/Login/Newinit、/Friend/GetContractList、/Msg/SendTxt、/Msg/Sync。穿透时只暴露后端端口，注意 Token 保密。" />
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Page>
