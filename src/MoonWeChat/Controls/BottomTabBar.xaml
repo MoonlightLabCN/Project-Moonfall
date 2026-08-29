@@ -31,32 +31,32 @@
             <ToggleButton x:Name="ChatTab" Grid.Column="0" Style="{StaticResource BottomTabToggleStyle}"
                           Checked="OnTabChecked" Tag="0">
                 <StackPanel>
-                    <FontIcon Glyph="&#xE8BD;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" />
-                    <TextBlock Text="微信" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center" />
+                    <FontIcon Glyph="&#xE8BD;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" HorizontalAlignment="Center" />
+                    <TextBlock Text="微信" FontSize="{ThemeResource FontCaption}" Margin="0,3,0,0" HorizontalAlignment="Center" />
                 </StackPanel>
             </ToggleButton>
 
             <ToggleButton x:Name="ContactsTab" Grid.Column="1" Style="{StaticResource BottomTabToggleStyle}"
                           Checked="OnTabChecked" Tag="1">
                 <StackPanel>
-                    <FontIcon Glyph="&#xE716;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" />
-                    <TextBlock Text="通讯录" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center" />
+                    <FontIcon Glyph="&#xE716;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" HorizontalAlignment="Center" />
+                    <TextBlock Text="通讯录" FontSize="{ThemeResource FontCaption}" Margin="0,3,0,0" HorizontalAlignment="Center" />
                 </StackPanel>
             </ToggleButton>
 
             <ToggleButton x:Name="DiscoverTab" Grid.Column="2" Style="{StaticResource BottomTabToggleStyle}"
                           Checked="OnTabChecked" Tag="2">
                 <StackPanel>
-                    <FontIcon Glyph="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" />
-                    <TextBlock Text="发现" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center" />
+                    <FontIcon Glyph="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" HorizontalAlignment="Center" />
+                    <TextBlock Text="发现" FontSize="{ThemeResource FontCaption}" Margin="0,3,0,0" HorizontalAlignment="Center" />
                 </StackPanel>
             </ToggleButton>
 
             <ToggleButton x:Name="MeTab" Grid.Column="3" Style="{StaticResource BottomTabToggleStyle}"
                           Checked="OnTabChecked" Tag="3">
                 <StackPanel>
-                    <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="20" HorizontalAlignment="Center" />
-                    <TextBlock Text="我" FontSize="11" Margin="0,3,0,0" HorizontalAlignment="Center" />
+                    <FontIcon Glyph="&#xE77B;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" HorizontalAlignment="Center" />
+                    <TextBlock Text="我" FontSize="{ThemeResource FontCaption}" Margin="0,3,0,0" HorizontalAlignment="Center" />
                 </StackPanel>
             </ToggleButton>
         </Grid>

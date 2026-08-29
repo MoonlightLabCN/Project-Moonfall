@@ -1,4 +1,4 @@
-<ResourceDictionary
+﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:converters="using:MoonWeChat.Converters"
@@ -15,7 +15,7 @@
         (10.0.16299) 才加进 UWP 的，10586 时代没有，真机上用了会在运行时报错。
 
         转换器实例在本文件内直接声明（不依赖别的资源字典），跨文件 StaticResource 容易踩坑，
-        颜色类资源已经全部改成 ThemeResource（见 ColorsAndBrushes.xaml 的说明），这里的
+颜色类资源已经全部改成 ThemeResource（见 Styles/Themes 下的主题字典），这里的
         转换器则保持“各文件自己声明自己要用的”这个更保险的做法。
     -->
     <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -28,7 +28,7 @@
     <!-- ============ 行级模板：时间分隔线 ============ -->
     <DataTemplate x:Key="DateDividerRowTemplate">
         <TextBlock Text="{Binding Content}"
-                   FontSize="12"
+                   FontSize="{ThemeResource FontCaption}"
                    Margin="0,14,0,6"
                    Foreground="{ThemeResource SecondaryTextBrush}"
                    HorizontalAlignment="Center" />
@@ -41,7 +41,7 @@
                 Margin="50,8,50,8"
                 HorizontalAlignment="Center">
             <TextBlock Text="{Binding Content}"
-                       FontSize="12"
+                       FontSize="{ThemeResource FontCaption}"
                        TextWrapping="Wrap"
                        TextAlignment="Center"
                        Foreground="{ThemeResource SecondaryTextBrush}" />
@@ -53,18 +53,18 @@
         <Border Background="{Binding IsMine, Converter={StaticResource MineToBubbleBrushConverter}}"
                 Padding="12,9">
             <StackPanel>
-                <Border Background="#1E000000"
+                <Border Background="{ThemeResource PillBackgroundBrush}"
                         Padding="8,5"
                         Margin="0,0,0,6"
                         Visibility="{Binding HasQuote, Converter={StaticResource BoolToVisibilityConverter}}">
                     <StackPanel>
                         <TextBlock Text="{Binding QuotedSenderName}"
-                                   FontSize="11"
+                                   FontSize="{ThemeResource FontCaption}"
                                    FontWeight="SemiBold"
                                    Opacity="0.75"
                                    Foreground="{Binding IsMine, Converter={StaticResource MineToTextBrushConverter}}" />
                         <TextBlock Text="{Binding QuotedContent}"
-                                   FontSize="11"
+                                   FontSize="{ThemeResource FontCaption}"
                                    Opacity="0.75"
                                    TextWrapping="Wrap"
                                    MaxLines="2"
@@ -74,7 +74,7 @@
                     </StackPanel>
                 </Border>
                 <TextBlock Text="{Binding Content}"
-                           FontSize="15.5"
+                           FontSize="{ThemeResource FontBody}"
                            TextWrapping="Wrap"
                            Foreground="{Binding IsMine, Converter={StaticResource MineToTextBrushConverter}}" />
             </StackPanel>
@@ -88,8 +88,8 @@
                 Background="{Binding MediaAccentColor, Converter={StaticResource AccentHexToBrushConverter}}">
             <FontIcon Glyph="&#xEB9F;"
                       FontFamily="Segoe MDL2 Assets"
-                      FontSize="26"
-                      Foreground="#77FFFFFF"
+                      FontSize="{ThemeResource FontTitle}"
+                      Foreground="{ThemeResource MediaGlyphBrush}"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center" />
         </Border>
@@ -97,7 +97,7 @@
 
     <!-- ============ 内容模板：表情包/动图（真实 Emoji 字符代替贴纸图，无气泡背景） ============ -->
     <DataTemplate x:Key="EmojiTemplate">
-        <TextBlock Text="{Binding Content}" FontSize="54" Margin="0,2" />
+        <TextBlock Text="{Binding Content}" FontSize="{ThemeResource FontIcon}" Margin="0,2" />
     </DataTemplate>
 
     <!-- ============ 内容模板：语音（气泡宽度按时长变化 + 未读绿点） ============ -->
@@ -114,11 +114,11 @@
                 <FontIcon Grid.Column="0"
                           Glyph="&#xE720;"
                           FontFamily="Segoe MDL2 Assets"
-                          FontSize="15"
+                          FontSize="{ThemeResource FontBody}"
                           Foreground="{Binding IsMine, Converter={StaticResource MineToTextBrushConverter}}" />
                 <TextBlock Grid.Column="1"
                            Text="{Binding VoiceDurationText}"
-                           FontSize="14"
+                           FontSize="{ThemeResource FontBody}"
                            VerticalAlignment="Center"
                            Margin="6,0,0,0"
                            Foreground="{Binding IsMine, Converter={StaticResource MineToTextBrushConverter}}" />
@@ -140,16 +140,16 @@
             <Grid>
                 <FontIcon Glyph="&#xE768;"
                           FontFamily="Segoe MDL2 Assets"
-                          FontSize="28"
-                          Foreground="White"
+                          FontSize="{ThemeResource FontTitle}"
+                          Foreground="{ThemeResource MediaGlyphBrush}"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Center" />
-                <Border Background="#99000000"
+                <Border Background="{ThemeResource MediaOverlayBrush}"
                         Padding="5,2"
                         Margin="6"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Bottom">
-                    <TextBlock Text="{Binding DurationText}" FontSize="11" Foreground="White" />
+                    <TextBlock Text="{Binding DurationText}" FontSize="{ThemeResource FontCaption}" Foreground="{ThemeResource OnAccentTextBrush}" />
                 </Border>
             </Grid>
         </Border>
@@ -168,15 +168,15 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Width="36" Height="36" Background="{ThemeResource AccentBrush}">
-                    <FontIcon Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="16" Foreground="White"
+                    <FontIcon Glyph="&#xE8A5;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontCaption}" Foreground="{ThemeResource OnAccentTextBrush}"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
                 <StackPanel Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center">
                     <TextBlock Text="{Binding FileName}"
-                               FontSize="14"
+                               FontSize="{ThemeResource FontBody}"
                                TextTrimming="CharacterEllipsis"
                                Foreground="{ThemeResource PrimaryTextBrush}" />
-                    <TextBlock FontSize="11" Margin="0,3,0,0" Foreground="{ThemeResource SecondaryTextBrush}">
+                    <TextBlock FontSize="{ThemeResource FontCaption}" Margin="0,3,0,0" Foreground="{ThemeResource SecondaryTextBrush}">
                         <Run Text="{Binding FileExtension}" />
                         <Run Text=" · " />
                         <Run Text="{Binding FileSizeText}" />
@@ -194,18 +194,18 @@
                 BorderThickness="1"
                 Width="220">
             <StackPanel>
-                <Grid Height="100" Background="#DCE7F5">
-                    <FontIcon Glyph="&#xE707;" FontFamily="Segoe MDL2 Assets" FontSize="24" Foreground="#E0503F"
+                <Grid Height="100" Background="{ThemeResource MapBackgroundBrush}">
+                    <FontIcon Glyph="&#xE707;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontTitle}" Foreground="{ThemeResource MapPinBrush}"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Grid>
                 <StackPanel Padding="10,8">
                     <TextBlock Text="{Binding LocationName}"
-                               FontSize="14"
+                               FontSize="{ThemeResource FontBody}"
                                FontWeight="SemiBold"
                                TextTrimming="CharacterEllipsis"
                                Foreground="{ThemeResource PrimaryTextBrush}" />
                     <TextBlock Text="{Binding LocationAddress}"
-                               FontSize="11"
+                               FontSize="{ThemeResource FontCaption}"
                                Margin="0,2,0,0"
                                TextTrimming="CharacterEllipsis"
                                Foreground="{ThemeResource SecondaryTextBrush}" />
@@ -233,13 +233,13 @@
                                           Size="36" />
                     <TextBlock Grid.Column="1"
                                Text="{Binding CardName}"
-                               FontSize="14"
+                               FontSize="{ThemeResource FontBody}"
                                Margin="10,0,0,0"
                                VerticalAlignment="Center"
                                Foreground="{ThemeResource PrimaryTextBrush}" />
                 </Grid>
                 <Border Height="1" Background="{ThemeResource DividerBrush}" Margin="0,8" />
-                <TextBlock Text="个人名片" FontSize="11" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBlock Text="个人名片" FontSize="{ThemeResource FontCaption}" Foreground="{ThemeResource SecondaryTextBrush}" />
             </StackPanel>
         </Border>
     </DataTemplate>
@@ -258,19 +258,19 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
                     <TextBlock Text="{Binding LinkTitle}"
-                               FontSize="13.5"
+                               FontSize="{ThemeResource FontBody}"
                                TextWrapping="Wrap"
                                MaxLines="3"
                                TextTrimming="CharacterEllipsis"
                                Foreground="{ThemeResource PrimaryTextBrush}" />
                     <TextBlock Text="{Binding LinkSource}"
-                               FontSize="11"
+                               FontSize="{ThemeResource FontCaption}"
                                Margin="0,4,0,0"
                                Foreground="{ThemeResource SecondaryTextBrush}" />
                 </StackPanel>
                 <Border Grid.Column="1" Width="48" Height="48" Margin="10,0,0,0"
                         Background="{Binding MediaAccentColor, Converter={StaticResource AccentHexToBrushConverter}}">
-                    <FontIcon Glyph="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="16" Foreground="#77FFFFFF"
+                    <FontIcon Glyph="&#xE774;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontCaption}" Foreground="{ThemeResource MediaGlyphBrush}"
                               HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
             </Grid>
@@ -287,13 +287,13 @@
                 <Border Height="90"
                         Background="{Binding MediaAccentColor, Converter={StaticResource AccentHexToBrushConverter}}" />
                 <TextBlock Text="{Binding MiniProgramTitle}"
-                           FontSize="13"
+                           FontSize="{ThemeResource FontBody}"
                            Margin="10,8,10,0"
                            TextTrimming="CharacterEllipsis"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
                 <Border Height="1" Background="{ThemeResource DividerBrush}" Margin="0,8,0,0" />
                 <TextBlock Text="{Binding MiniProgramAppName}"
-                           FontSize="10.5"
+                           FontSize="{ThemeResource FontCaption}"
                            Padding="10,5"
                            Foreground="{ThemeResource SecondaryTextBrush}" />
             </StackPanel>
@@ -330,12 +330,18 @@
                                   VerticalAlignment="Top"
                                   Visibility="{Binding IsMine, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}" />
 
+            <!--
+                气泡宽度上限。不用百分比：这套模板放在 App 级 ResourceDictionary 里，
+                DataTemplate 内拿不到 ElementName 去绑 ListView.ActualWidth。
+                420 在手机上够不到（内容列本身就只有 ~344，由列宽兜住），
+                在桌面/平板全屏时又不会把聊天挤成一条 260px 的窄带。
+            -->
             <StackPanel Grid.Column="1"
-                        MaxWidth="260"
+                        MaxWidth="420"
                         Margin="8,0"
                         HorizontalAlignment="{Binding IsMine, Converter={StaticResource MineToAlignmentConverter}}">
                 <TextBlock Text="{Binding SenderName}"
-                           FontSize="12"
+                           FontSize="{ThemeResource FontCaption}"
                            Margin="4,0,4,3"
                            Foreground="{ThemeResource SecondaryTextBrush}"
                            Visibility="{Binding ShowSenderName, Converter={StaticResource BoolToVisibilityConverter}}" />
@@ -353,22 +359,23 @@
                                  ContentTemplateSelector="{StaticResource BubbleContentTemplateSelector}" />
 
                 <TextBlock Text="发送中…"
-                           FontSize="11"
+                           FontSize="{ThemeResource FontCaption}"
                            Margin="4,3,4,0"
                            HorizontalAlignment="Right"
                            Foreground="{ThemeResource SecondaryTextBrush}"
                            Visibility="{Binding IsSending, Converter={StaticResource BoolToVisibilityConverter}}" />
                 <TextBlock Text="! 发送失败，点击重发"
-                           FontSize="11"
+                           FontSize="{ThemeResource FontCaption}"
                            Margin="4,3,4,0"
                            HorizontalAlignment="Right"
                            Foreground="{ThemeResource UnreadBadgeBrush}"
                            Visibility="{Binding IsFailed, Converter={StaticResource BoolToVisibilityConverter}}" />
             </StackPanel>
 
+            <!-- 我方头像：昵称/主色跟着消息走，不写死（消息里已经带 SelfNickname 和主题主色） -->
             <controls:AvatarView Grid.Column="2"
-                                  DisplayName="我"
-                                  AccentColorHex="#07C160"
+                                  DisplayName="{Binding SenderName}"
+                                  AccentColorHex="{Binding SenderAvatar}"
                                   Size="40"
                                   VerticalAlignment="Top"
                                   Visibility="{Binding IsMine, Converter={StaticResource BoolToVisibilityConverter}}" />

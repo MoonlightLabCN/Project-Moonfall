@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>{8F3C2A1B-4D5E-6F70-89A1-B2C3D4E5F607}</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>MoonWeChat</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\AvatarView.xaml.cs">
+      <DependentUpon>AvatarView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="$(MSBuildThisFileDirectory)Common\BindableBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\Glyphs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Common\ChatMessageTemplateSelector.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\CommonConverters.cs" />
+      <Compile Include="$(MSBuildThisFileDirectory)Services\WeChatPad\IBackendProvider.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ChatMessage.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\ChatSession.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\Contact.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MessageStatus.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MessageType.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\MomentPost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AppSettings.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\AppServices.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\IChatDataService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SampleChatDataService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SampleDataService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\SessionBootstrap.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\MomentsService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\ThemeService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\WeChatPad\WeChatPadDtos.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\WeChatPad\WeChatPadApiClient.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\WeChatPad\MessageMapper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Services\WeChatPad\LiveChatDataService.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChatListViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\ChatViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\LoginViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\MomentsViewModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SettingsViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Controls\AvatarView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>

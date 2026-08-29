@@ -19,14 +19,14 @@
             <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,12,0,0">
                 <Border Width="72" Height="72" Background="{ThemeResource AccentBrush}"
                         HorizontalAlignment="Center">
-                    <TextBlock Text="月" FontSize="36" FontWeight="SemiBold" Foreground="White"
+                <TextBlock Text="月" FontSize="{ThemeResource FontHero}" FontWeight="SemiBold" Foreground="{ThemeResource OnAccentTextBrush}"
                                HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
-                <TextBlock Text="大月微信" FontSize="26" FontWeight="SemiBold"
+                <TextBlock Text="大月微信" FontSize="{ThemeResource FontDisplay}" FontWeight="SemiBold"
                            HorizontalAlignment="Center" Margin="0,16,0,0"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
                 <TextBlock Text="Windows Phone 第三方微信客户端"
-                           FontSize="13" HorizontalAlignment="Center" Margin="0,6,0,0"
+                           FontSize="{ThemeResource FontBody}" HorizontalAlignment="Center" Margin="0,6,0,0"
                            Foreground="{ThemeResource SecondaryTextBrush}" />
             </StackPanel>
 
@@ -34,14 +34,14 @@
                     Background="{ThemeResource ChromeBackgroundBrush}"
                     BorderBrush="{ThemeResource DividerBrush}" BorderThickness="1">
                 <StackPanel>
-                    <TextBlock Text="怎么用" FontSize="14" FontWeight="SemiBold"
+                    <TextBlock Text="怎么用" FontSize="{ThemeResource FontSubtitle}" FontWeight="SemiBold"
                                Foreground="{ThemeResource PrimaryTextBrush}" />
-                    <TextBlock TextWrapping="Wrap" FontSize="13" Margin="0,8,0,0"
+                    <TextBlock TextWrapping="Wrap" FontSize="{ThemeResource FontBody}" Margin="0,8,0,0"
                                Foreground="{ThemeResource SecondaryTextBrush}"
-                               Text="1. 电脑/云上长期运行 WeChatPadPro&#x0a;2. 本机填服务器地址和 Token，扫码登录一次&#x0a;3. 之后再打开客户端直接进会话，不用再登录" />
-                    <TextBlock TextWrapping="Wrap" FontSize="13" Margin="0,10,0,0"
+                               Text="1. 电脑登录微信，并长期运行 pyweixin 网关&#x0a;2. 本机填电脑地址和 Token，连上一次&#x0a;3. 电脑微信保持登录后，再打开客户端直接进会话" />
+                    <TextBlock TextWrapping="Wrap" FontSize="{ThemeResource FontBody}" Margin="0,10,0,0"
                                Foreground="{ThemeResource SecondaryTextBrush}"
-                               Text="微信会话保存在服务器上；手机只记住地址、Token 和账号。服务器不关、不重启，就一直免扫。" />
+                               Text="收发消息由电脑上的微信完成；手机只记住网关地址、Token 和账号。" />
                 </StackPanel>
             </Border>
 
@@ -57,9 +57,9 @@
                         Click="OnSampleClick" />
             </StackPanel>
 
-            <TextBlock Grid.Row="3" Margin="0,20,0,0" TextWrapping="Wrap" FontSize="12"
+            <TextBlock Grid.Row="3" Margin="0,20,0,0" TextWrapping="Wrap" FontSize="{ThemeResource FontCaption}"
                        Foreground="{ThemeResource SecondaryTextBrush}"
-                       Text="示例数据仅预览界面。真实使用请保持后端 Docker 长期运行。" />
+                       Text="示例数据仅预览界面。真实使用请保持电脑微信和 pyweixin 网关在线。" />
         </Grid>
     </ScrollViewer>
 </Page>

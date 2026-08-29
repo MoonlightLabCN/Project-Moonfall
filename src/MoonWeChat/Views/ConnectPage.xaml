@@ -9,7 +9,7 @@
 
     <!--
         远程连接向导：WP 上唯一必做的配置入口。
-        只关心「服务器在哪 + Token 是什么」，不涉及本机部署 WeChatPadPro。
+        只关心「电脑网关在哪 + Token 是什么」，不涉及本机部署微信。
     -->
 
     <Grid>
@@ -26,9 +26,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Style="{StaticResource IconButtonStyle}" Click="OnBackClick">
-                    <FontIcon Glyph="&#xE72B;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+                    <FontIcon Glyph="&#xE72B;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" />
                 </Button>
-                <TextBlock Grid.Column="1" Text="连接远程服务器" FontSize="18" FontWeight="SemiBold"
+                <TextBlock Grid.Column="1" Text="连接远程服务器" FontSize="{ThemeResource FontTitle}" FontWeight="SemiBold"
                            VerticalAlignment="Center" Margin="8,0,0,0"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
             </Grid>
@@ -37,36 +37,46 @@
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Padding="16,16,16,28" MaxWidth="520">
 
-                <TextBlock TextWrapping="Wrap" FontSize="13" Margin="0,0,0,14"
+                <TextBlock TextWrapping="Wrap" FontSize="{ThemeResource FontBody}" Margin="0,0,0,14"
                            Foreground="{ThemeResource SecondaryTextBrush}"
-                           Text="在电脑或云上部署 WeChatPadPro 后，把可被手机访问的地址填在这里（局域网 IP、内网穿透域名均可）。手机不运行后端。" />
+                           Text="选择后端协议并填写服务器地址。pyweixin 网关跑在电脑上（默认 18765）；WeChatPadPro 默认 8062，App 会自动补 /api 基路径。" />
+
+                <!-- 步骤 0：后端协议 -->
+                <TextBlock Text="0. 后端协议" FontSize="{ThemeResource FontSubtitle}" FontWeight="SemiBold"
+                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                <StackPanel Margin="0,6,0,14">
+                    <RadioButton x:Name="BackendPyRadio" Content="pyweixin 网关（电脑 RPA）"
+                                 GroupName="BackendKind" Click="OnBackendClick" />
+                    <RadioButton x:Name="BackendPadRadio" Content="WeChatPadPro（iPad 协议）"
+                                 GroupName="BackendKind" Margin="0,6,0,0" Click="OnBackendClick" />
+                </StackPanel>
 
                 <!-- 步骤 1：地址 -->
-                <TextBlock Text="1. 服务器地址" FontSize="14" FontWeight="SemiBold"
+                <TextBlock Text="1. 服务器地址" FontSize="{ThemeResource FontSubtitle}" FontWeight="SemiBold"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
-                <TextBlock Text="完整 URL，或 host:端口" FontSize="12" Margin="0,6,0,0"
+                <TextBlock Text="完整 URL，或 host:端口" FontSize="{ThemeResource FontCaption}" Margin="0,6,0,0"
                            Foreground="{ThemeResource SecondaryTextBrush}" />
                 <TextBox x:Name="ServerBox" Margin="0,4,0,4"
-                         PlaceholderText="例如 192.168.1.10:1239 或 https://wx.example.com"
+                         PlaceholderText="pyweixin: 192.168.1.10:18765 ｜ WeChatPadPro: 192.168.1.10:8062"
                          TextChanged="OnServerChanged" />
-                <TextBlock x:Name="NormalizedUrlText" FontSize="12" Margin="0,0,0,12"
+                <TextBlock x:Name="NormalizedUrlText" FontSize="{ThemeResource FontCaption}" Margin="0,0,0,12"
                            Foreground="{ThemeResource SecondaryTextBrush}"
                            Text="规范化后：—" />
 
                 <!-- 步骤 2：Token -->
-                <TextBlock Text="2. Token（业务鉴权码）" FontSize="14" FontWeight="SemiBold"
+                <TextBlock Text="2. Token（业务鉴权码）" FontSize="{ThemeResource FontSubtitle}" FontWeight="SemiBold"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
-                <TextBlock TextWrapping="Wrap" FontSize="12" Margin="0,6,0,0"
+                <TextBlock TextWrapping="Wrap" FontSize="{ThemeResource FontCaption}" Margin="0,6,0,0"
                            Foreground="{ThemeResource SecondaryTextBrush}"
-                           Text="在服务器 Swagger 调用 POST /Admin/GenAuthKey 生成；或用下方 AdminKey 让本 App 代为生成。" />
+                           Text="填网关启动时打印的 token；或用下方 AdminKey 让本 App 代为生成。" />
                 <TextBox x:Name="TokenBox" Margin="0,4,0,12"
                          PlaceholderText="粘贴 TokenKey"
                          TextChanged="OnTokenChanged" />
 
                 <!-- 可选：AdminKey 生成 -->
-                <TextBlock Text="可选 · 用 AdminKey 生成 Token" FontSize="13" FontWeight="SemiBold"
+                <TextBlock Text="可选 · 用 AdminKey 生成 Token" FontSize="{ThemeResource FontBody}" FontWeight="SemiBold"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
-                <TextBlock Text="AdminKey（服务启动日志）" FontSize="12" Margin="0,4,0,0"
+                <TextBlock Text="AdminKey（服务启动日志）" FontSize="{ThemeResource FontCaption}" Margin="0,4,0,0"
                            Foreground="{ThemeResource SecondaryTextBrush}" />
                 <PasswordBox x:Name="AdminKeyBox" Margin="0,4,0,6" />
                 <Button Content="生成 Token 并填入" Margin="0,0,0,16"
@@ -74,7 +84,7 @@
                         Click="OnGenTokenClick" />
 
                 <!-- 可选代理 -->
-                <TextBlock Text="可选 · 代理（云服务器登录时）" FontSize="13" FontWeight="SemiBold"
+                <TextBlock Text="可选 · 代理（云服务器登录时）" FontSize="{ThemeResource FontBody}" FontWeight="SemiBold"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
                 <TextBox x:Name="ProxyBox" Margin="0,4,0,16"
                          PlaceholderText="http://user:pass@host:port"
@@ -84,7 +94,7 @@
                 <Border Background="{ThemeResource ChromeBackgroundBrush}" Padding="12" Margin="0,0,0,12"
                         BorderBrush="{ThemeResource DividerBrush}" BorderThickness="1">
                     <TextBlock x:Name="StatusText" Text="填好地址和 Token 后，先点「测试连接」。"
-                               TextWrapping="Wrap" FontSize="13"
+                        TextWrapping="Wrap" FontSize="{ThemeResource FontBody}"
                                Foreground="{ThemeResource PrimaryTextBrush}" />
                 </Border>
 
@@ -99,9 +109,9 @@
                         HorizontalAlignment="Stretch" Padding="12,10"
                         Click="OnSaveOnlyClick" />
 
-                <TextBlock Margin="0,18,0,0" TextWrapping="Wrap" FontSize="12"
+                <TextBlock Margin="0,18,0,0" TextWrapping="Wrap" FontSize="{ThemeResource FontCaption}"
                            Foreground="{ThemeResource SecondaryTextBrush}"
-                           Text="接口对齐 WeChatPadProMAX 文档（wx.knowhub.cloud）：/Admin/GenAuthKey、/Login/GetQRMac、/Login/CheckMacQR、/Login/Newinit、/Friend/GetContractList、/Msg/SendTxt、/Msg/Sync。穿透时只暴露后端端口，注意 Token 保密。" />
+                           Text="电脑跑 server/pyweixin_gateway，手机只连这个 HTTP 口。默认端口 18765。穿透时只暴露网关端口，注意 Token 保密。" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

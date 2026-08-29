@@ -1,0 +1,10 @@
+<Page x:Class="MoonWeChat.Views.ShellPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="using:MoonWeChat.Controls" Background="{ThemeResource ListBackgroundBrush}">
+  <Grid x:Name="RootGrid">
+    <VisualStateManager.VisualStateGroups><VisualStateGroup x:Name="LayoutStates"><VisualState x:Name="Narrow"/><VisualState x:Name="Wide"/></VisualStateGroup></VisualStateManager.VisualStateGroups>
+    <SplitView x:Name="WideSplit" DisplayMode="Inline" IsPaneOpen="True" OpenPaneLength="224" PaneBackground="{ThemeResource ChromeBackgroundBrush}" Visibility="Collapsed">
+      <SplitView.Pane><StackPanel Padding="12,18"><TextBlock Text="大月微信" Style="{StaticResource PageTitleStyle}" Margin="8,0,0,20"/><Button Content="微信" Tag="0" Click="OnNavClick" Style="{StaticResource NavButtonStyle}"/><Button Content="通讯录" Tag="1" Click="OnNavClick" Style="{StaticResource NavButtonStyle}"/><Button Content="朋友圈" Tag="2" Click="OnNavClick" Style="{StaticResource NavButtonStyle}"/><Button Content="设置" Tag="3" Click="OnNavClick" Style="{StaticResource NavButtonStyle}"/></StackPanel></SplitView.Pane>
+      <Frame x:Name="ContentFrame" Navigated="OnContentNavigated"/>
+    </SplitView>
+    <Grid x:Name="NarrowHost"><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions><Frame x:Name="NarrowFrame" Navigated="OnContentNavigated"/><controls:BottomTabBar Grid.Row="1" x:Name="BottomTabs" TabSelected="OnTabSelected"/></Grid>
+  </Grid>
+</Page>

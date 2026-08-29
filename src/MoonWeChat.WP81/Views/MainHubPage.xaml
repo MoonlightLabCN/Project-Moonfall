@@ -1,0 +1,222 @@
+<Page
+    x:Class="MoonWeChat.Views.MainHubPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:MoonWeChat.Controls"
+    xmlns:converters="using:MoonWeChat.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled"
+    Background="{ThemeResource ListBackgroundBrush}">
+
+    <!--
+        WP 8.1 主壳：Hub 全景（WinRT 版全景控件），不是 WP10 底部 Tab。
+        左右横滑：微信 / 通讯录 / 发现 / 我。大字标题、黑底青绿强调。
+    -->
+
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converters:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter" />
+    </Page.Resources>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Refresh" Label="刷新" Click="OnRefreshClick" />
+            <AppBarButton Icon="Find" Label="搜索" Click="OnSearchClick" />
+            <AppBarButton Icon="Setting" Label="设置" Click="OnSettingsClick" />
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Label="连接服务器" Click="OnConnectClick" />
+                <AppBarButton Label="扫码登录" Click="OnLoginClick" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- 掉线横幅 -->
+        <Border Grid.Row="0" Background="{ThemeResource BannerBackgroundBrush}" Padding="12,10"
+                BorderBrush="{ThemeResource BannerBorderBrush}" BorderThickness="0,0,0,1"
+                Visibility="{Binding ChatList.ShowBanner, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"
+                Tapped="OnBannerTapped">
+            <TextBlock Text="{Binding ChatList.BannerText, Mode=OneWay}"
+                       TextWrapping="Wrap" Style="{StaticResource SecondaryTextStyle}" Foreground="{ThemeResource BannerTextBrush}" />
+        </Border>
+
+        <Hub Grid.Row="1"
+             x:Name="MainHub"
+             Background="{ThemeResource ListBackgroundBrush}"
+             SectionHeaderClick="OnSectionHeaderClick">
+            <Hub.Header>
+                <StackPanel Margin="0,12,0,8">
+                    <TextBlock Text="大月微信" FontSize="{ThemeResource TextHeroFontSize}" FontWeight="Light"
+                               Foreground="{ThemeResource PrimaryTextBrush}" />
+                    <TextBlock Text="{Binding ChatList.Subtitle, Mode=OneWay}" Style="{StaticResource SecondaryTextStyle}" Margin="0,4,0,0"
+                               Foreground="{ThemeResource SecondaryTextBrush}" />
+                </StackPanel>
+            </Hub.Header>
+
+            <!-- 微信：会话 -->
+            <HubSection Header="微信" Width="352">
+                <DataTemplate>
+                    <ListView Padding="0,0,0,72" ItemsSource="{Binding FilteredSessions}"
+                              IsItemClickEnabled="True"
+                              ItemClick="OnSessionClicked"
+                              SelectionMode="None"
+                              VirtualizingStackPanel.VirtualizationMode="Recycling"
+                              ItemContainerStyle="{StaticResource FlatListViewItemStyle}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,10,12,10" MinHeight="60">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <Grid Grid.Column="0">
+                                        <controls:AvatarView DisplayName="{Binding DisplayName}"
+                                                              AccentColorHex="{Binding AvatarAccentColor}"
+                                                              ImageUrl="{Binding AvatarUrl}"
+                                                              Size="52" />
+                                        <Border Background="{ThemeResource UnreadBadgeBrush}"
+                                                MinWidth="16" Height="16" Padding="4,0"
+                                                HorizontalAlignment="Right" VerticalAlignment="Top"
+                                                Margin="0,-4,-4,0"
+                                                Visibility="{Binding ShowUnreadNumber, Converter={StaticResource BoolToVisibilityConverter}}">
+                                            <TextBlock Text="{Binding UnreadBadgeText}" FontSize="{ThemeResource TextCaptionFontSize}" Foreground="{ThemeResource UnreadBadgeTextBrush}"
+                                                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                    </Grid>
+                                    <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding DisplayName}" Style="{StaticResource BodyTextStyle}"
+                                                   Foreground="{ThemeResource PrimaryTextBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                        <TextBlock Text="{Binding PreviewText}" Style="{StaticResource SecondaryTextStyle}" Margin="0,4,0,0"
+                                                   Foreground="{ThemeResource SecondaryTextBrush}"
+                                                   TextTrimming="CharacterEllipsis" />
+                                    </StackPanel>
+                                    <TextBlock Grid.Column="2" Text="{Binding LastMessageTimeText}"
+                                               FontSize="{ThemeResource TextCaptionFontSize}" Margin="8,0,0,0"
+                                               Foreground="{ThemeResource SecondaryTextBrush}" />
+                                </Grid>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </DataTemplate>
+            </HubSection>
+
+            <!-- 通讯录 -->
+            <HubSection Header="通讯录" Width="352">
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Grid Margin="0,0,12,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBox Text="{Binding ContactQuery, Mode=TwoWay}" PlaceholderText="搜索好友"
+                                     BorderThickness="0"
+                                     Background="{ThemeResource InputBoxBackgroundBrush}"
+                                     Padding="10,8" />
+                            <Button Grid.Column="1" Content="搜" Margin="8,0,0,0" Style="{StaticResource IconButtonStyle}" Click="OnContactSearchClick" />
+                        </Grid>
+                        <ListView Grid.Row="1" Padding="0,0,0,72"
+                                  ItemsSource="{Binding Contacts}"
+                                  SelectionMode="None"
+                                  ItemContainerStyle="{StaticResource FlatListViewItemStyle}">
+                            <ListView.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid Margin="0,8,12,8" MinHeight="52">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <controls:AvatarView DisplayName="{Binding DisplayName}"
+                                                              AccentColorHex="{Binding AvatarAccentColor}"
+                                                              ImageUrl="{Binding AvatarUrl}"
+                                                              Size="44" />
+                                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                                            <TextBlock Text="{Binding DisplayName}" FontSize="{ThemeResource TextBodyFontSize}"
+                                                       Foreground="{ThemeResource PrimaryTextBrush}" />
+                                            <TextBlock Text="{Binding Signature}" FontSize="{ThemeResource TextCaptionFontSize}" Margin="0,2,0,0"
+                                                       Foreground="{ThemeResource SecondaryTextBrush}"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Visibility="{Binding Signature, Converter={StaticResource StringNotEmptyToVisibilityConverter}}" />
+                                        </StackPanel>
+                                    </Grid>
+                                </DataTemplate>
+                            </ListView.ItemTemplate>
+                        </ListView>
+                    </Grid>
+                </DataTemplate>
+            </HubSection>
+
+            <!-- 发现 -->
+            <HubSection Header="发现" Width="352">
+                <DataTemplate>
+                    <StackPanel Margin="0,0,16,16">
+                        <Border Background="{ThemeResource CardBackgroundBrush}" Padding="14,16" Margin="0,0,0,10"
+                                Tapped="OnOpenMomentsTapped">
+                            <StackPanel>
+                                <TextBlock Text="朋友圈" FontSize="{ThemeResource PageTitleFontSize}" FontWeight="SemiBold"
+                                           Foreground="{ThemeResource AccentBrush}" />
+                                <TextBlock Text="看看大家的动态" FontSize="{ThemeResource TextSecondaryFontSize}" Margin="0,6,0,0"
+                                           Foreground="{ThemeResource SecondaryTextBrush}" />
+                            </StackPanel>
+                        </Border>
+                        <Border Background="{ThemeResource CardBackgroundBrush}" Padding="14,16" Margin="0,0,0,10"
+                                Tapped="OnOpenMomentsTapped">
+                            <TextBlock Text="扫一扫（占位）" FontSize="{ThemeResource TextBodyFontSize}"
+                                       Foreground="{ThemeResource PrimaryTextBrush}" />
+                        </Border>
+                        <Border Background="{ThemeResource CardBackgroundBrush}" Padding="14,16"
+                                Tapped="OnOpenMomentsTapped">
+                            <TextBlock Text="附近的人（占位）" FontSize="{ThemeResource TextBodyFontSize}"
+                                       Foreground="{ThemeResource PrimaryTextBrush}" />
+                        </Border>
+                        <TextBlock Text="{Binding Moments.StatusText, Mode=OneWay}"
+                                   Margin="0,16,0,0" FontSize="{ThemeResource TextCaptionFontSize}" TextWrapping="Wrap"
+                                   Foreground="{ThemeResource SecondaryTextBrush}" />
+                    </StackPanel>
+                </DataTemplate>
+            </HubSection>
+
+            <!-- 我 -->
+            <HubSection Header="我" Width="352">
+                <DataTemplate>
+                    <StackPanel Margin="0,0,16,16">
+                        <Border Background="{ThemeResource CardBackgroundBrush}" Padding="14,18" Margin="0,0,0,12">
+                            <StackPanel>
+                                <TextBlock Text="本机账号" FontSize="{ThemeResource TextSecondaryFontSize}"
+                                           Foreground="{ThemeResource SecondaryTextBrush}" />
+                                <TextBlock Text="{Binding ChatList.Subtitle, Mode=OneWay}" FontSize="{ThemeResource TextBodyFontSize}" Margin="0,6,0,0"
+                                           Foreground="{ThemeResource PrimaryTextBrush}" TextWrapping="Wrap" />
+                            </StackPanel>
+                        </Border>
+                        <Button Content="服务器 / 登录设置"
+                                HorizontalAlignment="Stretch" Margin="0,0,0,8"
+                                Style="{StaticResource SendButtonStyle}"
+                                Click="OnSettingsClick" />
+                        <Button Content="连接远程服务器"
+                                HorizontalAlignment="Stretch" Margin="0,0,0,8"
+                                Click="OnConnectClick" />
+                        <Button Content="扫码登录"
+                                HorizontalAlignment="Stretch" Margin="0,0,0,8"
+                                Click="OnLoginClick" />
+                        <Button Content="回到欢迎页"
+                                HorizontalAlignment="Stretch"
+                                Click="OnWelcomeClick" />
+                    </StackPanel>
+                </DataTemplate>
+            </HubSection>
+        </Hub>
+    </Grid>
+</Page>

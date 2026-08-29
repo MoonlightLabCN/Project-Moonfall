@@ -1,8 +1,12 @@
+using System;
 using System.ComponentModel;
 using MoonWeChat.Services;
+using MoonWeChat.Services.WeChatPad;
 using MoonWeChat.ViewModels;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Navigation;
 
 namespace MoonWeChat.Views
@@ -10,6 +14,7 @@ namespace MoonWeChat.Views
     public sealed partial class LoginPage : Page
     {
         public LoginViewModel ViewModel { get; } = new LoginViewModel();
+        private bool _enteringMain;
 
         public LoginPage()
         {
@@ -23,6 +28,9 @@ namespace MoonWeChat.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            ViewModel.BackendKind = AppSettings.BackendKind;
+            SyncBackendRadios();
 
             if (!string.IsNullOrEmpty(AppSettings.BaseUrl))
             {
@@ -72,7 +80,7 @@ namespace MoonWeChat.Views
                 UpdateEnterButtons();
                 if (ViewModel.IsLoggedIn)
                 {
-                    Frame.Navigate(typeof(ChatListPage));
+                    AppNavigation.NavigateToMain(Frame);
                 }
             }
 
@@ -105,6 +113,28 @@ namespace MoonWeChat.Views
             StartButton.Content = ViewModel.StartButtonLabel;
         }
 
+        private void SyncBackendRadios()
+        {
+            var kind = ViewModel.BackendKind;
+            BackendPyRadio.IsChecked = kind == BackendKind.PyWeixin;
+            BackendPadRadio.IsChecked = kind == BackendKind.WeChatPadPro;
+        }
+
+        private void OnBackendClick(object sender, RoutedEventArgs e)
+        {
+            var kind = BackendPadRadio.IsChecked == true
+                ? BackendKind.WeChatPadPro
+                : BackendKind.PyWeixin;
+            if (kind == ViewModel.BackendKind)
+            {
+                return;
+            }
+
+            ViewModel.BackendKind = kind;
+            AppSettings.BackendKind = kind;
+            ViewModel.ServerUrl = AppSettings.BaseUrl;
+        }
+
         private void OnServerTextChanged(object sender, TextChangedEventArgs e) =>
             ViewModel.ServerUrl = ServerBox.Text ?? string.Empty;
 
@@ -120,6 +150,12 @@ namespace MoonWeChat.Views
         private void OnToggleAdvancedClick(object sender, RoutedEventArgs e) =>
             ViewModel.ShowAdvanced = !ViewModel.ShowAdvanced;
 
+        private async void OnStartLoginClick(object sender, RoutedEventArgs e)
+        {
+            try { await ViewModel.StartLoginAsync(); }
+            catch (Exception ex) { await ShowErrorAsync("登录失败：" + ex.Message); }
+        }
+
         private void OnBackClick(object sender, RoutedEventArgs e)
         {
             if (Frame.CanGoBack)
@@ -128,7 +164,7 @@ namespace MoonWeChat.Views
             }
             else if (AppSettings.IsLoggedIn)
             {
-                Frame.Navigate(typeof(ChatListPage));
+                AppNavigation.NavigateToMain(Frame);
             }
             else if (!AppSettings.HasCompletedOnboarding)
             {
@@ -136,7 +172,7 @@ namespace MoonWeChat.Views
             }
             else
             {
-                Frame.Navigate(typeof(ChatListPage));
+                AppNavigation.NavigateToMain(Frame);
             }
         }
 
@@ -145,14 +181,59 @@ namespace MoonWeChat.Views
 
         private void OnEnterAppClick(object sender, RoutedEventArgs e)
         {
-            AppSettings.UseSampleData = false;
-            AppServices.Rebuild();
-            if (AppSettings.IsLoggedIn)
+            EnterMainPage();
+        }
+
+        private static async System.Threading.Tasks.Task ShowErrorAsync(string message)
+        {
+            await new ContentDialog { Title = "提示", Content = message, CloseButtonText = "确定" }.ShowAsync();
+        }
+
+        private void EnterMainPage()
+        {
+            if (_enteringMain)
             {
-                AppServices.Live.StartPolling();
+                return;
             }
 
-            Frame.Navigate(typeof(ChatListPage));
+            _enteringMain = true;
+            var frame = Frame;
+            try
+            {
+                AppSettings.UseSampleData = false;
+                AppSettings.HasCompletedOnboarding = true;
+
+                // 先投递导航，再重建服务，避免触摸回调里的同步工作吞掉页面切换。
+                var ignored = Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    try
+                    {
+                        AppNavigation.NavigateToMain(frame);
+                    }
+                    catch
+                    {
+                        _enteringMain = false;
+                        return;
+                    }
+
+                    try
+                    {
+                        AppServices.Rebuild();
+                        if (AppSettings.IsLoggedIn)
+                        {
+                            AppServices.Live.StartPolling();
+                        }
+                    }
+                    catch
+                    {
+                        // 主页可先显示；后续刷新会再次尝试连接服务。
+                    }
+                });
+            }
+            catch
+            {
+                _enteringMain = false;
+            }
         }
     }
 }

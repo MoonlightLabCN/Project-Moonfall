@@ -1,0 +1,65 @@
+<Page
+    x:Class="MoonWeChat.Views.WelcomePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ListBackgroundBrush}">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <Grid Margin="24,32,24,28" MaxWidth="480" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,12,0,0">
+                <Border Width="72" Height="72" Background="{ThemeResource AccentBrush}"
+                        HorizontalAlignment="Center">
+                    <TextBlock Text="月" FontSize="{ThemeResource TextHeroFontSize}" FontWeight="SemiBold" Foreground="{ThemeResource PrimaryTextBrush}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <TextBlock Text="大月微信" FontSize="{ThemeResource TextHeroFontSize}" FontWeight="SemiBold"
+                           HorizontalAlignment="Center" Margin="0,16,0,0"
+                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                <TextBlock Text="Windows Phone 第三方微信客户端"
+                           FontSize="{ThemeResource TextSecondaryFontSize}" HorizontalAlignment="Center" Margin="0,6,0,0"
+                           Foreground="{ThemeResource SecondaryTextBrush}" />
+            </StackPanel>
+
+            <Border Grid.Row="1" Margin="0,28,0,0" Padding="14"
+                    Background="{ThemeResource ChromeBackgroundBrush}"
+                    BorderBrush="{ThemeResource DividerBrush}" BorderThickness="1">
+                <StackPanel>
+                    <TextBlock Text="怎么用" FontSize="{ThemeResource TextSecondaryFontSize}" FontWeight="SemiBold"
+                               Foreground="{ThemeResource PrimaryTextBrush}" />
+                    <TextBlock TextWrapping="Wrap" FontSize="{ThemeResource TextSecondaryFontSize}" Margin="0,8,0,0"
+                               Foreground="{ThemeResource SecondaryTextBrush}"
+                               Text="1. 电脑登录微信，并长期运行 pyweixin 网关&#x0a;2. 本机填电脑地址和 Token，连上一次&#x0a;3. 电脑微信保持登录后，再打开客户端直接进会话" />
+                    <TextBlock TextWrapping="Wrap" FontSize="{ThemeResource TextSecondaryFontSize}" Margin="0,10,0,0"
+                               Foreground="{ThemeResource SecondaryTextBrush}"
+                               Text="收发消息由电脑上的微信完成；手机只记住网关地址、Token 和账号。" />
+                </StackPanel>
+            </Border>
+
+            <StackPanel Grid.Row="2" Margin="0,28,0,0">
+                <Button Content="连接并登录"
+                        HorizontalAlignment="Stretch"
+                        Style="{StaticResource SendButtonStyle}"
+                        Click="OnConnectClick" />
+                <Button Content="先用示例数据逛逛"
+                        HorizontalAlignment="Stretch"
+                        Margin="0,10,0,0"
+                        Padding="14,10"
+                        Click="OnSampleClick" />
+            </StackPanel>
+
+            <TextBlock Grid.Row="3" Margin="0,20,0,0" TextWrapping="Wrap" FontSize="{ThemeResource TextCaptionFontSize}"
+                       Foreground="{ThemeResource SecondaryTextBrush}"
+                       Text="示例数据仅预览界面。真实使用请保持电脑微信和 pyweixin 网关在线。" />
+        </Grid>
+    </ScrollViewer>
+</Page>

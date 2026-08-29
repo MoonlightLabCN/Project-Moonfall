@@ -25,6 +25,14 @@
 # Local runtime / third-party / temp (contains credentials & binaries)
 _tmp/
 _wechatpadpro/
+server/pyweixin_gateway/config.json
+server/pyweixin_gateway/data/
+
+# Python 编译产物（网关是 Python，py_compile / 首次 import 都会生成）
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
 
 # System / IDE
 .DS_Store
@@ -35,3 +43,7 @@ Thumbs.db
 *~
 *.bak
 *.tmp
+
+# Visual Studio 升级日志（工具生成的垃圾）
+UpgradeLog*.htm
+UpgradeLog*/

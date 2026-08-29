@@ -124,12 +124,13 @@ Project-大月墜落狂想/
 
 ## 后端接入（已接骨架，2026-08-06）
 
-默认仍是**示例数据**。接真实 WeChatPadPro：
+默认仍是**示例数据**。接真实电脑微信（pyweixin 网关）：
 
-1. App 内打开 **服务器设置**（会话列表齿轮 / 「我」Tab / 「+」菜单）。
-2. 取消勾选「使用本地示例数据」。
-3. 填 `http://<电脑IP>:<端口>`、AdminKey 或 Token，保存并测连通。
-4. **扫码登录** → 成功后拉通讯录，发文本走 `SendTextMessage`，收消息靠 sync 轮询。
+1. 电脑登录微信 4.1+，在 `server/pyweixin_gateway` 启动网关（见该目录 README）。
+2. App 内打开 **服务器设置**（会话列表齿轮 / 「我」Tab / 「+」菜单）。
+3. 取消勾选「使用本地示例数据」。
+4. 填 `http://<电脑IP>:18765` 和网关 Token，保存并测连通。
+5. **扫码/探测登录** → 电脑微信已登录则直接进；否则截取电脑登录二维码。之后拉通讯录，发文本走 `SendTextMessage`，收消息靠 sync 轮询。
 
-实现位置：`Services/AppServices.cs`、`Services/WeChatPad/*`、`Views/SettingsPage`、`Views/LoginPage`。  
+实现位置：`server/pyweixin_gateway/`、`Services/AppServices.cs`、`Services/WeChatPad/*`、`Views/SettingsPage`、`Views/LoginPage`。  
 细节与未完成项见 [HANDOFF.md](HANDOFF.md)。
