@@ -43,6 +43,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModels\SettingsViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Styles\MessageBubbleTemplates.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Controls\AvatarView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

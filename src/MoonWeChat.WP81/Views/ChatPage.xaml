@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     x:Class="MoonWeChat.Views.ChatPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -26,37 +26,43 @@
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
 
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton Icon="More" Label="更多">
-                <AppBarButton.Flyout>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />  <!-- 0 标题 -->
+            <RowDefinition Height="*" />     <!-- 1 消息列表 -->
+            <RowDefinition Height="Auto" />  <!-- 2 引用条 -->
+            <RowDefinition Height="Auto" />  <!-- 3 发送状态 -->
+            <RowDefinition Height="Auto" />  <!-- 4 输入栏 -->
+            <RowDefinition Height="Auto" />  <!-- 5 "+" 面板 -->
+            <RowDefinition Height="Auto" />  <!-- 6 软键盘占位 -->
+        </Grid.RowDefinitions>
+
+        <!--
+            WP8.1 页面标题：硬件返回键负责返回，标题左对齐并从 19px 起始。
+            会话级命令放在标题行右侧的 "⋯" 里，而不是 Page.BottomAppBar ——
+            AppBar 是覆盖图层不占布局，会压住本页底部的输入栏。
+        -->
+        <Grid Grid.Row="0" Margin="19,12,4,8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Grid.Column="0" x:Name="HeaderTitleText" Style="{StaticResource PageTitleTextStyle}"
+                       FontSize="{ThemeResource FontHero}"
+                       FontWeight="Light"
+                       VerticalAlignment="Center"
+                       TextTrimming="CharacterEllipsis" />
+            <Button Grid.Column="1" Style="{StaticResource IconButtonStyle}" VerticalAlignment="Center">
+                <Button.Flyout>
                     <MenuFlyout Placement="Bottom">
                         <MenuFlyoutItem Text="撤回我的上一条" Click="OnRevokeClick" />
                         <MenuFlyoutItem Text="拍一拍" Click="OnPatClick" />
                         <MenuFlyoutItem x:Name="MuteMenuItem" Text="设置消息免打扰" Click="OnToggleMuteClick" />
                     </MenuFlyout>
-                </AppBarButton.Flyout>
-            </AppBarButton>
-        </CommandBar>
-    </Page.BottomAppBar>
-
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-
-        <!-- WP8.1 页面标题：硬件返回键负责返回，标题左对齐并从 19px 起始。 -->
-        <StackPanel Grid.Row="0" Margin="19,12,12,8">
-            <TextBlock x:Name="HeaderTitleText" Style="{StaticResource PageTitleTextStyle}"
-                       FontSize="{ThemeResource TextHeroFontSize}"
-                       FontWeight="Light"
-                       TextTrimming="CharacterEllipsis" />
-        </StackPanel>
+                </Button.Flyout>
+                <SymbolIcon Symbol="More" />
+            </Button>
+        </Grid>
 
         <!-- ============ 消息列表 ============ -->
         <ListView Grid.Row="1"
@@ -67,7 +73,7 @@
                   SelectionMode="None"
                   IsItemClickEnabled="True"
                   ItemClick="OnMessageClick"
-                  Padding="0,8,0,72"
+                  Padding="0,8,0,8"
                   VirtualizingStackPanel.VirtualizationMode="Recycling"
                   ScrollViewer.VerticalScrollBarVisibility="Auto" />
 
@@ -134,12 +140,12 @@
                         Margin="8,0,0,0" VerticalAlignment="Center" Visibility="Collapsed"
                         PointerPressed="OnVoiceHoldPressed" PointerReleased="OnVoiceHoldReleased"
                         PointerCanceled="OnVoiceHoldReleased" PointerCaptureLost="OnVoiceHoldReleased">
-                    <TextBlock x:Name="VoiceHoldText" Text="按住 说话" FontSize="{ThemeResource TextSecondaryFontSize}" HorizontalAlignment="Center"
+                    <TextBlock x:Name="VoiceHoldText" Text="按住 说话" FontSize="{ThemeResource FontSubtitle}" HorizontalAlignment="Center"
                                Padding="0,9" Foreground="{ThemeResource PrimaryTextBrush}" />
                 </Border>
 
                 <Button Grid.Column="2" Style="{StaticResource IconButtonStyle}" Margin="8,0,0,0">
-                    <TextBlock Text="☺" FontSize="{ThemeResource TextBodyFontSize}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <TextBlock Text="☺" FontSize="{ThemeResource FontBody}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                     <Button.Flyout>
                         <Flyout x:Name="EmojiFlyout" Placement="Top">
                             <StackPanel Orientation="Horizontal">
@@ -166,7 +172,12 @@
                 </Button>
             </Grid>
         </Border>
-        <Border Grid.Row="4" x:Name="InputBottomPadding" Height="0" Background="Transparent" VerticalAlignment="Bottom" />
+        <!--
+            软键盘占位：必须自己独占一行。它原来和输入栏同在 Row 4，
+            那是个 Auto 行 —— 把它撑到键盘高度只会让整行变高、输入栏跟着被拉伸，
+            输入栏本身并不会上移，照样被键盘盖住。
+        -->
+        <Border Grid.Row="6" x:Name="InputBottomPadding" Height="0" Background="Transparent" />
 
         <!-- ============ “+” 更多面板：对应 WeChatPadPro 能发的非文本消息类型入口 ============ -->
         <Border Grid.Row="5" x:Name="MorePanel" Background="{ThemeResource ChromeBackgroundBrush}"
@@ -186,54 +197,54 @@
                 <Button Grid.Row="0" Grid.Column="0" Style="{StaticResource MorePanelButtonStyle}" Click="OnMorePanelItemClick" Tag="album">
                     <StackPanel>
                         <Border Width="52" Height="52" Background="{ThemeResource CardBackgroundBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1">
-                            <TextBlock Text="图" FontSize="{ThemeResource TextBodyFontSize}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Text="图" FontSize="{ThemeResource FontBody}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-                        <TextBlock Text="相册" FontSize="{ThemeResource TextCaptionFontSize}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
+                        <TextBlock Text="相册" FontSize="{ThemeResource FontCaption}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
                     </StackPanel>
                 </Button>
 
                 <Button Grid.Row="0" Grid.Column="1" Style="{StaticResource MorePanelButtonStyle}" Click="OnMorePanelItemClick" Tag="camera" Margin="4,0,0,0">
                     <StackPanel>
                         <Border Width="52" Height="52" Background="{ThemeResource CardBackgroundBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1">
-                            <TextBlock Text="摄" FontSize="{ThemeResource TextBodyFontSize}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Text="摄" FontSize="{ThemeResource FontBody}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-                        <TextBlock Text="拍摄" FontSize="{ThemeResource TextCaptionFontSize}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
+                        <TextBlock Text="拍摄" FontSize="{ThemeResource FontCaption}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
                     </StackPanel>
                 </Button>
 
                 <Button Grid.Row="0" Grid.Column="2" Style="{StaticResource MorePanelButtonStyle}" Click="OnMorePanelItemClick" Tag="video" Margin="4,0,0,0">
                     <StackPanel>
                         <Border Width="52" Height="52" Background="{ThemeResource CardBackgroundBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1">
-                            <TextBlock Text="视" FontSize="{ThemeResource TextBodyFontSize}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Text="视" FontSize="{ThemeResource FontBody}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-                        <TextBlock Text="视频" FontSize="{ThemeResource TextCaptionFontSize}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
+                        <TextBlock Text="视频" FontSize="{ThemeResource FontCaption}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
                     </StackPanel>
                 </Button>
 
                 <Button Grid.Row="0" Grid.Column="3" Style="{StaticResource MorePanelButtonStyle}" Click="OnMorePanelItemClick" Tag="location" Margin="4,0,0,0">
                     <StackPanel>
                         <Border Width="52" Height="52" Background="{ThemeResource CardBackgroundBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1">
-                            <TextBlock Text="位" FontSize="{ThemeResource TextBodyFontSize}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Text="位" FontSize="{ThemeResource FontBody}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-                        <TextBlock Text="位置" FontSize="{ThemeResource TextCaptionFontSize}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
+                        <TextBlock Text="位置" FontSize="{ThemeResource FontCaption}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
                     </StackPanel>
                 </Button>
 
                 <Button Grid.Row="1" Grid.Column="0" Style="{StaticResource MorePanelButtonStyle}" Click="OnMorePanelItemClick" Tag="card" Margin="0,16,0,0">
                     <StackPanel>
                         <Border Width="52" Height="52" Background="{ThemeResource CardBackgroundBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1">
-                            <TextBlock Text="人" FontSize="{ThemeResource TextBodyFontSize}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Text="人" FontSize="{ThemeResource FontBody}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-                        <TextBlock Text="名片" FontSize="{ThemeResource TextCaptionFontSize}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
+                        <TextBlock Text="名片" FontSize="{ThemeResource FontCaption}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
                     </StackPanel>
                 </Button>
 
                 <Button Grid.Row="1" Grid.Column="1" Style="{StaticResource MorePanelButtonStyle}" Click="OnMorePanelItemClick" Tag="file" Margin="4,16,0,0">
                     <StackPanel>
                         <Border Width="52" Height="52" Background="{ThemeResource CardBackgroundBrush}" BorderBrush="{ThemeResource CardBorderBrush}" BorderThickness="1">
-                            <TextBlock Text="件" FontSize="{ThemeResource TextBodyFontSize}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                            <TextBlock Text="件" FontSize="{ThemeResource FontBody}" Foreground="{ThemeResource AccentBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-                        <TextBlock Text="文件" FontSize="{ThemeResource TextCaptionFontSize}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
+                        <TextBlock Text="文件" FontSize="{ThemeResource FontCaption}" Margin="0,6,0,0" HorizontalAlignment="Center" Foreground="{ThemeResource PrimaryTextBrush}" />
                     </StackPanel>
                 </Button>
                 <!-- 红包 / 转账已移除：不做资金相关能力 -->

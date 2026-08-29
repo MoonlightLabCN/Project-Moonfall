@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     x:Class="MoonWeChat.Views.SettingsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -23,7 +23,7 @@
                 <Button Grid.Column="0" Style="{StaticResource IconButtonStyle}" Click="OnBackClick">
                     <SymbolIcon Symbol="Back" />
                 </Button>
-                <TextBlock Grid.Column="1" Text="服务器设置" FontSize="{ThemeResource TextBodyFontSize}" FontWeight="SemiBold"
+                <TextBlock Grid.Column="1" Text="服务器设置" FontSize="{ThemeResource FontBody}" FontWeight="SemiBold"
                            VerticalAlignment="Center" Margin="8,0,0,0"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
             </Grid>
@@ -31,22 +31,22 @@
 
         <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="16,16,16,24" MaxWidth="520">
-                <TextBlock Text="界面主题" FontSize="{ThemeResource TextSecondaryFontSize}" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBlock Text="界面主题" FontSize="{ThemeResource FontSubtitle}" Foreground="{ThemeResource SecondaryTextBrush}" />
                 <StackPanel Margin="0,6,0,16">
                     <RadioButton x:Name="ThemeWin10Radio" Content="Windows 10（浅色微信绿）"
                                  GroupName="AppVisualTheme" Click="OnThemeClick" />
                     <RadioButton x:Name="ThemeWpRadio" Content="WP 经典（黑底 + 青绿）"
                                  GroupName="AppVisualTheme" Margin="0,6,0,0" Click="OnThemeClick" />
-                    <TextBlock Margin="0,8,0,0" TextWrapping="Wrap" FontSize="{ThemeResource TextCaptionFontSize}"
+                    <TextBlock Margin="0,8,0,0" TextWrapping="Wrap" FontSize="{ThemeResource FontCaption}"
                                Foreground="{ThemeResource SecondaryTextBrush}"
                                Text="切换后立即换色。若个别页面未刷新，返回再进一次即可。" />
                 </StackPanel>
 
-                <TextBlock Text="数据源" FontSize="{ThemeResource TextSecondaryFontSize}" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBlock Text="数据源" FontSize="{ThemeResource FontSubtitle}" Foreground="{ThemeResource SecondaryTextBrush}" />
                 <CheckBox x:Name="UseSampleCheck" Content="使用本地示例数据（不连后端）"
                           Margin="0,6,0,12" Click="OnUseSampleClick" />
 
-                <TextBlock Text="后端协议" FontSize="{ThemeResource TextSecondaryFontSize}" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBlock Text="后端协议" FontSize="{ThemeResource FontSubtitle}" Foreground="{ThemeResource SecondaryTextBrush}" />
                 <StackPanel Margin="0,6,0,16">
                     <RadioButton x:Name="BackendPyRadio" Content="pyweixin 网关（电脑 RPA）"
                                  GroupName="BackendKind" Click="OnBackendClick" />
@@ -54,37 +54,37 @@
                                  GroupName="BackendKind" Margin="0,6,0,0" Click="OnBackendClick" />
                 </StackPanel>
 
-                <TextBlock Text="服务器地址" FontSize="{ThemeResource TextSecondaryFontSize}" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBlock Text="服务器地址" FontSize="{ThemeResource FontSubtitle}" Foreground="{ThemeResource SecondaryTextBrush}" />
                 <TextBox x:Name="BaseUrlBox" Margin="0,4,0,12"
                          PlaceholderText="pyweixin: http://192.168.1.10:18765 ｜ WeChatPadPro: http://192.168.1.10:8062"
                          Text="{Binding ViewModel.BaseUrl, Mode=TwoWay}"
                          TextChanged="OnBaseUrlChanged" />
 
-                <TextBlock Text="AdminKey（仅用于生成 Token）" FontSize="{ThemeResource TextSecondaryFontSize}" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBlock Text="AdminKey（仅用于生成 Token）" FontSize="{ThemeResource FontSubtitle}" Foreground="{ThemeResource SecondaryTextBrush}" />
                 <PasswordBox x:Name="AdminKeyBox" Margin="0,4,0,4" />
                 <Button Content="用 AdminKey 生成 Token" Margin="0,0,0,12"
                         Command="{Binding ViewModel.GenTokenCommand}" />
 
-                <TextBlock Text="Token（业务鉴权码）" FontSize="{ThemeResource TextSecondaryFontSize}" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBlock Text="Token（业务鉴权码）" FontSize="{ThemeResource FontSubtitle}" Foreground="{ThemeResource SecondaryTextBrush}" />
                 <TextBox x:Name="TokenBox" Margin="0,4,0,12"
                          PlaceholderText="授权码"
                          Text="{Binding ViewModel.Token, Mode=TwoWay}"
                          TextChanged="OnTokenChanged" />
 
-                <TextBlock Text="当前 wxid（扫码登录后自动写入，也可手填）" FontSize="{ThemeResource TextSecondaryFontSize}" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBlock Text="当前 wxid（扫码登录后自动写入，也可手填）" FontSize="{ThemeResource FontSubtitle}" Foreground="{ThemeResource SecondaryTextBrush}" />
                 <TextBox x:Name="WxIdBox" Margin="0,4,0,12"
                          PlaceholderText="wxid_..."
                          Text="{Binding ViewModel.WxId, Mode=TwoWay}"
                          TextChanged="OnWxIdChanged" />
 
-                <TextBlock Text="代理（可选，云服务器登录时可能需要）" FontSize="{ThemeResource TextSecondaryFontSize}" Foreground="{ThemeResource SecondaryTextBrush}" />
+                <TextBlock Text="代理（可选，云服务器登录时可能需要）" FontSize="{ThemeResource FontSubtitle}" Foreground="{ThemeResource SecondaryTextBrush}" />
                 <TextBox x:Name="ProxyBox" Margin="0,4,0,12"
                          PlaceholderText="http://user:pass@host:port"
                          Text="{Binding ViewModel.Proxy, Mode=TwoWay}"
                          TextChanged="OnProxyChanged" />
 
                 <TextBlock Text="{Binding ViewModel.StatusText, Mode=OneWay}"
-                           TextWrapping="Wrap" FontSize="{ThemeResource TextSecondaryFontSize}" Margin="0,0,0,12"
+                           TextWrapping="Wrap" FontSize="{ThemeResource FontSubtitle}" Margin="0,0,0,12"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
 
                 <Button Content="测试连通" HorizontalAlignment="Stretch" Margin="0,0,0,8"
@@ -103,7 +103,7 @@
                 <Button Content="回到欢迎页" HorizontalAlignment="Stretch"
                         Click="OnWelcomeClick" />
 
-                <TextBlock Margin="0,20,0,0" TextWrapping="Wrap" FontSize="{ThemeResource TextCaptionFontSize}"
+                <TextBlock Margin="0,20,0,0" TextWrapping="Wrap" FontSize="{ThemeResource FontCaption}"
                            Foreground="{ThemeResource SecondaryTextBrush}"
                            Text="pyweixin：电脑跑 server/pyweixin_gateway（默认 18765）。WeChatPadPro：服务端默认 8062，基路径 /api，App 会自动补全。手机始终只做瘦客户端。" />
             </StackPanel>

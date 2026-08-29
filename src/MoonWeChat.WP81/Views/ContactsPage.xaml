@@ -1,4 +1,4 @@
-<Page
+﻿<Page
     x:Class="MoonWeChat.Views.ContactsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -29,7 +29,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Margin="19,12,12,8">
-            <TextBlock Text="通讯录" FontSize="{ThemeResource TextHeroFontSize}" FontWeight="Light"
+            <TextBlock Text="通讯录" FontSize="{ThemeResource FontHero}" FontWeight="Light"
                        Foreground="{ThemeResource PrimaryTextBrush}" />
         </StackPanel>
 

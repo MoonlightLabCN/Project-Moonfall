@@ -63,6 +63,11 @@ namespace MoonWeChat.Views
             else if (ViewModel.IsStale && _boundSessionId != null)
             {
                 ViewModel.Load(_boundSessionId);
+                // 标题靠 OnVmPropertyChanged 自己刷新，但免打扰菜单文案没有绑定，
+                // 不在这里刷会停在上一个会话的状态。
+                HeaderTitleText.Text = ViewModel.HeaderTitle;
+                UpdateMuteMenuText();
+                UpdateQuoteBar();
             }
             else
             {

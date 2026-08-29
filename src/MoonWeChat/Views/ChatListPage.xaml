@@ -1,18 +1,83 @@
-<Page x:Class="MoonWeChat.Views.ChatListPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:models="using:MoonWeChat.Models" xmlns:controls="using:MoonWeChat.Controls" xmlns:converters="using:MoonWeChat.Converters" Background="{ThemeResource ListBackgroundBrush}">
-  <Page.Resources><converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/></Page.Resources>
-  <Grid>
-    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
-    <Border Grid.Row="0" Background="{ThemeResource ChromeBackgroundBrush}" Padding="16,0" BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,0,0,1">
-      <Grid MinHeight="{ThemeResource ChromeBarHeight}"><Grid.ColumnDefinitions><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><StackPanel VerticalAlignment="Center"><TextBlock Text="微信" Style="{StaticResource PageTitleStyle}"/><TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" Style="{StaticResource CaptionTextStyle}" TextTrimming="CharacterEllipsis"/></StackPanel><CommandBar Grid.Column="1" Background="Transparent"><AppBarButton Icon="Refresh" Label="刷新" Click="OnRefreshClick"/><AppBarButton Icon="Find" Label="搜索" Click="OnSearchClick"/><AppBarButton Icon="Setting" Label="设置" Click="OnSettingsClick"/><CommandBar.SecondaryCommands><AppBarButton Icon="Add" Label="连接远程服务器" Click="OnConnectClick"/><AppBarButton Icon="Contact" Label="扫码登录" Click="OnLoginClick"/></CommandBar.SecondaryCommands></CommandBar></Grid>
-    </Border>
-    <TextBox x:Name="SearchBox" Grid.Row="1" Margin="12,8" PlaceholderText="搜索会话或联系人" Visibility="Collapsed" TextChanged="OnSearchTextChanged"/>
-    <Border Grid.Row="2" Background="{ThemeResource BannerBackgroundBrush}" BorderBrush="{ThemeResource BannerBorderBrush}" BorderThickness="0,0,0,1" Padding="12,8" Visibility="{x:Bind ViewModel.ShowBanner, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"><TextBlock Text="{x:Bind ViewModel.BannerText, Mode=OneWay}" Style="{StaticResource CaptionTextStyle}" Foreground="{ThemeResource BannerTextBrush}" TextWrapping="Wrap" Tapped="OnBannerTapped"/></Border>
-    <ListView Grid.Row="3" x:Name="ContactResults" Visibility="Collapsed" MaxHeight="240" ItemsSource="{x:Bind VisibleContacts, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="OnContactClicked" SelectionMode="None" ItemContainerStyle="{StaticResource FlatListViewItemStyle}">
-      <ListView.Header><TextBlock Text="联系人" Style="{StaticResource CaptionTextStyle}" Margin="16,8"/></ListView.Header>
-      <ListView.ItemTemplate><DataTemplate x:DataType="models:Contact"><Grid Padding="16,8"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions><controls:AvatarView DisplayName="{x:Bind DisplayName}" AccentColorHex="{x:Bind AvatarAccentColor}" ImageUrl="{x:Bind AvatarUrl}" Size="40"/><StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center"><TextBlock Text="{x:Bind DisplayName}" Style="{StaticResource BodyTextStyle}"/><TextBlock Text="{x:Bind WxId}" Style="{StaticResource CaptionTextStyle}"/></StackPanel></Grid></DataTemplate></ListView.ItemTemplate>
-    </ListView>
-    <ListView Grid.Row="4" x:Name="SessionListView" ItemsSource="{x:Bind VisibleSessions, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="OnSessionClicked" SelectionMode="None" ItemContainerStyle="{StaticResource FlatListViewItemStyle}">
-      <ListView.ItemTemplate><DataTemplate x:DataType="models:ChatSession"><Grid Padding="16,10" MinHeight="72"><Grid.ColumnDefinitions><ColumnDefinition Width="Auto"/><ColumnDefinition Width="*"/><ColumnDefinition Width="Auto"/></Grid.ColumnDefinitions><controls:AvatarView DisplayName="{x:Bind DisplayName, Mode=OneWay}" AccentColorHex="{x:Bind AvatarAccentColor, Mode=OneWay}" ImageUrl="{x:Bind AvatarUrl, Mode=OneWay}" Size="48"/><StackPanel Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center"><TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" Style="{StaticResource BodyTextStyle}" TextTrimming="CharacterEllipsis"/><TextBlock Text="{x:Bind PreviewText, Mode=OneWay}" Style="{StaticResource CaptionTextStyle}" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/></StackPanel><StackPanel Grid.Column="2" VerticalAlignment="Center"><TextBlock Text="{x:Bind LastMessageTimeText, Mode=OneWay}" Style="{StaticResource CaptionTextStyle}" HorizontalAlignment="Right"/><Border Background="{ThemeResource UnreadBadgeBrush}" Padding="6,1" HorizontalAlignment="Right" Visibility="{x:Bind ShowUnreadNumber, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}"><TextBlock Text="{x:Bind UnreadBadgeText, Mode=OneWay}" Foreground="{ThemeResource OnAccentTextBrush}" Style="{StaticResource CaptionTextStyle}"/></Border></StackPanel></Grid></DataTemplate></ListView.ItemTemplate>
-    </ListView>
-  </Grid>
+﻿<Page x:Class="MoonWeChat.Views.ChatListPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:models="using:MoonWeChat.Models" xmlns:controls="using:MoonWeChat.Controls" xmlns:converters="using:MoonWeChat.Converters" Background="{ThemeResource ListBackgroundBrush}">
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+    </Page.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Border Grid.Row="0" Background="{ThemeResource ChromeBackgroundBrush}" Padding="16,0" BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,0,0,1">
+            <Grid MinHeight="{ThemeResource ChromeBarHeight}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                    <TextBlock Text="微信" Style="{StaticResource PageTitleStyle}"/>
+                    <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" Style="{StaticResource CaptionTextStyle}" TextTrimming="CharacterEllipsis"/>
+                </StackPanel>
+                <CommandBar Grid.Column="1" Background="Transparent">
+                    <AppBarButton Icon="Refresh" Label="刷新" Click="OnRefreshClick"/>
+                    <AppBarButton Icon="Find" Label="搜索" Click="OnSearchClick"/>
+                    <AppBarButton Icon="Setting" Label="设置" Click="OnSettingsClick"/>
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton Icon="Add" Label="连接远程服务器" Click="OnConnectClick"/>
+                        <AppBarButton Icon="Contact" Label="扫码登录" Click="OnLoginClick"/>
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
+            </Grid>
+        </Border>
+        <TextBox x:Name="SearchBox" Grid.Row="1" Margin="12,8" PlaceholderText="搜索会话或联系人" Visibility="Collapsed" TextChanged="OnSearchTextChanged"/>
+        <Border Grid.Row="2" Background="{ThemeResource BannerBackgroundBrush}" BorderBrush="{ThemeResource BannerBorderBrush}" BorderThickness="0,0,0,1" Padding="12,8" Visibility="{x:Bind ViewModel.ShowBanner, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock Text="{x:Bind ViewModel.BannerText, Mode=OneWay}" Style="{StaticResource CaptionTextStyle}" Foreground="{ThemeResource BannerTextBrush}" TextWrapping="Wrap" Tapped="OnBannerTapped"/>
+        </Border>
+        <ListView Grid.Row="3" x:Name="ContactResults" Visibility="Collapsed" MaxHeight="240" ItemsSource="{x:Bind VisibleContacts, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="OnContactClicked" SelectionMode="None" ItemContainerStyle="{StaticResource FlatListViewItemStyle}">
+            <ListView.Header>
+                <TextBlock Text="联系人" Style="{StaticResource CaptionTextStyle}" Margin="16,8"/>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:Contact">
+                    <Grid Padding="16,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <controls:AvatarView DisplayName="{x:Bind DisplayName}" AccentColorHex="{x:Bind AvatarAccentColor}" ImageUrl="{x:Bind AvatarUrl}" Size="40"/>
+                        <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind DisplayName}" Style="{StaticResource BodyTextStyle}"/>
+                            <TextBlock Text="{x:Bind WxId}" Style="{StaticResource CaptionTextStyle}"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <ListView Grid.Row="4" x:Name="SessionListView" ItemsSource="{x:Bind VisibleSessions, Mode=OneWay}" IsItemClickEnabled="True" ItemClick="OnSessionClicked" SelectionMode="None" ItemContainerStyle="{StaticResource FlatListViewItemStyle}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:ChatSession">
+                    <Grid Padding="16,10" MinHeight="72">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <controls:AvatarView DisplayName="{x:Bind DisplayName, Mode=OneWay}" AccentColorHex="{x:Bind AvatarAccentColor, Mode=OneWay}" ImageUrl="{x:Bind AvatarUrl, Mode=OneWay}" Size="48"/>
+                        <StackPanel Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind DisplayName, Mode=OneWay}" Style="{StaticResource BodyTextStyle}" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{x:Bind PreviewText, Mode=OneWay}" Style="{StaticResource CaptionTextStyle}" Margin="0,4,0,0" TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                        <StackPanel Grid.Column="2" VerticalAlignment="Center">
+                            <TextBlock Text="{x:Bind LastMessageTimeText, Mode=OneWay}" Style="{StaticResource CaptionTextStyle}" HorizontalAlignment="Right"/>
+                            <Border Background="{ThemeResource UnreadBadgeBrush}" Padding="6,1" HorizontalAlignment="Right" Visibility="{x:Bind ShowUnreadNumber, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                                <TextBlock Text="{x:Bind UnreadBadgeText, Mode=OneWay}" Foreground="{ThemeResource OnAccentTextBrush}" Style="{StaticResource CaptionTextStyle}"/>
+                            </Border>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
 </Page>
