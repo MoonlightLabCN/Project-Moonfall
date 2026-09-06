@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
@@ -117,8 +117,17 @@ namespace MoonWeChat.ViewModels
                 Subtitle = "未登录 · 点右上角配置";
             }
 
-            // 同步启动探测留下的横幅
-            BannerText = SessionBootstrap.ShowBanner ? SessionBootstrap.BannerText : string.Empty;
+            // 横幅优先显示数据层的刷新失败原因：登录探测是「能不能连上」，
+            // 刷新失败是「连上了但电脑微信那边读不出来」，后者更具体、更该让用户看见。
+            var dataError = AppServices.Data.LastRefreshError;
+            if (!string.IsNullOrWhiteSpace(dataError))
+            {
+                BannerText = dataError;
+            }
+            else
+            {
+                BannerText = SessionBootstrap.ShowBanner ? SessionBootstrap.BannerText : string.Empty;
+            }
         }
 
         /// <summary>

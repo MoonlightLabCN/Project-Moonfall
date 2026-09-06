@@ -20,7 +20,7 @@
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0" Style="{StaticResource IconButtonStyle}" Click="OnBackClick">
+                <Button x:Name="BackButton" Grid.Column="0" Style="{StaticResource IconButtonStyle}" Click="OnBackClick">
                     <FontIcon Glyph="&#xE72B;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" />
                 </Button>
                 <TextBlock Grid.Column="1" Text="服务器设置" FontSize="{ThemeResource FontTitle}" FontWeight="SemiBold"

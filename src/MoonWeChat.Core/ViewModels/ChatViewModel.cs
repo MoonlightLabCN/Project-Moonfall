@@ -36,6 +36,7 @@ namespace MoonWeChat.ViewModels
                 {
                     OnPropertyChanged(nameof(CanSend));
                     OnPropertyChanged(nameof(ShowSendButton));
+                    OnPropertyChanged(nameof(ShowMoreButton));
                     SendCommand.RaiseCanExecuteChanged();
                 }
             }
@@ -50,6 +51,8 @@ namespace MoonWeChat.ViewModels
         /// </summary>
         public bool ShowSendButton => _sendInProgress || !string.IsNullOrWhiteSpace(DraftText);
 
+        public bool ShowMoreButton => !ShowSendButton;
+
         public bool IsSendInProgress
         {
             get => _sendInProgress;
@@ -59,6 +62,7 @@ namespace MoonWeChat.ViewModels
                 {
                     OnPropertyChanged(nameof(CanSend));
                     OnPropertyChanged(nameof(ShowSendButton));
+                    OnPropertyChanged(nameof(ShowMoreButton));
                     SendCommand.RaiseCanExecuteChanged();
                 }
             }

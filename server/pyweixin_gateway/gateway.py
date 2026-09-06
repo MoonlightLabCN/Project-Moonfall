@@ -1242,15 +1242,17 @@ class Handler(BaseHTTPRequestHandler):
         key = path.rstrip("/").lower()
 
         if key in ("/login/getqrwinuwp", "/login/getqrmac", "/login/getqrpad", "/login/getqrpadx",
-                   "/login/getqrwin", "/login/getqrwinunified", "/login/getqrx", "/login/getqr"):
+                   "/login/getqrwin", "/login/getqrwinunified", "/login/getqrx", "/login/getqr",
+                   "/login/getloginqrcodemac", "/login/getloginqrcodewin", "/login/getloginqrcodenew",
+                   "/login/getloginqrcodenewx", "/login/getloginqrcodepad", "/login/getloginqrcodepadx"):
             return APP.backend.capture_qr()
 
         if key in ("/login/checkqr", "/login/checkmacqr"):
             qid = (query.get("uuid") or [pick(body, "uuid", "Uuid")])[0]
             return APP.backend.check_qr(qid)
 
-        if key in ("/login/newinit", "/login/twiceautoauth", "/login/awaken", "/login/heartbeat",
-                   "/login/heartbeatlong", "/login/autoheartbeat"):
+        if key in ("/login/newinit", "/login/twiceautoauth", "/login/awaken", "/login/wakeuplogin",
+                   "/login/heartbeat", "/login/heartbeatlong", "/login/autoheartbeat"):
             st = APP.backend.status()
             if not st.get("online"):
                 return fail(st.get("reason") or "未登录")

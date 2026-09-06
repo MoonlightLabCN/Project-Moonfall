@@ -20,6 +20,12 @@ namespace MoonWeChat.Views
         {
             base.OnNavigatedTo(e);
             ViewModel.ReloadFromStore();
+            if (BackButton != null)
+            {
+                BackButton.Visibility = Frame != null && Frame.CanGoBack
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
             AdminKeyBox.Password = ViewModel.AdminKey ?? string.Empty;
             AdminKeyBox.PasswordChanged -= OnAdminKeyChanged;
             AdminKeyBox.PasswordChanged += OnAdminKeyChanged;

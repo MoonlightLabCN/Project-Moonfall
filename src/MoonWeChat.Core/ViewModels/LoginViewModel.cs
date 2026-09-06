@@ -155,13 +155,6 @@ namespace MoonWeChat.ViewModels
 
         public LoginViewModel()
         {
-            if (string.IsNullOrWhiteSpace(_adminKey) &&
-                (_serverUrl.IndexOf("127.0.0.1", StringComparison.Ordinal) >= 0 ||
-                 _serverUrl.IndexOf("localhost", StringComparison.OrdinalIgnoreCase) >= 0))
-            {
-                _adminKey = "moonwechat_local_2026";
-            }
-
             StartLoginCommand = new RelayCommand(
                 async _ => await StartLoginAsync(),
                 _ => !IsBusy &&
@@ -318,10 +311,27 @@ namespace MoonWeChat.ViewModels
 
                 StatusText = "正在获取登录二维码…";
                 var qr = await AppServices.Api.GetLoginQrAsync(AppSettings.Proxy).ConfigureAwait(true);
+                if (qr != null && qr.AlreadyOnline)
+                {
+                    var retry = await AppServices.Api.ProbeDeviceSessionAsync().ConfigureAwait(true);
+                    SessionBootstrap.MarkLoggedIn(
+                        string.IsNullOrEmpty(retry.WxId) ? AppSettings.WxId : retry.WxId,
+                        string.IsNullOrEmpty(retry.Nickname) ? AppSettings.SelfNickname : retry.Nickname);
+                    if (string.IsNullOrWhiteSpace(AppSettings.WxId))
+                    {
+                        AppSettings.WxId = "online";
+                    }
+
+                    IsLoggedIn = true;
+                    StatusText = qr.Message ?? "电脑微信已登录，无需再扫，直接进入。";
+                    OnPropertyChanged(nameof(PersistHint));
+                    return;
+                }
+
                 if (!qr.Ok)
                 {
                     StatusText = "获取二维码失败：" + (qr.Message ?? "未知") +
-                                 "。请检查 Token 是否有效。";
+                                 "。请检查 Token 是否有效，以及电脑微信是否停在登录页。";
                     return;
                 }
 

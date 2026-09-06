@@ -68,7 +68,11 @@ function Invoke-Portal {
     if ($ContentType) { $args += @('-H', "Content-Type: $ContentType") }
     foreach ($k in $Headers.Keys) { $args += @('-H', "${k}: $($Headers[$k])") }
     if ($InFile) { $args += @('--data-binary', "@$InFile") }
-    if (-not $InFile -and $Method -in @('POST', 'PUT', 'PATCH')) { $args += @('--data-raw', '') }
+    # NOTE: do not use @('--data-raw', '') here. PowerShell drops empty-string
+    # arguments when splatting to a native exe, so curl saw '--data-raw' followed
+    # by '-o' and consumed it as the payload, leaving a bare '-' it rejected with
+    # 'option -: is unknown'. An explicit zero Content-Length sends a bodyless POST.
+    if (-not $InFile -and $Method -in @('POST', 'PUT', 'PATCH')) { $args += @('-H', 'Content-Length: 0') }
     if ($OutFile) { $args += @('-o', $OutFile) } else { $args += @('-o', '-') }
     $args += $uri
 

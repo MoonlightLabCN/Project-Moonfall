@@ -181,6 +181,15 @@ namespace MoonWeChat.Views
             }
         }
 
+        private void OnContactClicked(object sender, ItemClickEventArgs e)
+        {
+            var contact = e.ClickedItem as Contact;
+            if (contact != null)
+            {
+                Frame.Navigate(typeof(ChatPage), contact.WxId);
+            }
+        }
+
         private void OnBannerTapped(object sender, TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(LoginPage));

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MoonWeChat.Models;
@@ -13,6 +13,9 @@ namespace MoonWeChat.Services
     {
         public bool IsSample => true;
         public string MyAccent => SampleDataService.MyAccent;
+
+        /// <summary>示例数据不走网络，永远没有刷新错误。</summary>
+        public string LastRefreshError => string.Empty;
         public string MyDisplayName => "我";
 
 #pragma warning disable CS0067 // 示例模式不主动推送，事件由接口约定保留

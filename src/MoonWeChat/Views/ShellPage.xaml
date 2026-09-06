@@ -1,10 +1,66 @@
-<Page x:Class="MoonWeChat.Views.ShellPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="using:MoonWeChat.Controls" Background="{ThemeResource ListBackgroundBrush}">
-  <Grid x:Name="RootGrid">
-    <VisualStateManager.VisualStateGroups><VisualStateGroup x:Name="LayoutStates"><VisualState x:Name="Narrow"/><VisualState x:Name="Wide"/></VisualStateGroup></VisualStateManager.VisualStateGroups>
-    <SplitView x:Name="WideSplit" DisplayMode="Inline" IsPaneOpen="True" OpenPaneLength="224" PaneBackground="{ThemeResource ChromeBackgroundBrush}" Visibility="Collapsed">
-      <SplitView.Pane><StackPanel Padding="12,18"><TextBlock Text="大月微信" Style="{StaticResource PageTitleStyle}" Margin="8,0,0,20"/><Button Content="微信" Tag="0" Click="OnNavClick" Style="{StaticResource NavButtonStyle}"/><Button Content="通讯录" Tag="1" Click="OnNavClick" Style="{StaticResource NavButtonStyle}"/><Button Content="朋友圈" Tag="2" Click="OnNavClick" Style="{StaticResource NavButtonStyle}"/><Button Content="设置" Tag="3" Click="OnNavClick" Style="{StaticResource NavButtonStyle}"/></StackPanel></SplitView.Pane>
-      <Frame x:Name="ContentFrame" Navigated="OnContentNavigated"/>
-    </SplitView>
-    <Grid x:Name="NarrowHost"><Grid.RowDefinitions><RowDefinition Height="*"/><RowDefinition Height="Auto"/></Grid.RowDefinitions><Frame x:Name="NarrowFrame" Navigated="OnContentNavigated"/><controls:BottomTabBar Grid.Row="1" x:Name="BottomTabs" TabSelected="OnTabSelected"/></Grid>
-  </Grid>
+<Page
+    x:Class="MoonWeChat.Views.ShellPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:MoonWeChat.Controls"
+    Background="{ThemeResource ListBackgroundBrush}">
+
+    <!--
+        单一 Frame：宽屏左侧栏 + 窄屏底栏。聊天 / 登录 / 连接是叠在 Tab 之上的子页，
+        进入后收起底栏，避免和输入栏抢同一条底边。
+    -->
+    <Grid x:Name="RootGrid">
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="LayoutStates">
+                <VisualState x:Name="Narrow">
+                    <VisualState.Setters>
+                        <Setter Target="RootSplit.DisplayMode" Value="Overlay" />
+                        <Setter Target="RootSplit.IsPaneOpen" Value="False" />
+                        <Setter Target="RootSplit.CompactPaneLength" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Wide">
+                    <VisualState.Setters>
+                        <Setter Target="RootSplit.DisplayMode" Value="Inline" />
+                        <Setter Target="RootSplit.IsPaneOpen" Value="True" />
+                        <Setter Target="RootSplit.CompactPaneLength" Value="0" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <SplitView
+            x:Name="RootSplit"
+            Grid.Row="0"
+            DisplayMode="Overlay"
+            IsPaneOpen="False"
+            OpenPaneLength="224"
+            CompactPaneLength="0"
+            PaneBackground="{ThemeResource ChromeBackgroundBrush}">
+            <SplitView.Pane>
+                <StackPanel Padding="12,18">
+                    <TextBlock Text="大月微信" Style="{StaticResource PageTitleStyle}" Margin="8,0,0,20" />
+                    <Button x:Name="NavChat" Content="微信" Tag="0" Click="OnNavClick" Style="{StaticResource NavButtonStyle}" />
+                    <Button x:Name="NavContacts" Content="通讯录" Tag="1" Click="OnNavClick" Style="{StaticResource NavButtonStyle}" />
+                    <Button x:Name="NavDiscover" Content="发现" Tag="2" Click="OnNavClick" Style="{StaticResource NavButtonStyle}" />
+                    <Button x:Name="NavMe" Content="我" Tag="3" Click="OnNavClick" Style="{StaticResource NavButtonStyle}" />
+                </StackPanel>
+            </SplitView.Pane>
+            <Frame x:Name="ContentFrame" Navigated="OnContentNavigated" />
+        </SplitView>
+
+        <controls:BottomTabBar
+            x:Name="BottomTabs"
+            Grid.Row="1"
+            TabSelected="OnTabSelected" />
+
+        <!-- 软键盘占位：独占一行，把整个 Frame 顶上去，而不是把某一行撑高。 -->
+        <Border x:Name="KeyboardSpacer" Grid.Row="2" Height="0" Background="Transparent" />
+    </Grid>
 </Page>

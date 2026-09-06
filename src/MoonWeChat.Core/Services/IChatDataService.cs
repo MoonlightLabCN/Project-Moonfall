@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MoonWeChat.Models;
@@ -13,6 +13,14 @@ namespace MoonWeChat.Services
     {
         bool IsSample { get; }
         string MyAccent { get; }
+
+        /// <summary>
+        /// 上一次 <see cref="RefreshAsync"/> 的失败原因，成功时为空。
+        /// 网关现在会如实上报「通讯录同步失败：微信窗口被挡住」这类诊断，
+        /// 客户端必须把它显示出来 —— 否则界面上和「同步成功但一个联系人都没有」
+        /// 没有区别，用户无从判断。
+        /// </summary>
+        string LastRefreshError { get; }
         string MyDisplayName { get; }
 
         event EventHandler SessionsChanged;

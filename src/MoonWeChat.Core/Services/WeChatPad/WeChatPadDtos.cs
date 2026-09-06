@@ -22,6 +22,8 @@ namespace MoonWeChat.Services.WeChatPad
     public sealed class QrLoginResult
     {
         public bool Ok { get; set; }
+        /// <summary>网关 409：电脑微信已经在线，不必再扫。</summary>
+        public bool AlreadyOnline { get; set; }
         public string Message { get; set; }
         /// <summary>轮询 CheckLoginStatus 用的 uuid / key。</summary>
         public string Uuid { get; set; }

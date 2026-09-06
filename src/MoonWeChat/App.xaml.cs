@@ -18,15 +18,20 @@ namespace MoonWeChat
     {
         public App()
         {
+            Trace("01 ctor-enter");
+
             // 先挂崩溃日志，再 InitializeComponent
             UnhandledException += OnUnhandledException;
+            Trace("02 handler-attached");
 
             try
             {
                 InitializeComponent();
+                Trace("03 InitializeComponent-ok");
             }
             catch (Exception ex)
             {
+                Trace("03 InitializeComponent-FAIL " + ex);
                 Debug.WriteLine("InitializeComponent failed: " + ex);
                 throw;
             }
@@ -37,10 +42,12 @@ namespace MoonWeChat
 
             Suspending += OnSuspending;
             Resuming += OnResuming;
+            Trace("04 ctor-done");
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            Trace("05 OnLaunched-enter prelaunch=" + e.PrelaunchActivated);
             try
             {
                 Frame rootFrame = Window.Current.Content as Frame;
@@ -54,12 +61,16 @@ namespace MoonWeChat
                     SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
                     rootFrame.Navigated += OnRootNavigated;
 
+                    Trace("06 rootFrame-created");
+
                     try
                     {
                         AppServices.Initialize(Window.Current.Dispatcher);
+                        Trace("07 AppServices-ok");
                     }
                     catch (Exception ex)
                     {
+                        Trace("07 AppServices-FAIL " + ex);
                         LogCrash("AppServices.Initialize", ex);
                     }
                 }
@@ -72,6 +83,7 @@ namespace MoonWeChat
                         try
                         {
                             page = AppNavigation.ResolveLaunchPage();
+                            Trace("08 ResolveLaunchPage-ok " + (page != null ? page.Name : "null"));
                         }
                         catch (Exception ex)
                         {
@@ -82,16 +94,20 @@ namespace MoonWeChat
                         try
                         {
                             rootFrame.Navigate(page, e.Arguments);
+                            Trace("09 Navigate-ok");
                         }
                         catch (Exception ex)
                         {
+                            Trace("09 Navigate-FAIL " + ex);
                             LogCrash("Navigate " + (page != null ? page.FullName : "?"), ex);
                             // 最后兜底：欢迎页
                             rootFrame.Navigate(typeof(WelcomePage), e.Arguments);
+                            Trace("09b fallback-WelcomePage-ok");
                         }
                     }
 
                     Window.Current.Activate();
+                    Trace("10 Activate-ok");
 
                     // 首帧已经画出来，现在换配色字典是安全的。
                     // 放在构造函数里会 0xc000027b 闪退（见上面的注释）；
@@ -99,9 +115,11 @@ namespace MoonWeChat
                     try
                     {
                         ThemeService.ApplyFromSettings();
+                        Trace("11 ApplyTheme-ok");
                     }
                     catch (Exception ex)
                     {
+                        Trace("11 ApplyTheme-FAIL " + ex);
                         LogCrash("ApplyTheme", ex);
                     }
 
@@ -114,9 +132,12 @@ namespace MoonWeChat
             }
             catch (Exception ex)
             {
+                Trace("XX OnLaunched-FAIL " + ex);
                 LogCrash("OnLaunched", ex);
                 throw;
             }
+
+            Trace("12 OnLaunched-done");
         }
 
         private void OnRootNavigated(object sender, NavigationEventArgs e)
@@ -181,6 +202,7 @@ namespace MoonWeChat
 
         private void OnUnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
+            Trace("XX UnhandledException " + e.Exception);
             LogCrash("UnhandledException", e.Exception);
 #if DEBUG
             // 调试构建里让它真的崩：无条件吞异常会掩盖启动/XAML 解析失败，
@@ -190,6 +212,26 @@ namespace MoonWeChat
             // 发布构建：尽量不死进程（仍可能被系统杀），崩溃细节已写进 crash.log。
             e.Handled = true;
 #endif
+        }
+
+        /// <summary>
+        /// 启动面包屑。设备上崩在 App 构造期时，Application.UnhandledException
+        /// 还没挂上（或对象没构造完），LogCrash 根本没机会跑 —— LocalState 里
+        /// 一片空白，无从判断死在哪一步。这个方法只依赖 System.IO，
+        /// 在每个关键节点写一行，崩了以后把文件拉回来看最后一行就知道位置。
+        /// </summary>
+        internal static void Trace(string step)
+        {
+            try
+            {
+                var path = System.IO.Path.Combine(ApplicationData.Current.LocalFolder.Path, "startup.log");
+                System.IO.File.AppendAllText(
+                    path, DateTimeOffset.Now.ToString("HH:mm:ss.fff") + "  " + step + Environment.NewLine);
+            }
+            catch
+            {
+                // 埋点本身绝不能成为新的崩溃源
+            }
         }
 
         private static void LogCrash(string where, Exception ex)

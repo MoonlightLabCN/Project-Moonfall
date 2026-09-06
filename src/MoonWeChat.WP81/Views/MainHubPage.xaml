@@ -131,6 +131,8 @@
                         <ListView Grid.Row="1" Padding="0,0,0,72"
                                   ItemsSource="{Binding Contacts}"
                                   SelectionMode="None"
+                                  IsItemClickEnabled="True"
+                                  ItemClick="OnContactClicked"
                                   ItemContainerStyle="{StaticResource FlatListViewItemStyle}">
                             <ListView.ItemTemplate>
                                 <DataTemplate>

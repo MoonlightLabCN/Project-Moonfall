@@ -12,7 +12,14 @@
         <Setter Property="Padding" Value="0"/>
         <Setter Property="Margin" Value="0"/>
     </Style>
-    <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+    <!--
+        不要给 Button 样式写 BasedOn="{StaticResource DefaultButtonStyle}"。
+        DefaultButtonStyle 是 WinUI 2 / Windows App SDK 的键，UWP 原生 generic.xaml
+        里 Button 的默认样式是隐式的、没有 x:Key。StaticResource 在运行时才解析，
+        所以写错了照样编译通过，直到启动时抛 XamlParseException 闪退。
+        带 key 的 Style 不写 BasedOn 一样会继承隐式默认模板。
+    -->
+    <Style x:Key="PrimaryButtonStyle" TargetType="Button">
         <Setter Property="MinHeight" Value="48"/>
         <Setter Property="Padding" Value="20,10"/>
         <Setter Property="Background" Value="{ThemeResource AccentBrush}"/>
@@ -32,14 +39,82 @@
         <Setter Property="Foreground" Value="{ThemeResource SecondaryTextBrush}"/>
     </Style>
     <Style x:Key="SendButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}"/>
+    <Style x:Key="ChatInputTextBoxStyle" TargetType="TextBox">
+        <Setter Property="Background" Value="{ThemeResource InputBoxBackgroundBrush}"/>
+        <Setter Property="Foreground" Value="{ThemeResource PrimaryTextBrush}"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="FontSize" Value="{ThemeResource FontBody}"/>
+        <Setter Property="Padding" Value="12,8"/>
+    </Style>
+    <Style x:Key="MorePanelButtonStyle" TargetType="Button">
+        <Setter Property="MinHeight" Value="48"/>
+        <Setter Property="Padding" Value="8,10"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+    </Style>
     <Style x:Key="BottomTabToggleStyle" TargetType="ToggleButton">
         <Setter Property="MinHeight" Value="48"/>
         <Setter Property="MinWidth" Value="48"/>
         <Setter Property="Padding" Value="4"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="Foreground" Value="{ThemeResource SecondaryTextBrush}"/>
         <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleButton">
+                    <Grid Background="Transparent">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="PointerOver"/>
+                                <VisualState x:Name="Pressed"/>
+                                <VisualState x:Name="Disabled"/>
+                                <VisualState x:Name="Checked">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="CheckedPointerOver">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="CheckedPressed">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="CheckedDisabled">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource AccentBrush}"/>
+                                        </ObjectAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="Indeterminate"/>
+                                <VisualState x:Name="IndeterminatePointerOver"/>
+                                <VisualState x:Name="IndeterminatePressed"/>
+                                <VisualState x:Name="IndeterminateDisabled"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <ContentPresenter x:Name="ContentPresenter"
+                                          Content="{TemplateBinding Content}"
+                                          Foreground="{TemplateBinding Foreground}"
+                                          HorizontalAlignment="Center"
+                                          VerticalAlignment="Center"
+                                          Margin="{TemplateBinding Padding}"/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-    <Style x:Key="NavButtonStyle" TargetType="Button" BasedOn="{StaticResource DefaultButtonStyle}">
+    <Style x:Key="NavButtonStyle" TargetType="Button">
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="MinHeight" Value="48"/>
         <Setter Property="Padding" Value="12,8"/>

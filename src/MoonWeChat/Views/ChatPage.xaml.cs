@@ -143,9 +143,8 @@ namespace MoonWeChat.Views
             if (sender is Button button && button.Content is string emoji)
             {
                 ViewModel.DraftText += emoji;
+                InputTextBox.Text = ViewModel.DraftText;
             }
-
-            
         }
 
         private async void OnMorePanelItemClick(object sender, RoutedEventArgs e)
@@ -295,14 +294,14 @@ namespace MoonWeChat.Views
 
         private void OnVoiceHoldPressed(object sender, PointerRoutedEventArgs e)
         {
-            VoiceHoldButton.Content = "松开 发送";
+            VoiceHoldText.Text = "松开 发送";
         }
 
         private async void OnVoiceHoldReleased(object sender, PointerRoutedEventArgs e)
         {
-            try { if ((VoiceHoldButton.Content as string) == "松开 发送") await ViewModel.SendPlaceholderAsync(MessageType.Voice, "语音"); }
+            try { if (VoiceHoldText.Text == "松开 发送") await ViewModel.SendPlaceholderAsync(MessageType.Voice, "语音"); }
             catch (Exception ex) { await ShowErrorAsync("语音发送失败：" + ex.Message); }
-            finally { VoiceHoldButton.Content = "按住 说话"; }
+            finally { VoiceHoldText.Text = "按住 说话"; }
         }
 
         private void OnToggleMuteClick(object sender, RoutedEventArgs e)

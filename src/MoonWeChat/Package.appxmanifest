@@ -9,7 +9,7 @@
   <Identity
     Name="MoonWeChat.DaYueZhuiLuoKuangXiang.WP10"
     Publisher="CN=MoonWeChatDev"
-    Version="1.0.0.1" />
+    Version="1.0.0.6" />
 
   <mp:PhoneIdentity PhoneProductId="a2c5c3f1-2f3a-4a6e-9a2c-2f9c9e6d7a01" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
 

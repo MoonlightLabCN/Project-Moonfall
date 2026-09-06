@@ -26,7 +26,7 @@ namespace MoonWeChat.ViewModels
         public string StatusText
         {
             get => _statusText;
-            private set => SetProperty(ref _statusText, value);
+            set => SetProperty(ref _statusText, value);
         }
 
         private string _draft = string.Empty;

@@ -36,6 +36,28 @@ namespace MoonWeChat.Services.WeChatPad
 
         // 跟随当前配色：WP 经典皮肤是青绿（#00ABA9），不是微信绿。
         public string MyAccent => ThemeService.Current == AppVisualTheme.WpClassic ? "#00ABA9" : "#07C160";
+
+        private string _lastRefreshError = string.Empty;
+
+        /// <summary>上一次 RefreshAsync 的失败原因，成功时为空。</summary>
+        public string LastRefreshError
+        {
+            get
+            {
+                lock (_gate)
+                {
+                    return _lastRefreshError ?? string.Empty;
+                }
+            }
+        }
+
+        private void SetRefreshError(string message)
+        {
+            lock (_gate)
+            {
+                _lastRefreshError = message ?? string.Empty;
+            }
+        }
         public string MyDisplayName => AppSettings.SelfNickname;
 
         public event EventHandler SessionsChanged;
@@ -166,6 +188,20 @@ namespace MoonWeChat.Services.WeChatPad
                 }
 
                 var friends = await _api.GetFriendListAsync().ConfigureAwait(true);
+                if (!friends.Ok)
+                {
+                    // 网关（UI_UNAVAILABLE=503）会带上具体诊断，例如
+                    // 「通讯录同步失败：微信主窗口在「点击搜索框」后失去前台焦点」。
+                    // 以前这里没有 else 分支，这条消息被直接丢掉，
+                    // 手机上表现为「刷新了但联系人没变」，和成功无法区分。
+                    SetRefreshError(string.IsNullOrWhiteSpace(friends.Message)
+                        ? "通讯录同步失败：网关未返回原因。"
+                        : friends.Message);
+                    Raise(SessionsChanged);
+                    return;
+                }
+
+                SetRefreshError(string.Empty);
                 if (friends.Ok)
                 {
                     lock (_gate)

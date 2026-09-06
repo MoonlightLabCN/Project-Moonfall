@@ -65,6 +65,49 @@ namespace MoonWeChat.Services.WeChatPad
         /// <summary>当前后端是 WeChatPadProMAX（v8 swagger 契约）。</summary>
         private bool IsMax => Backend == BackendKind.WeChatPadPro;
 
+        /// <summary>
+        /// 这条失败是不是「路径根本不存在」。只有这种情况才应该换下一条候选；
+        /// 503 窗口被挡住、409 已在线、token 无效，换路径只会把真正的原因盖成 404。
+        /// </summary>
+        private static bool IsUnimplemented(ApiCallResult result)
+        {
+            if (result == null)
+            {
+                return true;
+            }
+
+            if (result.Code == 404)
+            {
+                return true;
+            }
+
+            var msg = result.Message ?? string.Empty;
+            return msg.IndexOf("未实现", StringComparison.OrdinalIgnoreCase) >= 0
+                || msg.IndexOf("Not Found", StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static bool ShouldTryNextPath(ApiCallResult result)
+        {
+            return IsUnimplemented(result);
+        }
+
+        private static bool IsAlreadyOnline(ApiCallResult result)
+        {
+            if (result == null)
+            {
+                return false;
+            }
+
+            if (result.Code == 409)
+            {
+                return true;
+            }
+
+            var blob = (result.Message ?? string.Empty) + " " + (result.RawJson ?? string.Empty);
+            return blob.IndexOf("alreadyOnline", StringComparison.OrdinalIgnoreCase) >= 0
+                || blob.IndexOf("无需再扫", StringComparison.Ordinal) >= 0;
+        }
+
         public void Configure(string baseUrl, string token)
         {
             _baseUrl = (baseUrl ?? string.Empty).Trim().TrimEnd('/');
@@ -288,35 +331,57 @@ namespace MoonWeChat.Services.WeChatPad
 
             // swagger PascalCase 路径优先；GetQRWinUwp 是 UWP 专用，GetQRMac 是 Mac 通用。
             // 本地 Docker 部署（v18.6）使用小写 /login/GetLoginQrCode* 路径，也一并兼容。
-            string[] paths =
-            {
-                "/Login/GetQRWinUwp",
-                "/Login/GetQRMac",
-                "/Login/GetQRPad",
-                "/Login/GetQRPadx",
-                "/Login/GetQRWin",
-                "/Login/GetQRWinUnified",
-                "/Login/GetQRx",
-                "/Login/GetQR",
-                "/login/GetLoginQrCodeMac",
-                "/login/GetLoginQrCodeWin",
-                "/login/GetLoginQrCodeNew",
-                "/login/GetLoginQrCodeNewX",
-                "/login/GetLoginQrCodePad",
-                "/login/GetLoginQrCodePadX",
-            };
+            string[] paths = Backend == BackendKind.PyWeixin
+                ? new[] { "/Login/GetQRWinUwp" }
+                : new[]
+                {
+                    "/Login/GetQRWinUwp",
+                    "/Login/GetQRMac",
+                    "/Login/GetQRPad",
+                    "/Login/GetQRPadx",
+                    "/Login/GetQRWin",
+                    "/Login/GetQRWinUnified",
+                    "/Login/GetQRx",
+                    "/Login/GetQR",
+                    "/login/GetLoginQrCodeMac",
+                    "/login/GetLoginQrCodeWin",
+                    "/login/GetLoginQrCodeNew",
+                    "/login/GetLoginQrCodeNewX",
+                    "/login/GetLoginQrCodePad",
+                    "/login/GetLoginQrCodePadX",
+                };
 
             ApiCallResult last = null;
             foreach (var path in paths)
             {
                 last = await PostJsonAsync(path, body, attachToken: true).ConfigureAwait(false);
+                if (IsAlreadyOnline(last))
+                {
+                    return new QrLoginResult
+                    {
+                        Ok = false,
+                        AlreadyOnline = true,
+                        Message = last.Message ?? "电脑微信已登录，无需再扫"
+                    };
+                }
+
                 if (!last.Ok)
                 {
-                    continue;
+                    if (ShouldTryNextPath(last))
+                    {
+                        continue;
+                    }
+
+                    return new QrLoginResult { Ok = false, Message = last.Message ?? "获取登录二维码失败" };
                 }
 
                 var qr = ParseQr(last);
                 if (qr.Ok && (!string.IsNullOrEmpty(qr.Uuid) || !string.IsNullOrEmpty(qr.QrUrl) || !string.IsNullOrEmpty(qr.QrBase64) || !string.IsNullOrEmpty(qr.QrContent)))
+                {
+                    return qr;
+                }
+
+                if (!ShouldTryNextPath(last))
                 {
                     return qr;
                 }
@@ -465,23 +530,24 @@ namespace MoonWeChat.Services.WeChatPad
         {
             var probe = new DeviceSessionProbe { Online = false };
 
-            // 优先 GetLoginStatus / CacheInfo / 资料
-            string[] paths =
-            {
-                "/login/GetLoginStatus",
-                "/Login/GetLoginStatus",
-                "/Login/GetCacheInfo",
-                "/api/login/GetLoginStatus",
-                "/User/GetContractProfile",
-                "/user/GetContractProfile",
-                "/User/GetOnlineInfo"
-            };
+            string[] paths = Backend == BackendKind.PyWeixin
+                ? new[] { "/Login/GetLoginStatus" }
+                : new[]
+                {
+                    "/login/GetLoginStatus",
+                    "/Login/GetLoginStatus",
+                    "/Login/GetCacheInfo",
+                    "/api/login/GetLoginStatus",
+                    "/User/GetContractProfile",
+                    "/user/GetContractProfile",
+                    "/User/GetOnlineInfo"
+                };
 
             ApiCallResult last = null;
             foreach (var path in paths)
             {
                 last = await GetAsync(path, attachToken: true).ConfigureAwait(false);
-                if (!last.Ok)
+                if (!last.Ok && ShouldTryNextPath(last))
                 {
                     last = await PostJsonAsync(path, new JsonObject(), attachToken: true).ConfigureAwait(false);
                 }
@@ -496,12 +562,27 @@ namespace MoonWeChat.Services.WeChatPad
                 {
                     probe.Online = false;
                     probe.Message = last.Message ?? "该账号需要重新登录";
-                    // 继续试别的路径，有的接口更准
+                    if (Backend == BackendKind.PyWeixin)
+                    {
+                        break;
+                    }
+
                     continue;
                 }
 
                 if (!last.Ok)
                 {
+                    if (ShouldTryNextPath(last))
+                    {
+                        continue;
+                    }
+
+                    probe.Message = last.Message;
+                    if (Backend == BackendKind.PyWeixin)
+                    {
+                        break;
+                    }
+
                     continue;
                 }
 
@@ -641,12 +722,14 @@ namespace MoonWeChat.Services.WeChatPad
         {
             // swagger: POST /Friend/GetContractList
             // body: {currentWxcontactSeq, currentChatRoomContactSeq} — camelCase
-            string[] paths =
-            {
-                "/Friend/GetContractList",
-                "/friend/GetFriendList",
-                "/friend/GetContactList",
-            };
+            string[] paths = Backend == BackendKind.PyWeixin
+                ? new[] { "/Friend/GetContractList" }
+                : new[]
+                {
+                    "/Friend/GetContractList",
+                    "/friend/GetFriendList",
+                    "/friend/GetContactList",
+                };
 
             var seqBody = new JsonObject
             {
@@ -660,11 +743,25 @@ namespace MoonWeChat.Services.WeChatPad
                 last = await PostJsonAsync(path, seqBody, attachToken: true).ConfigureAwait(false);
                 if (!last.Ok)
                 {
-                    continue;
+                    if (ShouldTryNextPath(last))
+                    {
+                        continue;
+                    }
+
+                    return new FriendListResult
+                    {
+                        Ok = false,
+                        Message = last.Message ?? "拉取好友列表失败"
+                    };
                 }
 
                 var friends = ParseFriendList(last);
                 if (friends.Ok)
+                {
+                    return friends;
+                }
+
+                if (!ShouldTryNextPath(last))
                 {
                     return friends;
                 }
@@ -1241,32 +1338,36 @@ namespace MoonWeChat.Services.WeChatPad
                 ["maxid"] = JsonValue.CreateNumberValue(0),
             };
 
-            string[] paths =
-            {
-                "/FriendCircle/GetList",
-                "/FriendCircle/MmSnsSync",
-                "/FriendCircle/Messages",
-                "/sns/GetSnsSync",
-                "/sns/SendSnsTimeLine",
-                "/sns/SendFriendCircle",
-            };
+            string[] paths = Backend == BackendKind.PyWeixin
+                ? new[] { "/FriendCircle/GetList" }
+                : new[]
+                {
+                    "/FriendCircle/GetList",
+                    "/FriendCircle/MmSnsSync",
+                    "/FriendCircle/Messages",
+                    "/sns/GetSnsSync",
+                    "/sns/SendSnsTimeLine",
+                    "/sns/SendFriendCircle",
+                };
 
             foreach (var path in paths)
             {
                 var result = await PostJsonAsync(path, body, attachToken: true).ConfigureAwait(false);
                 if (!result.Ok)
                 {
-                    continue;
+                    if (ShouldTryNextPath(result))
+                    {
+                        continue;
+                    }
+
+                    throw new InvalidOperationException(result.Message ?? "朋友圈读取失败");
                 }
 
                 var list = ParseMoments(result);
-                if (list.Count > 0)
-                {
-                    return list;
-                }
+                return list ?? new List<Models.MomentPost>();
             }
 
-            return new List<Models.MomentPost>();
+            throw new InvalidOperationException("朋友圈读取失败：没有可用的接口路径");
         }
 
         public async Task<bool> MomentLikeAsync(string momentId, bool like)
@@ -1561,12 +1662,14 @@ namespace MoonWeChat.Services.WeChatPad
         public async Task<SyncMsgResult> GetSyncMsgAsync()
         {
             // swagger: POST /Msg/Sync, body: {Scene, Synckey}
-            string[] paths =
-            {
-                "/Msg/Sync",
-                "/Msg/StartAutoSync",
-                "/message/HttpSyncMsg",
-            };
+            string[] paths = Backend == BackendKind.PyWeixin
+                ? new[] { "/Msg/Sync" }
+                : new[]
+                {
+                    "/Msg/Sync",
+                    "/Msg/StartAutoSync",
+                    "/message/HttpSyncMsg",
+                };
 
             var body = new JsonObject
             {
@@ -1578,18 +1681,32 @@ namespace MoonWeChat.Services.WeChatPad
             foreach (var path in paths)
             {
                 last = await PostJsonAsync(path, body, attachToken: true).ConfigureAwait(false);
-                if (!last.Ok)
+                if (!last.Ok && Backend == BackendKind.WeChatPadPro && ShouldTryNextPath(last))
                 {
                     last = await GetAsync(path, attachToken: true).ConfigureAwait(false);
                 }
 
                 if (!last.Ok)
                 {
-                    continue;
+                    if (ShouldTryNextPath(last))
+                    {
+                        continue;
+                    }
+
+                    return new SyncMsgResult
+                    {
+                        Ok = false,
+                        Message = last.Message ?? "同步消息失败"
+                    };
                 }
 
                 var sync = ParseSyncMsg(last);
                 if (sync.Ok)
+                {
+                    return sync;
+                }
+
+                if (!ShouldTryNextPath(last))
                 {
                     return sync;
                 }
@@ -1639,6 +1756,11 @@ namespace MoonWeChat.Services.WeChatPad
             {
                 last = await PostJsonAsync(path, body, attachToken: true).ConfigureAwait(false);
                 if (last.Ok)
+                {
+                    return last;
+                }
+
+                if (!ShouldTryNextPath(last))
                 {
                     return last;
                 }

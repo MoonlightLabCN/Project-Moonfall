@@ -1,72 +1,146 @@
-﻿<Page x:Class="MoonWeChat.Views.ChatPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:converters="using:MoonWeChat.Converters" xmlns:common="using:MoonWeChat.Common" Background="{ThemeResource ChatWallpaperBrush}">
+﻿<Page
+    x:Class="MoonWeChat.Views.ChatPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="using:MoonWeChat.Converters"
+    Background="{ThemeResource ChatWallpaperBrush}">
     <Page.Resources>
-        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Page.Resources>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <Border Background="{ThemeResource ChromeBackgroundBrush}" Padding="4,0" BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,0,0,1">
+
+        <Border Background="{ThemeResource ChromeBackgroundBrush}" Padding="4,0"
+                BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,0,0,1">
             <Grid MinHeight="{ThemeResource ChromeBarHeight}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Button Style="{StaticResource IconButtonStyle}" Click="OnBackClick">
-                    <FontIcon Glyph="&#xE72B;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}"/>
+                    <FontIcon Glyph="&#xE72B;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" />
                 </Button>
-                <TextBlock x:Name="HeaderTitleText" Grid.Column="1" Style="{StaticResource BodyTextStyle}" FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="HeaderTitleText" Grid.Column="1" Style="{StaticResource BodyTextStyle}"
+                           FontWeight="SemiBold" VerticalAlignment="Center" HorizontalAlignment="Center"
+                           TextTrimming="CharacterEllipsis" />
                 <Button Grid.Column="2" Style="{StaticResource IconButtonStyle}">
                     <Button.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Name="MuteMenuItem" Text="设置消息免打扰" Click="OnToggleMuteClick"/>
-                            <MenuFlyoutItem Text="撤回我的上一条" Click="OnRevokeClick"/>
-                            <MenuFlyoutItem Text="拍一拍" Click="OnPatClick"/>
+                            <MenuFlyoutItem x:Name="MuteMenuItem" Text="设置消息免打扰" Click="OnToggleMuteClick" />
+                            <MenuFlyoutItem Text="撤回我的上一条" Click="OnRevokeClick" />
+                            <MenuFlyoutItem Text="拍一拍" Click="OnPatClick" />
                         </MenuFlyout>
                     </Button.Flyout>
-                    <FontIcon Glyph="&#xE712;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}"/>
+                    <FontIcon Glyph="&#xE712;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" />
                 </Button>
             </Grid>
         </Border>
-        <ListView Grid.Row="1" x:Name="MessageListView" ItemsSource="{x:Bind ViewModel.Messages, Mode=OneWay}" ItemTemplateSelector="{StaticResource MessageRowTemplateSelector}" ItemContainerStyle="{StaticResource FlatListViewItemStyle}" SelectionMode="None" IsItemClickEnabled="True" ItemClick="OnMessageClick" Padding="0,8"/>
-        <Border Grid.Row="2" x:Name="QuoteBar" Visibility="Collapsed" Background="{ThemeResource ChromeBackgroundBrush}" Padding="12,6">
-            <Grid>
-                <TextBlock x:Name="QuotePreviewText" Style="{StaticResource CaptionTextStyle}" TextTrimming="CharacterEllipsis"/>
-                <Button Content="取消" HorizontalAlignment="Right" Click="OnClearQuoteClick"/>
-            </Grid>
-        </Border>
-        <Border Grid.Row="3" Background="{ThemeResource InputBarBackgroundBrush}" Padding="8,6">
+
+        <ListView Grid.Row="1" x:Name="MessageListView"
+                  ItemsSource="{x:Bind ViewModel.Messages, Mode=OneWay}"
+                  ItemTemplateSelector="{StaticResource MessageRowTemplateSelector}"
+                  ItemContainerStyle="{StaticResource FlatListViewItemStyle}"
+                  SelectionMode="None" IsItemClickEnabled="True" ItemClick="OnMessageClick"
+                  Padding="0,8" />
+
+        <Border Grid.Row="2" x:Name="QuoteBar" Visibility="Collapsed"
+                Background="{ThemeResource ChromeBackgroundBrush}" Padding="12,6"
+                BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,1,0,0">
             <Grid>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button x:Name="VoiceModeButton" Style="{StaticResource IconButtonStyle}" Click="OnVoiceModeToggleClick">
-                    <FontIcon x:Name="VoiceModeIcon" Glyph="&#xE720;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}"/>
-                </Button>
-                <TextBox x:Name="InputTextBox" Grid.Column="1" TextWrapping="Wrap" AcceptsReturn="True" MaxHeight="120" TextChanged="OnInputTextChanged" PlaceholderText="输入消息"/>
-                <Button Grid.Column="2" Style="{StaticResource IconButtonStyle}" Click="OnMoreClick">
-                    <FontIcon Glyph="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}"/>
-                </Button>
-                <Button Grid.Column="3" Style="{StaticResource SendButtonStyle}" Click="OnSendClick" Content="发送"/>
+                <TextBlock x:Name="QuotePreviewText" Style="{StaticResource CaptionTextStyle}"
+                           TextTrimming="CharacterEllipsis" VerticalAlignment="Center" />
+                <Button Grid.Column="1" Content="取消" Click="OnClearQuoteClick" />
             </Grid>
         </Border>
-        <Button x:Name="VoiceHoldButton" Grid.Row="3" Visibility="Collapsed" Content="按住 说话" PointerPressed="OnVoiceHoldPressed" PointerReleased="OnVoiceHoldReleased"/>
-        <Border Grid.Row="4" x:Name="MorePanel" Visibility="Collapsed" Background="{ThemeResource ChromeBackgroundBrush}" Padding="12">
-            <StackPanel Orientation="Horizontal">
-                <Button Tag="album" Content="相册" Click="OnMorePanelItemClick"/>
-                <Button Tag="file" Content="文件" Click="OnMorePanelItemClick"/>
-                <Button Tag="location" Content="位置" Click="OnMorePanelItemClick"/>
-                <Button Tag="card" Content="名片" Click="OnMorePanelItemClick"/>
-                <Button Tag="video" Content="视频" Click="OnMorePanelItemClick"/>
-            </StackPanel>
+
+        <Border Grid.Row="3" Background="{ThemeResource ChromeBackgroundBrush}" Padding="12,6"
+                BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,1,0,0"
+                Visibility="{x:Bind ViewModel.HasSendStatus, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+            <TextBlock Text="{x:Bind ViewModel.SendStatusText, Mode=OneWay}"
+                       Style="{StaticResource CaptionTextStyle}" TextWrapping="Wrap" />
+        </Border>
+
+        <Border Grid.Row="4" Background="{ThemeResource InputBarBackgroundBrush}" Padding="8,6"
+                BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,1,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Button x:Name="VoiceModeButton" Style="{StaticResource IconButtonStyle}" Click="OnVoiceModeToggleClick">
+                    <FontIcon x:Name="VoiceModeIcon" Glyph="&#xE720;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" />
+                </Button>
+                <TextBox x:Name="InputTextBox" Grid.Column="1" Style="{StaticResource ChatInputTextBoxStyle}"
+                         Text="{x:Bind ViewModel.DraftText, Mode=OneWay}"
+                         TextWrapping="Wrap" AcceptsReturn="True" MaxHeight="120"
+                         TextChanged="OnInputTextChanged" PlaceholderText="输入消息" Margin="4,0" />
+                <Border x:Name="VoiceHoldButton" Grid.Column="1" Margin="4,0"
+                        Background="{ThemeResource InputBoxBackgroundBrush}" VerticalAlignment="Stretch"
+                        Visibility="Collapsed"
+                        PointerPressed="OnVoiceHoldPressed" PointerReleased="OnVoiceHoldReleased"
+                        PointerCanceled="OnVoiceHoldReleased" PointerCaptureLost="OnVoiceHoldReleased">
+                    <TextBlock x:Name="VoiceHoldText" Text="按住 说话" Style="{StaticResource BodyTextStyle}"
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0,8" />
+                </Border>
+                <Button Grid.Column="2" Style="{StaticResource IconButtonStyle}">
+                    <Button.Flyout>
+                        <Flyout Placement="Top">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="👍" Click="OnEmojiPicked" Background="Transparent" BorderThickness="0" />
+                                <Button Content="😂" Click="OnEmojiPicked" Background="Transparent" BorderThickness="0" Margin="6,0,0,0" />
+                                <Button Content="❤️" Click="OnEmojiPicked" Background="Transparent" BorderThickness="0" Margin="6,0,0,0" />
+                                <Button Content="😭" Click="OnEmojiPicked" Background="Transparent" BorderThickness="0" Margin="6,0,0,0" />
+                                <Button Content="🙏" Click="OnEmojiPicked" Background="Transparent" BorderThickness="0" Margin="6,0,0,0" />
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                    <TextBlock Text="☺" FontSize="{ThemeResource FontBody}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Button>
+                <Button Grid.Column="3" Style="{StaticResource SendButtonStyle}" Click="OnSendClick" Content="发送"
+                        Margin="4,0,0,0"
+                        IsEnabled="{x:Bind ViewModel.CanSend, Mode=OneWay}"
+                        Visibility="{x:Bind ViewModel.ShowSendButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <Button Grid.Column="3" Style="{StaticResource IconButtonStyle}" Click="OnMoreClick"
+                        Visibility="{x:Bind ViewModel.ShowMoreButton, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <FontIcon Glyph="&#xE710;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" />
+                </Button>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="5" x:Name="MorePanel" Visibility="Collapsed"
+                Background="{ThemeResource ChromeBackgroundBrush}" Padding="12"
+                BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,1,0,0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Button Grid.Row="0" Grid.Column="0" Tag="album" Content="相册" Click="OnMorePanelItemClick" Style="{StaticResource MorePanelButtonStyle}" HorizontalAlignment="Stretch" />
+                <Button Grid.Row="0" Grid.Column="1" Tag="file" Content="文件" Click="OnMorePanelItemClick" Style="{StaticResource MorePanelButtonStyle}" HorizontalAlignment="Stretch" Margin="8,0,0,0" />
+                <Button Grid.Row="0" Grid.Column="2" Tag="location" Content="位置" Click="OnMorePanelItemClick" Style="{StaticResource MorePanelButtonStyle}" HorizontalAlignment="Stretch" Margin="8,0,0,0" />
+                <Button Grid.Row="0" Grid.Column="3" Tag="card" Content="名片" Click="OnMorePanelItemClick" Style="{StaticResource MorePanelButtonStyle}" HorizontalAlignment="Stretch" Margin="8,0,0,0" />
+                <Button Grid.Row="1" Grid.Column="0" Tag="video" Content="视频" Click="OnMorePanelItemClick" Style="{StaticResource MorePanelButtonStyle}" HorizontalAlignment="Stretch" Margin="0,12,0,0" />
+            </Grid>
         </Border>
     </Grid>
 </Page>

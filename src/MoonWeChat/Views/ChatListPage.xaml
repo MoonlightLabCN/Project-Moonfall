@@ -20,15 +20,24 @@
                     <TextBlock Text="微信" Style="{StaticResource PageTitleStyle}"/>
                     <TextBlock Text="{x:Bind ViewModel.Subtitle, Mode=OneWay}" Style="{StaticResource CaptionTextStyle}" TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
-                <CommandBar Grid.Column="1" Background="Transparent">
-                    <AppBarButton Icon="Refresh" Label="刷新" Click="OnRefreshClick"/>
-                    <AppBarButton Icon="Find" Label="搜索" Click="OnSearchClick"/>
-                    <AppBarButton Icon="Setting" Label="设置" Click="OnSettingsClick"/>
-                    <CommandBar.SecondaryCommands>
-                        <AppBarButton Icon="Add" Label="连接远程服务器" Click="OnConnectClick"/>
-                        <AppBarButton Icon="Contact" Label="扫码登录" Click="OnLoginClick"/>
-                    </CommandBar.SecondaryCommands>
-                </CommandBar>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Style="{StaticResource IconButtonStyle}" Click="OnRefreshClick" ToolTipService.ToolTip="刷新">
+                        <FontIcon Glyph="&#xE72C;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}"/>
+                    </Button>
+                    <Button Style="{StaticResource IconButtonStyle}" Click="OnSearchClick" ToolTipService.ToolTip="搜索">
+                        <FontIcon Glyph="&#xE721;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}"/>
+                    </Button>
+                    <Button Style="{StaticResource IconButtonStyle}">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="服务器设置" Click="OnSettingsClick"/>
+                                <MenuFlyoutItem Text="连接远程服务器" Click="OnConnectClick"/>
+                                <MenuFlyoutItem Text="扫码登录" Click="OnLoginClick"/>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                        <FontIcon Glyph="&#xE712;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}"/>
+                    </Button>
+                </StackPanel>
             </Grid>
         </Border>
         <TextBox x:Name="SearchBox" Grid.Row="1" Margin="12,8" PlaceholderText="搜索会话或联系人" Visibility="Collapsed" TextChanged="OnSearchTextChanged"/>
