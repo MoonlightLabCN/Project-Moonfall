@@ -6,7 +6,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Styles/ColorsAndBrushes.xaml" />
+                <!-- 颜色皮肤：启动后 ThemeService 会按设置换成 Win10 / WP 经典 -->
+                <ResourceDictionary Source="ms-appx:///Styles/Themes/Win10Theme.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/ControlStyles.xaml" />
                 <ResourceDictionary Source="ms-appx:///Styles/MessageBubbleTemplates.xaml" />
             </ResourceDictionary.MergedDictionaries>

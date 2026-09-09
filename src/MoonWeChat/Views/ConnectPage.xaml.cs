@@ -21,6 +21,8 @@ namespace MoonWeChat.Views
         {
             base.OnNavigatedTo(e);
 
+            SyncBackendRadios();
+
             // 回填已有配置
             if (!string.IsNullOrEmpty(AppSettings.BaseUrl))
             {
@@ -30,6 +32,29 @@ namespace MoonWeChat.Views
             TokenBox.Text = AppSettings.Token ?? string.Empty;
             ProxyBox.Text = AppSettings.Proxy ?? string.Empty;
             AdminKeyBox.Password = AppSettings.AdminKey ?? string.Empty;
+            UpdateNormalizedHint();
+        }
+
+        private void SyncBackendRadios()
+        {
+            var kind = AppSettings.BackendKind;
+            BackendPyRadio.IsChecked = kind == BackendKind.PyWeixin;
+            BackendPadRadio.IsChecked = kind == BackendKind.WeChatPadPro;
+        }
+
+        private BackendKind SelectedBackend =>
+            BackendPadRadio.IsChecked == true ? BackendKind.WeChatPadPro : BackendKind.PyWeixin;
+
+        private void OnBackendClick(object sender, RoutedEventArgs e)
+        {
+            var kind = SelectedBackend;
+            if (kind == AppSettings.BackendKind)
+            {
+                return;
+            }
+
+            AppSettings.BackendKind = kind;
+            ServerBox.Text = AppSettings.BaseUrl;
             UpdateNormalizedHint();
         }
 
@@ -45,7 +70,7 @@ namespace MoonWeChat.Views
             }
             else
             {
-                Frame.Navigate(typeof(ChatListPage));
+                AppNavigation.NavigateToMain(Frame);
             }
         }
 
@@ -55,7 +80,7 @@ namespace MoonWeChat.Views
 
         private void UpdateNormalizedHint()
         {
-            var normalized = AppSettings.NormalizeBaseUrl(ServerBox.Text);
+            var normalized = AppSettings.NormalizeBaseUrl(ServerBox.Text, SelectedBackend);
             NormalizedUrlText.Text = string.IsNullOrEmpty(normalized)
                 ? "规范化后：—"
                 : "规范化后：" + normalized;
@@ -68,7 +93,8 @@ namespace MoonWeChat.Views
                 return;
             }
 
-            var baseUrl = AppSettings.NormalizeBaseUrl(ServerBox.Text);
+            AppSettings.BackendKind = SelectedBackend;
+            var baseUrl = AppSettings.NormalizeBaseUrl(ServerBox.Text, SelectedBackend);
             var adminKey = AdminKeyBox.Password?.Trim() ?? string.Empty;
             if (string.IsNullOrEmpty(baseUrl))
             {
@@ -143,7 +169,7 @@ namespace MoonWeChat.Views
                 }
                 else
                 {
-                    SetStatus("连不上：" + result.Message + "\n请确认：① 电脑/云上 WeChatPadPro 已启动 ② 手机与服务器网络互通 ③ 地址端口正确 ④ 防火墙/穿透已放行。");
+                    SetStatus("连不上：" + result.Message + "\n请确认：① 电脑上 pyweixin 网关已启动 ② 手机与电脑同一局域网 ③ 地址端口正确 ④ 防火墙已放行。");
                 }
             }
             catch (Exception ex)
@@ -158,16 +184,23 @@ namespace MoonWeChat.Views
 
         private async void OnSaveAndLoginClick(object sender, RoutedEventArgs e)
         {
-            if (!SaveCore(requireToken: true, out var error))
+            try
             {
-                SetStatus(error);
-                return;
-            }
+                if (!SaveCore(requireToken: true, out var error))
+                {
+                    SetStatus(error);
+                    return;
+                }
 
-            SetStatus("已保存。正在打开扫码登录…");
-            // 给 UI 一帧反馈
-            await Task.Delay(100).ConfigureAwait(true);
-            Frame.Navigate(typeof(LoginPage));
+                SetStatus("已保存。正在打开扫码登录…");
+                // 给 UI 一帧反馈
+                await Task.Delay(100).ConfigureAwait(true);
+                Frame.Navigate(typeof(LoginPage));
+            }
+            catch (Exception ex)
+            {
+                SetStatus("打开登录页失败：" + ex.Message);
+            }
         }
 
         private void OnSaveOnlyClick(object sender, RoutedEventArgs e)
@@ -202,7 +235,8 @@ namespace MoonWeChat.Views
         private bool TryPushFields(bool requireToken, out string error)
         {
             error = null;
-            var baseUrl = AppSettings.NormalizeBaseUrl(ServerBox.Text);
+            AppSettings.BackendKind = SelectedBackend;
+            var baseUrl = AppSettings.NormalizeBaseUrl(ServerBox.Text, SelectedBackend);
             if (string.IsNullOrEmpty(baseUrl))
             {
                 error = "请填写服务器地址。";

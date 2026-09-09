@@ -1,0 +1,13 @@
+# 网关的 RPA 后端。注意：分发包名是 pywechat127，导入名却是 pyweixin
+# （gateway.py:257 `from pyweixin import ...`）—— 两者不一致是上游的设定，别"顺手改对"。
+pywechat127==1.9.8
+
+# 下面这些是 gateway.py / weixin_ui_fallback.py **直接** import 的。
+# 它们同时也是 pywechat127 的传递依赖，但直接依赖必须自己声明：
+# 否则上游哪天不再依赖它们，网关会在 import 时才炸，而不是在装依赖时就报错。
+psutil==7.2.2
+PyAutoGUI==0.9.54
+pywin32==312
+
+# weixin_ui_fallback.py 的 _ui_class() 用它判断登录窗（`from pywinauto import Desktop`）。
+pywinauto==0.6.9

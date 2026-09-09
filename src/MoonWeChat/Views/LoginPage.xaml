@@ -29,13 +29,13 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0" Style="{StaticResource IconButtonStyle}" Click="OnBackClick">
-                    <FontIcon Glyph="&#xE72B;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+                    <FontIcon Glyph="&#xE72B;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" />
                 </Button>
-                <TextBlock Grid.Column="1" Text="连接并登录" FontSize="18" FontWeight="SemiBold"
+                <TextBlock Grid.Column="1" Text="连接并登录" FontSize="{ThemeResource FontTitle}" FontWeight="SemiBold"
                            VerticalAlignment="Center" Margin="8,0,0,0"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
                 <Button Grid.Column="2" Style="{StaticResource IconButtonStyle}" Click="OnOpenSettingsClick">
-                    <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="16" />
+                    <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontIcon}" />
                 </Button>
             </Grid>
         </Border>
@@ -47,24 +47,33 @@
                         BorderBrush="{ThemeResource DividerBrush}" BorderThickness="1"
                         Padding="12" Margin="0,0,0,14">
                     <TextBlock Text="{x:Bind ViewModel.PersistHint, Mode=OneWay}"
-                               TextWrapping="Wrap" FontSize="12"
+                               TextWrapping="Wrap" FontSize="{ThemeResource FontCaption}"
                                Foreground="{ThemeResource SecondaryTextBrush}" />
                 </Border>
 
-                <TextBlock Text="1. 服务器地址" FontSize="14" FontWeight="SemiBold"
+                <TextBlock Text="0. 后端协议" FontSize="{ThemeResource FontSubtitle}" FontWeight="SemiBold"
+                           Foreground="{ThemeResource PrimaryTextBrush}" />
+                <StackPanel Margin="0,6,0,14">
+                    <RadioButton x:Name="BackendPyRadio" Content="pyweixin 网关（电脑 RPA）"
+                                 GroupName="BackendKind" Click="OnBackendClick" />
+                    <RadioButton x:Name="BackendPadRadio" Content="WeChatPadPro（iPad 协议）"
+                                 GroupName="BackendKind" Margin="0,6,0,0" Click="OnBackendClick" />
+                </StackPanel>
+
+                <TextBlock Text="1. 服务器地址" FontSize="{ThemeResource FontSubtitle}" FontWeight="SemiBold"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
                 <TextBox x:Name="ServerBox" Margin="0,6,0,0"
-                         PlaceholderText="http://192.168.1.10:1238 或 127.0.0.1:1238"
+                         PlaceholderText="pyweixin: 192.168.1.10:18765 ｜ WeChatPadPro: 192.168.1.10:8062"
                          Text="{x:Bind ViewModel.ServerUrl, Mode=OneWay}"
                          TextChanged="OnServerTextChanged" />
                 <TextBlock Text="{x:Bind ViewModel.NormalizedUrlHint, Mode=OneWay}"
-                           FontSize="12" Margin="0,4,0,0"
+                           FontSize="{ThemeResource FontCaption}" Margin="0,4,0,0"
                            Foreground="{ThemeResource SecondaryTextBrush}" />
 
-                <TextBlock Text="2. Token" FontSize="14" FontWeight="SemiBold" Margin="0,14,0,0"
+                <TextBlock Text="2. Token" FontSize="{ThemeResource FontSubtitle}" FontWeight="SemiBold" Margin="0,14,0,0"
                            Foreground="{ThemeResource PrimaryTextBrush}" />
                 <TextBlock Text="业务鉴权码，扫码登录绑定在这个 Token 上。请长期固定使用同一个。"
-                           TextWrapping="Wrap" FontSize="12" Margin="0,4,0,0"
+                           TextWrapping="Wrap" FontSize="{ThemeResource FontCaption}" Margin="0,4,0,0"
                            Foreground="{ThemeResource SecondaryTextBrush}" />
                 <TextBox x:Name="TokenBox" Margin="0,6,0,0"
                          PlaceholderText="粘贴 Token"
@@ -74,7 +83,7 @@
                 <Button x:Name="StartButton" Content="扫码登录"
                         Margin="0,16,0,0" HorizontalAlignment="Stretch"
                         Style="{StaticResource SendButtonStyle}"
-                        Command="{x:Bind ViewModel.StartLoginCommand}" />
+                        Click="OnStartLoginClick" />
 
                 <Border Background="{ThemeResource ChromeBackgroundBrush}"
                         BorderBrush="{ThemeResource DividerBrush}" BorderThickness="1"
@@ -83,12 +92,12 @@
                         <Image Stretch="Uniform" Source="{x:Bind ViewModel.QrImage, Mode=OneWay}" />
                         <StackPanel x:Name="QrPlaceholder"
                                     HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <FontIcon Glyph="&#xE8B9;" FontFamily="Segoe MDL2 Assets" FontSize="36"
+                            <FontIcon Glyph="&#xE8B9;" FontFamily="Segoe MDL2 Assets" FontSize="{ThemeResource FontHero}"
                                       Foreground="{ThemeResource SecondaryTextBrush}"
                                       HorizontalAlignment="Center" />
                             <TextBlock Text="二维码显示在这里"
                                        HorizontalAlignment="Center" Margin="0,10,0,0"
-                                       Foreground="{ThemeResource SecondaryTextBrush}" FontSize="13" />
+                                       Foreground="{ThemeResource SecondaryTextBrush}" FontSize="{ThemeResource FontBody}" />
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -97,7 +106,7 @@
                         BorderBrush="{ThemeResource DividerBrush}" BorderThickness="1"
                         Margin="0,14,0,0" Padding="12">
                     <TextBlock Text="{x:Bind ViewModel.StatusText, Mode=OneWay}"
-                               TextWrapping="Wrap" FontSize="13"
+                               TextWrapping="Wrap" FontSize="{ThemeResource FontBody}"
                                Foreground="{ThemeResource PrimaryTextBrush}" />
                 </Border>
 
@@ -106,7 +115,7 @@
                         Click="OnToggleAdvancedClick" />
 
                 <StackPanel x:Name="AdvancedPanel" Visibility="Collapsed" Margin="0,10,0,0">
-                    <TextBlock Text="AdminKey（仅生成 Token 时用）" FontSize="13" FontWeight="SemiBold"
+                    <TextBlock Text="AdminKey（仅生成 Token 时用）" FontSize="{ThemeResource FontBody}" FontWeight="SemiBold"
                                Foreground="{ThemeResource PrimaryTextBrush}" />
                     <PasswordBox x:Name="AdminKeyBox" Margin="0,4,0,8"
                                  PasswordChanged="OnAdminKeyChanged" />
@@ -114,7 +123,7 @@
                             HorizontalAlignment="Stretch" Padding="12,8"
                             Command="{x:Bind ViewModel.GenTokenCommand}" />
 
-                    <TextBlock Text="代理（可选）" FontSize="13" FontWeight="SemiBold"
+                    <TextBlock Text="代理（可选）" FontSize="{ThemeResource FontBody}" FontWeight="SemiBold"
                                Foreground="{ThemeResource PrimaryTextBrush}" />
                     <TextBox x:Name="ProxyBox" Margin="0,4,0,0"
                              PlaceholderText="http://user:pass@host:port"

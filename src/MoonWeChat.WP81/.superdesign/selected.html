@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="zh-CN"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>MoonWeChat</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</head>
+<body>
+  <div class="relative flex h-[853px] w-full max-w-[480px] flex-col overflow-hidden bg-black font-['Segoe_UI','Segoe_UI_Symbol',sans-serif] text-white sm:mx-auto" data-sd-id="1">
+    <header class="shrink-0 bg-black" data-sd-id="2">
+      <div class="flex h-6 items-center justify-between px-[19px] text-[11px] text-white/70" data-sd-id="3">
+        <span data-sd-id="4">中国移动</span>
+        <div class="flex items-center gap-2" data-sd-id="5">
+          <iconify-icon icon="lucide:signal" class="text-xs"></iconify-icon>
+          <span data-sd-id="6">10:28</span>
+          <iconify-icon icon="lucide:battery-medium" class="text-sm"></iconify-icon>
+        </div>
+      </div>
+
+      <div class="flex h-16 items-center justify-between px-[19px]" data-sd-id="7">
+        <h1 class="text-[42px] font-light leading-none tracking-tight" data-sd-id="8">MoonWeChat</h1>
+        <span class="mt-3 text-[11px] uppercase tracking-wider text-white/60" data-sd-id="9">WP 8.1</span>
+      </div>
+
+      <button id="connection-health-button" type="button" class="flex min-h-12 w-full items-center justify-between border-y border-amber-400 bg-amber-400 px-[19px] text-left text-[13px] text-black active:bg-black active:text-amber-400" data-sd-id="10">
+        <span class="flex items-center gap-3" data-sd-id="11">
+          <iconify-icon icon="lucide:server" class="text-lg"></iconify-icon>
+          <span data-sd-id="12"><strong class="font-semibold">网关已连接</strong><br><span data-sd-id="13">桌面端在线 · 刚刚同步</span></span>
+        </span>
+        <span class="text-[11px] uppercase" data-sd-id="14">正常</span>
+      </button>
+
+      <div id="search-panel" class="hidden h-14 items-center border-b border-white/20 px-[19px]" data-sd-id="15">
+        <iconify-icon icon="lucide:search" class="mr-3 text-xl text-white/60"></iconify-icon>
+        <label for="live-query" class="sr-only" data-sd-id="16">搜索会话和联系人</label>
+        <input id="live-query" type="search" autocomplete="off" placeholder="搜索会话和联系人" class="h-12 min-w-0 flex-1 border-0 bg-black p-0 text-[15px] text-white outline-none placeholder:text-white/50" data-sd-id="17">
+        <button id="clear-search-button" type="button" class="hidden h-12 w-12 items-center justify-center text-white/70 active:text-[#00ABA9]" aria-label="清除搜索" data-sd-id="18">
+          <iconify-icon icon="lucide:x" class="text-xl"></iconify-icon>
+        </button>
+      </div>
+    </header>
+
+    <main class="relative min-h-0 flex-1 overflow-hidden" data-sd-id="19">
+      <div id="hub-scroll" class="flex h-full snap-x snap-mandatory overflow-x-auto overflow-y-hidden pl-[19px] [scrollbar-width:none] [&amp;::-webkit-scrollbar]:hidden" data-sd-id="20">
+        <section aria-labelledby="wechat-heading" class="h-full w-[352px] shrink-0 snap-start overflow-y-auto pb-[72px] pr-0" data-sd-id="21">
+          <h2 id="wechat-heading" class="sticky top-0 z-10 h-14 bg-black pt-3 text-[26px] font-light leading-none" data-sd-id="22">微信</h2>
+          <div id="conversation-list" class="border-t border-white/20" data-sd-id="23">
+            <a id="conversation-file-transfer-link" href="#file-transfer" data-search="文件传输助手 文件 连接说明" class="conversation-row flex h-[76px] items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="24">
+              <img src="https://api.dicebear.com/9.x/initials/svg?seed=FT&amp;backgroundColor=00aba9&amp;fontFamily=Arial" alt="文件传输助手" class="h-12 w-12 shrink-0 object-cover grayscale" data-sd-id="25">
+              <span class="min-w-0 flex-1 pl-3" data-sd-id="26">
+                <span class="flex items-baseline justify-between gap-2" data-sd-id="27">
+                  <span class="truncate text-[18px] font-normal" data-sd-id="28">文件传输助手</span>
+                  <span class="shrink-0 text-[11px] text-white/50" data-sd-id="29">10:21</span>
+                </span>
+                <span class="mt-1 block truncate text-[13px] text-white/60" data-sd-id="30">已接收：MoonWeChat 连接说明.txt</span>
+              </span>
+            </a>
+
+            <a id="conversation-family-link" href="#family" data-search="家人群 妈 晚饭 语音" class="conversation-row flex h-[76px] items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="31">
+              <span class="relative shrink-0" data-sd-id="32">
+                <img src="https://api.dicebear.com/9.x/initials/svg?seed=HOME&amp;backgroundColor=555555&amp;fontFamily=Arial" alt="家人群" class="h-12 w-12 object-cover grayscale" data-sd-id="33">
+                <span class="absolute -right-1 -top-1 flex h-5 min-w-5 items-center justify-center bg-red-600 px-1 text-[11px] text-white" data-sd-id="34">3</span>
+              </span>
+              <span class="min-w-0 flex-1 pl-3" data-sd-id="35">
+                <span class="flex items-baseline justify-between gap-2" data-sd-id="36">
+                  <span class="truncate text-[18px]" data-sd-id="37">家人群</span>
+                  <span class="shrink-0 text-[11px] text-white/50" data-sd-id="38">09:48</span>
+                </span>
+                <span class="mt-1 block truncate text-[13px] text-white/60" data-sd-id="39">妈妈：[语音] 8秒</span>
+              </span>
+            </a>
+
+            <a id="conversation-lin-link" href="#lin-chat" data-search="林墨 测试消息 发送" class="conversation-row flex h-[76px] items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="40">
+              <img src="https://api.dicebear.com/9.x/initials/svg?seed=LM&amp;backgroundColor=777777&amp;fontFamily=Arial" alt="林墨" class="h-12 w-12 shrink-0 object-cover grayscale" data-sd-id="41">
+              <span class="min-w-0 flex-1 pl-3" data-sd-id="42">
+                <span class="flex items-baseline justify-between gap-2" data-sd-id="43">
+                  <span class="truncate text-[18px]" data-sd-id="44">林墨</span>
+                  <span class="shrink-0 text-[11px] text-white/50" data-sd-id="45">昨天</span>
+                </span>
+                <span class="mt-1 block truncate text-[13px] text-white/60" data-sd-id="46">测试消息已经发送成功</span>
+              </span>
+            </a>
+
+            <a id="conversation-project-link" href="#project-chat" data-search="项目讨论组 网关 接口 联调" class="conversation-row flex h-[76px] items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="47">
+              <img src="https://api.dicebear.com/9.x/initials/svg?seed=DEV&amp;backgroundColor=444444&amp;fontFamily=Arial" alt="项目讨论组" class="h-12 w-12 shrink-0 object-cover grayscale" data-sd-id="48">
+              <span class="min-w-0 flex-1 pl-3" data-sd-id="49">
+                <span class="flex items-baseline justify-between gap-2" data-sd-id="50">
+                  <span class="truncate text-[18px]" data-sd-id="51">项目讨论组</span>
+                  <span class="shrink-0 text-[11px] text-white/50" data-sd-id="52">周二</span>
+                </span>
+                <span class="mt-1 block truncate text-[13px] text-white/60" data-sd-id="53">陈工：网关接口联调完成</span>
+              </span>
+            </a>
+          </div>
+          <p id="conversation-empty" class="hidden py-8 pr-4 text-[15px] text-white/60" data-sd-id="54">没有匹配的会话</p>
+        </section>
+
+        <section aria-labelledby="contacts-heading" class="h-full w-[352px] shrink-0 snap-start overflow-y-auto pb-[72px]" data-sd-id="55">
+          <h2 id="contacts-heading" class="sticky top-0 z-10 h-14 bg-black pt-3 text-[26px] font-light leading-none" data-sd-id="56">通讯录</h2>
+          <div id="contact-list" class="border-t border-white/20" data-sd-id="57">
+            <a id="contact-new-friends-link" href="#new-friends" data-search="新的朋友 添加好友" class="contact-row flex h-16 items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="58">
+              <span class="flex h-12 w-12 items-center justify-center bg-[#00ABA9] text-white" data-sd-id="59"><iconify-icon icon="lucide:user-plus" class="text-2xl"></iconify-icon></span>
+              <span class="pl-3 text-[18px]" data-sd-id="60">新的朋友</span>
+            </a>
+            <a id="contact-lin-link" href="#contact-lin" data-search="林墨 lin mo" class="contact-row flex h-16 items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="61">
+              <img src="https://api.dicebear.com/9.x/initials/svg?seed=LM&amp;backgroundColor=777777&amp;fontFamily=Arial" alt="林墨" class="h-12 w-12 object-cover grayscale" data-sd-id="62">
+              <span class="pl-3 text-[18px]" data-sd-id="63">林墨</span>
+            </a>
+            <a id="contact-chen-link" href="#contact-chen" data-search="陈工 chen 项目" class="contact-row flex h-16 items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="64">
+              <img src="https://api.dicebear.com/9.x/initials/svg?seed=CG&amp;backgroundColor=555555&amp;fontFamily=Arial" alt="陈工" class="h-12 w-12 object-cover grayscale" data-sd-id="65">
+              <span class="pl-3 text-[18px]" data-sd-id="66">陈工</span>
+            </a>
+            <a id="contact-mother-link" href="#contact-mother" data-search="妈妈 家人" class="contact-row flex h-16 items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="67">
+              <img src="https://api.dicebear.com/9.x/initials/svg?seed=MA&amp;backgroundColor=999999&amp;fontFamily=Arial" alt="妈妈" class="h-12 w-12 object-cover grayscale" data-sd-id="68">
+              <span class="pl-3 text-[18px]" data-sd-id="69">妈妈</span>
+            </a>
+          </div>
+          <p id="contact-empty" class="hidden py-8 pr-4 text-[15px] text-white/60" data-sd-id="70">没有匹配的联系人</p>
+        </section>
+
+        <section aria-labelledby="discover-heading" class="h-full w-[352px] shrink-0 snap-start overflow-y-auto pb-[72px]" data-sd-id="71">
+          <h2 id="discover-heading" class="sticky top-0 z-10 h-14 bg-black pt-3 text-[26px] font-light leading-none" data-sd-id="72">发现</h2>
+          <div class="border-t border-white/20" data-sd-id="73">
+            <a id="discover-moments-link" href="#moments" class="flex min-h-16 items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="74">
+              <iconify-icon icon="lucide:aperture" class="w-12 text-center text-2xl text-[#00ABA9]"></iconify-icon>
+              <span class="pl-3 text-[18px]" data-sd-id="75">朋友圈</span>
+            </a>
+            <a id="discover-scan-link" href="#scan" class="flex min-h-16 items-center border-b border-white/20 pr-4 active:bg-[#00ABA9]" data-sd-id="76">
+              <iconify-icon icon="lucide:scan-line" class="w-12 text-center text-2xl text-[#00ABA9]"></iconify-icon>
+              <span class="pl-3 text-[18px]" data-sd-id="77">扫一扫</span>
+            </a>
+          </div>
+          <div class="mt-8 border-y border-white/20 p-4" data-sd-id="78">
+            <p class="text-[13px] uppercase text-white/60" data-sd-id="79">朋友圈状态</p>
+            <p class="mt-2 text-[18px]" data-sd-id="80">时间线已同步</p>
+            <p class="mt-1 text-[13px] text-white/60" data-sd-id="81">12 条动态 · 上次刷新 10:20</p>
+          </div>
+        </section>
+
+        <section aria-labelledby="profile-heading" class="h-full w-[352px] shrink-0 snap-start overflow-y-auto pb-[72px] pr-[19px]" data-sd-id="82">
+          <h2 id="profile-heading" class="sticky top-0 z-10 h-14 bg-black pt-3 text-[26px] font-light leading-none" data-sd-id="83">我</h2>
+          <div class="flex min-h-24 items-center border-y border-white/20 py-4" data-sd-id="84">
+            <img src="https://api.dicebear.com/9.x/initials/svg?seed=MOON&amp;backgroundColor=00aba9&amp;fontFamily=Arial" alt="当前用户" class="h-16 w-16 object-cover grayscale" data-sd-id="85">
+            <div class="min-w-0 pl-4" data-sd-id="86">
+              <p class="truncate text-[18px]" data-sd-id="87">Moon 用户</p>
+              <p class="mt-1 text-[13px] text-white/60" data-sd-id="88">微信号：moon_wp81</p>
+            </div>
+          </div>
+          <nav aria-label="设置与连接预览" class="mt-8 border-t border-white/20" data-sd-id="89">
+            <a id="profile-settings-preview-link" href="#settings" class="flex min-h-16 items-center justify-between border-b border-white/20 active:bg-[#00ABA9]" data-sd-id="90">
+              <span class="flex items-center" data-sd-id="91"><iconify-icon icon="lucide:settings" class="w-12 text-center text-2xl text-[#00ABA9]"></iconify-icon><span class="pl-3 text-[18px]" data-sd-id="92">设置</span></span>
+              <span class="text-[13px] text-white/60" data-sd-id="93">主题与会话</span>
+            </a>
+            <a id="profile-connect-preview-link" href="#connect" class="flex min-h-16 items-center justify-between border-b border-white/20 active:bg-[#00ABA9]" data-sd-id="94">
+              <span class="flex items-center" data-sd-id="95"><iconify-icon icon="lucide:server" class="w-12 text-center text-2xl text-[#00ABA9]"></iconify-icon><span class="pl-3 text-[18px]" data-sd-id="96">连接</span></span>
+              <span class="text-[13px] text-white/60" data-sd-id="97">HTTP 网关</span>
+            </a>
+            <a id="profile-login-preview-link" href="#login" class="flex min-h-16 items-center justify-between border-b border-white/20 active:bg-[#00ABA9]" data-sd-id="98">
+              <span class="flex items-center" data-sd-id="99"><iconify-icon icon="lucide:log-in" class="w-12 text-center text-2xl text-[#00ABA9]"></iconify-icon><span class="pl-3 text-[18px]" data-sd-id="100">登录</span></span>
+              <span class="text-[13px] text-[#00ABA9]" data-sd-id="101">已登录</span>
+            </a>
+          </nav>
+        </section>
+      </div>
+    </main>
+
+    <nav aria-label="应用命令" class="absolute bottom-0 left-0 z-40 flex h-[72px] w-full items-center justify-center gap-8 border-t border-white/20 bg-black px-[19px]" data-sd-id="102">
+      <button id="appbar-refresh-button" type="button" class="flex h-16 min-w-16 flex-col items-center justify-center text-white active:text-[#00ABA9]" aria-label="刷新" data-sd-id="103">
+        <iconify-icon id="refresh-icon" icon="lucide:refresh-cw" class="text-2xl"></iconify-icon>
+        <span class="mt-1 text-[11px]" data-sd-id="104">刷新</span>
+      </button>
+      <button id="appbar-search-button" type="button" class="flex h-16 min-w-16 flex-col items-center justify-center text-white active:text-[#00ABA9]" aria-label="搜索" data-sd-id="105">
+        <iconify-icon icon="lucide:search" class="text-2xl"></iconify-icon>
+        <span class="mt-1 text-[11px]" data-sd-id="106">搜索</span>
+      </button>
+      <button id="appbar-settings-button" type="button" class="flex h-16 min-w-16 flex-col items-center justify-center text-white active:text-[#00ABA9]" aria-label="转到设置预览" data-sd-id="107">
+        <iconify-icon icon="lucide:settings" class="text-2xl"></iconify-icon>
+        <span class="mt-1 text-[11px]" data-sd-id="108">设置</span>
+      </button>
+    </nav>
+  </div>
+
+  <script>
+    const searchPanel = document.getElementById('search-panel');
+    const searchButton = document.getElementById('appbar-search-button');
+    const queryInput = document.getElementById('live-query');
+    const clearButton = document.getElementById('clear-search-button');
+    const hubScroll = document.getElementById('hub-scroll');
+
+    function applyQuery() {
+      const query = queryInput.value.trim().toLocaleLowerCase('zh-CN');
+      let conversations = 0;
+      let contacts = 0;
+
+      document.querySelectorAll('.conversation-row').forEach((row) => {
+        const match = row.dataset.search.toLocaleLowerCase('zh-CN').includes(query);
+        row.classList.toggle('hidden', !match);
+        if (match) conversations++;
+      });
+
+      document.querySelectorAll('.contact-row').forEach((row) => {
+        const match = row.dataset.search.toLocaleLowerCase('zh-CN').includes(query);
+        row.classList.toggle('hidden', !match);
+        if (match) contacts++;
+      });
+
+      document.getElementById('conversation-empty').classList.toggle('hidden', conversations > 0);
+      document.getElementById('contact-empty').classList.toggle('hidden', contacts > 0);
+      clearButton.classList.toggle('hidden', query.length === 0);
+      clearButton.classList.toggle('flex', query.length > 0);
+    }
+
+    searchButton.addEventListener('click', () => {
+      searchPanel.classList.toggle('hidden');
+      searchPanel.classList.toggle('flex');
+      if (!searchPanel.classList.contains('hidden')) queryInput.focus();
+    });
+
+    queryInput.addEventListener('input', applyQuery);
+    clearButton.addEventListener('click', () => {
+      queryInput.value = '';
+      applyQuery();
+      queryInput.focus();
+    });
+
+    document.getElementById('appbar-refresh-button').addEventListener('click', () => {
+      const icon = document.getElementById('refresh-icon');
+      icon.classList.add('animate-spin', 'text-[#00ABA9]');
+      setTimeout(() => icon.classList.remove('animate-spin', 'text-[#00ABA9]'), 700);
+    });
+
+    document.getElementById('appbar-settings-button').addEventListener('click', () => {
+      hubScroll.scrollTo({ left: 1056, behavior: 'smooth' });
+    });
+  </script>
+
+</body></html>

@@ -1,0 +1,33 @@
+﻿<Page
+    x:Class="MoonWeChat.Views.PlaceholderPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ListBackgroundBrush}">
+
+    <!-- 功能占位二级页：无底部 Tab -->
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Back" Label="返回" Click="OnBackClick" />
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid Margin="19,12,12,12">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock x:Name="TitleText" FontSize="{ThemeResource FontHero}" FontWeight="Light"
+                       HorizontalAlignment="Center"
+                       Foreground="{ThemeResource PrimaryTextBrush}" />
+            <TextBlock x:Name="HintText" FontSize="{ThemeResource FontSubtitle}" Margin="0,12,0,0"
+                       HorizontalAlignment="Center" TextAlignment="Center"
+                       Foreground="{ThemeResource SecondaryTextBrush}" TextWrapping="Wrap" />
+            <StackPanel x:Name="MeActions" Visibility="Collapsed" Margin="0,20,0,0" HorizontalAlignment="Center">
+                <Button Content="服务器设置" Width="200" Margin="0,0,0,8" Click="OnSettingsClick" />
+                <Button Content="扫码登录" Width="200" Margin="0,0,0,8"
+                        Style="{StaticResource SendButtonStyle}" Click="OnLoginClick" />
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Page>

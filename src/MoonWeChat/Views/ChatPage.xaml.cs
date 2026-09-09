@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using MoonWeChat.Models;
 using MoonWeChat.ViewModels;
@@ -18,21 +18,39 @@ namespace MoonWeChat.Views
 
         private bool _isVoiceInputMode;
 
+        private string _boundSessionId;
+        private bool _handlersHooked;
+
         public ChatPage()
         {
             InitializeComponent();
+            NavigationCacheMode = NavigationCacheMode.Disabled;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
 
-            ViewModel.MessageAppended += OnMessageAppended;
-            ViewModel.PropertyChanged += OnVmPropertyChanged;
-
-            if (e.Parameter is string sessionId)
+            if (!_handlersHooked)
             {
+                ViewModel.MessageAppended += OnMessageAppended;
+                ViewModel.PropertyChanged += OnVmPropertyChanged;
+                _handlersHooked = true;
+            }
+
+            // 页面可能由导航框架复用。除了「换了会话」要重新 Load，
+            // 「数据源被换掉」（示例↔真实、换后端）也必须重新 Load ——
+            // 否则会攥着旧数据源的会话对象，把旧 id 当成 ToWxid 发到真实网关。
+            var sessionId = e.Parameter as string;
+            if (sessionId != null &&
+                (!string.Equals(sessionId, _boundSessionId, StringComparison.Ordinal) || ViewModel.IsStale))
+            {
+                _boundSessionId = sessionId;
                 ViewModel.Load(sessionId);
+            }
+            else if (ViewModel.IsStale && _boundSessionId != null)
+            {
+                ViewModel.Load(_boundSessionId);
             }
 
             HeaderTitleText.Text = ViewModel.HeaderTitle;
@@ -44,8 +62,6 @@ namespace MoonWeChat.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            ViewModel.MessageAppended -= OnMessageAppended;
-            ViewModel.PropertyChanged -= OnVmPropertyChanged;
         }
 
         private void OnVmPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -83,16 +99,17 @@ namespace MoonWeChat.Views
 
         private void ScrollToBottom()
         {
-            if (ViewModel.Messages == null || ViewModel.Messages.Count == 0)
+            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Idle, () =>
             {
-                return;
-            }
-
-            _ = Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Low, () =>
-            {
-                if (ViewModel.Messages != null && ViewModel.Messages.Count > 0)
+                if (ViewModel.Messages != null && ViewModel.Messages.Count > 0 && MessageListView != null)
                 {
-                    MessageListView.ScrollIntoView(ViewModel.Messages[ViewModel.Messages.Count - 1]);
+                    try
+                    {
+                        MessageListView.ScrollIntoView(ViewModel.Messages[ViewModel.Messages.Count - 1]);
+                    }
+                    catch
+                    {
+                    }
                 }
             });
         }
@@ -105,9 +122,10 @@ namespace MoonWeChat.Views
             }
         }
 
-        private void OnSendClick(object sender, RoutedEventArgs e)
+        private async void OnSendClick(object sender, RoutedEventArgs e)
         {
-            ViewModel.Send();
+            // 必须 await：fire-and-forget 会吞掉发送失败，按钮看起来“已经发出去了”。
+            try { await ViewModel.SendAsync().ConfigureAwait(true); } catch (Exception ex) { await ShowErrorAsync("发送失败：" + ex.Message); }
         }
 
         private void OnInputTextChanged(object sender, TextChangedEventArgs e)
@@ -125,38 +143,18 @@ namespace MoonWeChat.Views
             if (sender is Button button && button.Content is string emoji)
             {
                 ViewModel.DraftText += emoji;
+                InputTextBox.Text = ViewModel.DraftText;
             }
-
-            EmojiFlyout.Hide();
         }
 
         private async void OnMorePanelItemClick(object sender, RoutedEventArgs e)
         {
-            if (!(sender is Button button) || !(button.Tag is string tag))
+            try
             {
-                return;
+                var button = sender as Button; var tag = button == null ? null : button.Tag as string; if (tag == null) return; MorePanel.Visibility = Visibility.Collapsed;
+                switch (tag) { case "album": case "camera": await PickAndSendImageAsync().ConfigureAwait(true); break; case "video": await ViewModel.SendPlaceholderAsync(MessageType.Video, "视频").ConfigureAwait(true); break; case "location": await ViewModel.SendPlaceholderAsync(MessageType.Location, "位置").ConfigureAwait(true); break; case "card": await ViewModel.SendPlaceholderAsync(MessageType.ContactCard, "名片").ConfigureAwait(true); break; case "file": await PickAndSendFileAsync().ConfigureAwait(true); break; }
             }
-
-            MorePanel.Visibility = Visibility.Collapsed;
-
-            switch (tag)
-            {
-                case "album":
-                case "camera":
-                    await PickAndSendImageAsync().ConfigureAwait(true);
-                    break;
-                case "video":
-                    break;
-                case "location":
-                    ViewModel.SendPlaceholder(MessageType.Location, "位置");
-                    break;
-                case "card":
-                    ViewModel.SendPlaceholder(MessageType.ContactCard, "名片");
-                    break;
-                case "file":
-                    await PickAndSendFileAsync().ConfigureAwait(true);
-                    break;
-            }
+            catch (Exception ex) { await ShowErrorAsync("操作失败：" + ex.Message); }
         }
 
         private async Task PickAndSendImageAsync()
@@ -178,17 +176,13 @@ namespace MoonWeChat.Views
                     return;
                 }
 
-                var base64 = await ReadFileBase64Async(file, 8 * 1024 * 1024).ConfigureAwait(true);
-                if (base64 == null)
-                {
-                    return;
-                }
+                var base64 = await ReadFileBase64Async(file, 8 * 1024 * 1024, "图片").ConfigureAwait(true);
 
                 await ViewModel.SendImageBase64Async(base64, file.Name).ConfigureAwait(true);
             }
-            catch
+            catch (Exception ex)
             {
-                // ignore
+                await ShowErrorAsync("图片发送失败：" + ex.Message);
             }
         }
 
@@ -207,35 +201,31 @@ namespace MoonWeChat.Views
                     return;
                 }
 
-                var base64 = await ReadFileBase64Async(file, 12 * 1024 * 1024).ConfigureAwait(true);
-                if (base64 == null)
-                {
-                    return;
-                }
+                var base64 = await ReadFileBase64Async(file, 12 * 1024 * 1024, "文件").ConfigureAwait(true);
 
                 await ViewModel.SendFileBase64Async(base64, file.Name).ConfigureAwait(true);
             }
-            catch
+            catch (Exception ex)
             {
-                // ignore
+                await ShowErrorAsync("文件发送失败：" + ex.Message);
             }
         }
 
-        private static async Task<string> ReadFileBase64Async(StorageFile file, uint maxBytes)
+        private static async Task<string> ReadFileBase64Async(StorageFile file, uint maxBytes, string kind)
         {
+            var properties = await file.GetBasicPropertiesAsync();
+            if (properties.Size == 0) throw new InvalidOperationException(kind + "为空，无法发送。");
+            if (properties.Size > maxBytes) throw new InvalidOperationException(kind + "超过 " + (maxBytes / 1024 / 1024) + " MB 上限，未读取文件内容。");
             using (IRandomAccessStream stream = await file.OpenReadAsync())
             {
                 var size = (uint)stream.Size;
-                if (size == 0 || size > maxBytes)
+                using (var reader = new DataReader(stream.GetInputStreamAt(0)))
                 {
-                    return null;
+                    await reader.LoadAsync(size);
+                    var bytes = new byte[size];
+                    reader.ReadBytes(bytes);
+                    return Convert.ToBase64String(bytes);
                 }
-
-                var reader = new DataReader(stream.GetInputStreamAt(0));
-                await reader.LoadAsync(size);
-                var bytes = new byte[size];
-                reader.ReadBytes(bytes);
-                return Convert.ToBase64String(bytes);
             }
         }
 
@@ -248,7 +238,7 @@ namespace MoonWeChat.Views
 
             if (message.IsFailed)
             {
-                await ViewModel.RetryAsync(message).ConfigureAwait(true);
+                try { await ViewModel.RetryAsync(message).ConfigureAwait(true); } catch (Exception ex) { await ShowErrorAsync("重发失败：" + ex.Message); }
                 return;
             }
 
@@ -269,20 +259,17 @@ namespace MoonWeChat.Views
 
         private async void OnRevokeClick(object sender, RoutedEventArgs e)
         {
-            await ViewModel.RevokeLastAsync().ConfigureAwait(true);
+            try { await ViewModel.RevokeLastAsync().ConfigureAwait(true); } catch (Exception ex) { await ShowErrorAsync(ex.Message); }
         }
 
         private async void OnPatClick(object sender, RoutedEventArgs e)
         {
-            await ViewModel.PatAsync().ConfigureAwait(true);
+            try { await ViewModel.PatAsync().ConfigureAwait(true); } catch (Exception ex) { await ShowErrorAsync(ex.Message); }
         }
 
         private void OnClearLocalClick(object sender, RoutedEventArgs e)
         {
-            if (ViewModel.Messages != null)
-            {
-                ViewModel.Messages.Clear();
-            }
+            _ = ShowErrorAsync("为避免误删服务器同步记录，此版本不提供清空本机消息。");
         }
 
         private void OnVoiceModeToggleClick(object sender, RoutedEventArgs e)
@@ -310,14 +297,11 @@ namespace MoonWeChat.Views
             VoiceHoldText.Text = "松开 发送";
         }
 
-        private void OnVoiceHoldReleased(object sender, PointerRoutedEventArgs e)
+        private async void OnVoiceHoldReleased(object sender, PointerRoutedEventArgs e)
         {
-            if (VoiceHoldText.Text == "松开 发送")
-            {
-                ViewModel.SendPlaceholder(MessageType.Voice, "语音");
-            }
-
-            VoiceHoldText.Text = "按住 说话";
+            try { if (VoiceHoldText.Text == "松开 发送") await ViewModel.SendPlaceholderAsync(MessageType.Voice, "语音"); }
+            catch (Exception ex) { await ShowErrorAsync("语音发送失败：" + ex.Message); }
+            finally { VoiceHoldText.Text = "按住 说话"; }
         }
 
         private void OnToggleMuteClick(object sender, RoutedEventArgs e)
@@ -337,6 +321,12 @@ namespace MoonWeChat.Views
             {
                 MuteMenuItem.Text = ViewModel.Session.IsMuted ? "取消消息免打扰" : "设置消息免打扰";
             }
+        }
+
+        private async System.Threading.Tasks.Task ShowErrorAsync(string text)
+        {
+            try { await new ContentDialog { Title = "提示", Content = text, CloseButtonText = "确定" }.ShowAsync(); }
+            catch (Exception ex) { System.Diagnostics.Debug.WriteLine("ContentDialog failed: " + ex); }
         }
     }
 }

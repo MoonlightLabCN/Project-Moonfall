@@ -1,4 +1,5 @@
 using MoonWeChat.Services;
+using MoonWeChat.Services.WeChatPad;
 using MoonWeChat.ViewModels;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -19,11 +20,63 @@ namespace MoonWeChat.Views
         {
             base.OnNavigatedTo(e);
             ViewModel.ReloadFromStore();
-            // PasswordBox / CheckBox(bool?) 在这套 SDK 上不适合直接 x:Bind 字面双向，手动同步
+            if (BackButton != null)
+            {
+                BackButton.Visibility = Frame != null && Frame.CanGoBack
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
             AdminKeyBox.Password = ViewModel.AdminKey ?? string.Empty;
             AdminKeyBox.PasswordChanged -= OnAdminKeyChanged;
             AdminKeyBox.PasswordChanged += OnAdminKeyChanged;
             UseSampleCheck.IsChecked = ViewModel.UseSampleData;
+            SyncThemeRadios();
+            SyncBackendRadios();
+        }
+
+        private void SyncBackendRadios()
+        {
+            var kind = AppSettings.BackendKind;
+            BackendPyRadio.IsChecked = kind == BackendKind.PyWeixin;
+            BackendPadRadio.IsChecked = kind == BackendKind.WeChatPadPro;
+        }
+
+        private void OnBackendClick(object sender, RoutedEventArgs e)
+        {
+            var kind = BackendPadRadio.IsChecked == true
+                ? BackendKind.WeChatPadPro
+                : BackendKind.PyWeixin;
+            if (kind == ViewModel.BackendKind)
+            {
+                return;
+            }
+
+            ViewModel.BackendKind = kind;
+            AppSettings.BackendKind = kind;
+            // 每个后端记住自己的地址，切换时回读该后端的 BaseUrl。
+            ViewModel.BaseUrl = AppSettings.BaseUrl;
+        }
+
+        private void SyncThemeRadios()
+        {
+            var theme = AppSettings.VisualTheme;
+            ThemeWin10Radio.IsChecked = theme == AppVisualTheme.Win10;
+            ThemeWpRadio.IsChecked = theme == AppVisualTheme.WpClassic;
+        }
+
+        private void OnThemeClick(object sender, RoutedEventArgs e)
+        {
+            var theme = ThemeWpRadio.IsChecked == true
+                ? AppVisualTheme.WpClassic
+                : AppVisualTheme.Win10;
+            if (theme == ThemeService.Current)
+            {
+                return;
+            }
+
+            ThemeService.Apply(theme, persist: true);
+            var root = Window.Current.Content as Frame;
+            if (root != null) { root.Navigate(typeof(ShellPage)); root.BackStack.Clear(); }
         }
 
         private void OnAdminKeyChanged(object sender, RoutedEventArgs e)
@@ -44,7 +97,7 @@ namespace MoonWeChat.Views
             }
             else
             {
-                Frame.Navigate(typeof(ChatListPage));
+                AppNavigation.NavigateToMain(Frame);
             }
         }
 
@@ -64,7 +117,6 @@ namespace MoonWeChat.Views
             Frame.Navigate(typeof(WelcomePage));
         }
 
-        // TextBox 在部分 SDK 上 TwoWay x:Bind 要失焦才回写，跟聊天输入一样手动补一层。
         private void OnBaseUrlChanged(object sender, TextChangedEventArgs e) => ViewModel.BaseUrl = BaseUrlBox.Text;
         private void OnTokenChanged(object sender, TextChangedEventArgs e) => ViewModel.Token = TokenBox.Text;
         private void OnWxIdChanged(object sender, TextChangedEventArgs e) => ViewModel.WxId = WxIdBox.Text;

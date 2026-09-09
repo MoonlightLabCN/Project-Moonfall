@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -68,6 +68,28 @@
     <ErrorReport>prompt</ErrorReport>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <Prefer32Bit>true</Prefer32Bit>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM64\Debug\</OutputPath>
@@ -90,45 +112,18 @@
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
+  <!-- Shared Core -->
+  <Import Project="..\MoonWeChat.Core\MoonWeChat.Core.projitems" Label="Shared" Condition="Exists('..\MoonWeChat.Core\MoonWeChat.Core.projitems')" />
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Common\BindableBase.cs" />
-    <Compile Include="Common\ChatMessageTemplateSelector.cs" />
-    <Compile Include="Common\Glyphs.cs" />
-    <Compile Include="Common\RelayCommand.cs" />
-    <Compile Include="Controls\AvatarView.xaml.cs">
-      <DependentUpon>AvatarView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\BottomTabBar.xaml.cs">
       <DependentUpon>BottomTabBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Converters\CommonConverters.cs" />
-    <Compile Include="Models\ChatMessage.cs" />
-    <Compile Include="Models\ChatSession.cs" />
-    <Compile Include="Models\Contact.cs" />
-    <Compile Include="Models\MessageStatus.cs" />
-    <Compile Include="Models\MessageType.cs" />
-    <Compile Include="Models\MomentPost.cs" />
-    <Compile Include="Services\SampleDataService.cs" />
-    <Compile Include="Services\MomentsService.cs" />
-    <Compile Include="Services\AppSettings.cs" />
     <Compile Include="Services\AppNavigation.cs" />
-    <Compile Include="Services\SessionBootstrap.cs" />
-    <Compile Include="Services\AppServices.cs" />
-    <Compile Include="Services\IChatDataService.cs" />
-    <Compile Include="Services\SampleChatDataService.cs" />
-    <Compile Include="Services\WeChatPad\WeChatPadDtos.cs" />
-    <Compile Include="Services\WeChatPad\WeChatPadApiClient.cs" />
-    <Compile Include="Services\WeChatPad\MessageMapper.cs" />
-    <Compile Include="Services\WeChatPad\LiveChatDataService.cs" />
-    <Compile Include="ViewModels\ChatListViewModel.cs" />
-    <Compile Include="ViewModels\ChatViewModel.cs" />
-    <Compile Include="ViewModels\LoginViewModel.cs" />
-    <Compile Include="ViewModels\SettingsViewModel.cs" />
-    <Compile Include="ViewModels\MomentsViewModel.cs" />
     <Compile Include="Views\ChatListPage.xaml.cs">
       <DependentUpon>ChatListPage.xaml</DependentUpon>
     </Compile>
@@ -156,6 +151,7 @@
     <Compile Include="Views\MomentsPage.xaml.cs">
       <DependentUpon>MomentsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ShellPage.xaml.cs"><DependentUpon>ShellPage.xaml</DependentUpon></Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -163,23 +159,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="Controls\AvatarView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\BottomTabBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Styles\ColorsAndBrushes.xaml">
+    <Page Include="Styles\Themes\Win10Theme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Themes\WpClassicTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\ControlStyles.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Styles\MessageBubbleTemplates.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -219,6 +211,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\ShellPage.xaml"><Generator>MSBuild:Compile</Generator><SubType>Designer</SubType></Page>
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

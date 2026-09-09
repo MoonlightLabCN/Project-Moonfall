@@ -1,0 +1,82 @@
+﻿<Page
+    x:Class="MoonWeChat.Views.ContactsPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:MoonWeChat.Controls"
+    xmlns:converters="using:MoonWeChat.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ListBackgroundBrush}">
+
+    <!-- 通讯录二级页：WP 风格，无底部 Tab（主入口在 MainHub 全景）。 -->
+
+    <Page.Resources>
+        <converters:StringNotEmptyToVisibilityConverter x:Key="StringNotEmptyToVisibilityConverter" />
+    </Page.Resources>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Back" Label="返回" Click="OnBackClick" />
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="19,12,12,8">
+            <TextBlock Text="通讯录" FontSize="{ThemeResource FontHero}" FontWeight="Light"
+                       Foreground="{ThemeResource PrimaryTextBrush}" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Padding="12,8" Background="{ThemeResource ListBackgroundBrush}"
+                BorderBrush="{ThemeResource DividerBrush}" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBox x:Name="SearchBox" TextChanged="OnSearchTextChanged" PlaceholderText="搜索微信号 / 手机号（远程）"
+                         BorderThickness="0" Background="{ThemeResource InputBoxBackgroundBrush}"
+                         Padding="10,8" />
+                <Button Grid.Column="1" Content="搜索" Margin="8,0,0,0" Padding="12,8"
+                        Click="OnSearchClick" />
+            </Grid>
+        </Border>
+
+        <ListView Grid.Row="2" Padding="0,0,0,72"
+                  x:Name="ContactListView"
+                  ItemsSource="{Binding Contacts}"
+                  IsItemClickEnabled="True"
+                  SelectionMode="None"
+                  ItemContainerStyle="{StaticResource FlatListViewItemStyle}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="12,10" MinHeight="60">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <controls:AvatarView Grid.Column="0"
+                                              DisplayName="{Binding DisplayName}"
+                                              AccentColorHex="{Binding AvatarAccentColor}"
+                                              ImageUrl="{Binding AvatarUrl}"
+                                              Size="44" />
+                        <StackPanel Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center">
+                            <TextBlock Text="{Binding DisplayName}" Style="{StaticResource BodyTextStyle}"
+                                       Foreground="{ThemeResource PrimaryTextBrush}" />
+                            <TextBlock Text="{Binding Signature}" Style="{StaticResource SecondaryTextStyle}" Margin="0,3,0,0"
+                                       Foreground="{ThemeResource SecondaryTextBrush}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Visibility="{Binding Signature, Converter={StaticResource StringNotEmptyToVisibilityConverter}}" />
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+    </Grid>
+</Page>
