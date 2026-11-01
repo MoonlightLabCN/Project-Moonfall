@@ -21,9 +21,7 @@
 
   <Dependencies>
     <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.10240.0" MaxVersionTested="10.0.19041.0" />
-    <!-- 真机 sideload 需要显式声明；桌面系统往往已有 CoreRuntime -->
-    <PackageDependency Name="Microsoft.NET.CoreRuntime.1.1" MinVersion="1.1.0.0"
-                       Publisher="CN=Microsoft Corporation, O=Microsoft Corporation, L=Redmond, S=Washington, C=US" />
+
   </Dependencies>
 
   <Resources>
